@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'menlo';
+    src: url('../../fonts/menlo.ttf') format('ttf');
+  }
+
+
+body {
+font-family: 'menlo', sans-serif; /* For a locally hosted font */
+ background-color: #FFFFFF;
+}
