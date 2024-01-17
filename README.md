@@ -1,8 +1,8 @@
-# xchainjs-org.github.io
+# 21e8capital.github.io
 
 ## Description
 
-Welcome to xchainjs-org.github.io, the repository for the webpage for [XChainJS](https://github.com/xchainjs/xchainjs-lib).
+Welcome to 21e8capital.github.io, the repository for the webpage for [21e8 Capital](21e8.capital).
 
 ## Technologies Used
 
@@ -36,5 +36,5 @@ yarn start
 
 ## Contact
 
-- Author: XChainJS
-- Twitter: [xchainjs](https://twitter.com/xchainjs)
+- Author: 21e8 Capital
+- Twitter: [21e8capital](https://twitter.com/21e8capital)
