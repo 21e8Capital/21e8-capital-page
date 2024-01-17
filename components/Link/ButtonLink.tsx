@@ -2,7 +2,7 @@ import { clsx } from 'clsx'
 interface Props {
   text: string
   url: string
-  style?: 'primary' | 'secundary'
+  style?: 'primary' | 'secondary'
 }
 
 export function ButtonLink ({ text, url, style = 'primary' }: Props) {
@@ -12,7 +12,7 @@ export function ButtonLink ({ text, url, style = 'primary' }: Props) {
         'px-6 py-2 shadow-md',
         {
           'bg-primary hover:bg-primary-light text-white': style === 'primary',
-          'bg-white border border-primary hover:border-primary-light text-primary hover:text-primary-light': style === 'secundary'
+          'bg-white border border-primary hover:border-primary-light text-primary hover:text-primary-light': style === 'secondary'
         }
       )}
     >

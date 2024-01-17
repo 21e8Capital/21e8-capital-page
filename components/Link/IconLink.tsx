@@ -8,7 +8,7 @@ interface Props {
 export function IconLink ({ iconClass, url }: Props) {
   return (
     <a href={url} target='_blank' rel='noreferrer'>
-      <Icon iconClass={iconClass} className='text-primary hover:text-primary-light h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24'/>
+      <Icon iconClass={iconClass} className='text-primary hover:text-primary-light h-8 w-8 md:h-12 md:w-12 lg:h-16 lg:w-16'/>
     </a>
   )
 }

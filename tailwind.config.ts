@@ -18,16 +18,16 @@ const config: Config = {
       },
       borderColor: {
         primary: {
-          DEFAULT: '#F9B900',
-          light: '#F9B900',
-          lighter: '#F9B900'
+          DEFAULT: '#FFC400',
+          light: '#FFD472',
+          lighter: '#FFECB7'
         }
       },
       backgroundColor: {
         primary: {
-          DEFAULT: '#FFFFFF',
-          light: '#FFFFFF',
-          lighter: '#FFFFFF'
+          DEFAULT: '#FFC400',
+          light: '#FFD472',
+          lighter: '#FFECB7'
         }
       }
     }

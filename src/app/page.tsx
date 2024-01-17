@@ -1,24 +1,46 @@
-import { Card, IntegrationCard, Subtitle, ButtonLink, TextLink, IconClass } from '@components'
+import Image from 'next/image'
+import { IconLink, Card, IntegrationCard, Subtitle, ButtonLink, TextLink, IconClass } from '@components'
 
-import { hero, fund, assets } from '../../copy/text';
+import { logoPath, logoAlt, hero, fund, assets, strategy, bookmarks, social } from '../../copy/text';
 
-export default function Home () {
+const styleHeader: string = 'mt-5 md:mt-10 mb-10 md:mb-16'
+const styleSection: string = 'my-10 md:my-16 px-4 md:px-16 lg:px-64'
+const styleSectionWide: string = 'my-10 md:my-16 px-4 md:px-0 lg:px-0'
+const stylePara: string = 'text-center my-5 md:my-8 text-sm md:text-lg'
+const styleFooter: string = 'flex flex-col mt-5 md:mt-10 mb-20 md:mb-40 text-center gap-y-7 md:gap-y-10'
+
+export default function Home() {
   return (
-    <main className='flex flex-col'>
-      <section className='md:mb-20 mb-12 px-4 md:px-16 lg:px-64'>
+    <main className='flex flex-col text-primary 2xl:px-60 antialiased'>
+
+      {/* # HEADING */}
+      <header className={`${styleHeader}`}>
+        <div className='hidden md:flex flex-row '>
+          <Image className='text-center' src={logoPath} width={110} height={110} alt={logoAlt} />
+        </div>
+        <div className='flex md:hidden flex-row '>
+          <Image className='text-center' src={logoPath} width={70} height={70} alt={logoAlt} />
+        </div>
+      </header>
+
+      {/* # HERO */}
+      <section className={`${styleSection}`}>
         <div className='flex flex-col'>
           <header className='flex flex-row justify-center'>
-            <Subtitle text={hero.subtitle} size='lg'/>
+            <Subtitle text={hero.subtitle} size='lg' />
           </header>
-          <p className='text-center mt-3 md:mt-6 text-sm md:text-lg'>{hero.para}</p>
+          <p className={`${stylePara}`}>{hero.para1}</p>
+          <p className={`${stylePara}`}>{hero.para2}</p>
         </div>
       </section>
-      <section className='md:mb-28 mb-14 px-4 md:px-16 lg:px-20'>
+
+      {/* # FUND */}
+      <section className={`${styleSectionWide}`}>
         <div className='flex flex-col'>
           <header className='flex flex-row justify-center'>
-            <Subtitle text={fund.title}/>
+            <Subtitle text={fund.title} />
           </header>
-          <div className='mt-3 md:mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-6'>
+          <div className='my-5 md:my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-6'>
             <Card title={fund.card1Title}>
               <p>{fund.card1Para}</p>
             </Card>
@@ -34,149 +56,121 @@ export default function Home () {
           </div>
         </div>
       </section>
-      <section className='md:mb-28 mb-14 px-8 md:px-16 lg:px-20'>
+
+      {/* # BITCOIN */}
+      <section className={`${styleSection}`}>
         <div className='flex flex-col'>
           <header className='flex flex-row justify-center'>
-            <Subtitle text={assets.title}/>
+            <Subtitle text={strategy.title} />
           </header>
-          <div className='mt-6 md:mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 lg:gap-x-20 gap-y-10 lg:gap-y-12'>
-              <IntegrationCard key='lends' iconClass={IconClass.BTC} name='Lends' url='https://www.lends.so/' description="The fearless trailblazers in the world of loans. From bold ventures into lending territories to whipping up stellar features, they'are turning heads."/>
-              <IntegrationCard key='asgardex' iconClass={IconClass.L1}name='Asgardex' url='https://github.com/asgardex/asgardex-desktop' description='The guardians of the desktop space. Their dedication to open-source and resisting censorship? Nothing short of legendary.'/>
-              <IntegrationCard key='swapper' iconClass={IconClass.DEFI} name='Swapper' url='https://swapper.market/' description='The heroes with dreams bigger than the cosmos. A simple UI and a vision to make your crypto journey seamless. Expect big things!'/>
-          </div>
-        </div>
-      </section>
-      <section className='md:mb-28 mb-14 px-4 md:px-16 lg:px-36'>
-        <div className='flex flex-col'>
-          <header className='flex flex-row justify-center'>
-            <Subtitle text='XChainJS features'/>
-          </header>
-          <div className='mt-3 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-10 lg:gap-x-20 gap-y-6 lg:gap-y-12'>
-            <Card title='Supported Chains'>
-              <div className='flex flex-col'>
-                <div>
-                  <span className='inline-block'><TextLink text='AVAX' url='https://www.avax.network/' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='BSC' url='https://docs.bnbchain.org/docs/learn/intro' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='BNB CHAIN' url='https://docs.bnbchain.org/docs/learn/beaconIntro' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='BITCOIN' url='https://bitcoin.org/en/' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='BITCOIN CASH' url='https://bitcoincash.org/en/' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='COSMOS' url='https://cosmos.network/' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='DASH' url='https://www.dash.org/' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='DOGE' url='https://dogecoin.com/' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='ETHEREUM' url='https://ethereum.org/en/' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='ARBITRUM' url='https://arbitrum.io/' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='KUJIRA' url='https://kujira.network/' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='LITECOIN' url='https://litecoin.org/' underlined/></span>
-                  <p className='inline'>, </p>
-                  <span className='inline-block'><TextLink text='MAYACHAIN' url='https://www.mayaprotocol.com/' underlined/></span>
-                  <p className='inline'> and </p>
-                  <span className='inline-block'><TextLink text='THORCHAIN' url='https://thorchain.org/' underlined/></span>
-                </div>
-                <ul className='mt-6'>
-                  <li className='flex flex-wrap'><TextLink text='○ Signature and transmission of transactions' url='https://docs.xchainjs.org/xchain-client/overview.html#transfer'/></li>
-                  <li className='flex flex-wrap'><TextLink text='○ Balance inquiries' url='https://docs.xchainjs.org/xchain-client/overview.html#get-balance'/></li>
-                  <li className='flex flex-wrap'><TextLink text='○ Transaction history and details' url='https://docs.xchainjs.org/xchain-client/overview.html#get-transactions'/></li>
-                  <li className='flex flex-wrap'><TextLink text='○ Fee estimates' url='https://docs.xchainjs.org/xchain-client/overview.html#get-fees'/></li>
-                </ul>
-              </div>
-            </Card>
-            <Card title='Protocols'>
-              <div className='flex flex-col'>
-                <p>Featuring THORChain now, with Maya on the horizon. Get ready for:</p>
-                <ul className='mt-6'>
-                  <li className='flex flex-wrap'><TextLink text='○ Multi-chain swaps, including BTC!' url='https://github.com/xchainjs/xchainjs-lib/tree/master/examples/do-swap'/></li>
-                  <li className='flex flex-wrap'><TextLink text='○ Native interest rates' url='https://github.com/xchainjs/xchainjs-lib/tree/master/examples/liquidity'/></li>
-                  <li className='flex flex-wrap'><TextLink text='○ Open loans without liquidation' url='https://github.com/xchainjs/xchainjs-lib/blob/master/examples/loans'/></li>
-                  <li className='flex flex-wrap'><TextLink text='○ Custom nameservice (THORname)' url='https://docs.xchainjs.org/xchain-thorchain-amm/available-functions/thorchain-amm.html#getthornamesbyaddress'/></li>
-                </ul>
-              </div>
-            </Card>
-            <Card title='Node Providers'>
-              <div>
-                <p className='inline'>Rolling with the best - </p>
-                <span className='inline-block'> <TextLink text='Blockcypher' url='https://www.blockcypher.com/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Hashcoin' url='https://www.haskoin.com/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Bitgo' url='https://www.bitgo.com/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='SoChain' url='https://sochain.com/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Covalent' url='https://www.covalent.xyz/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Infura' url='https://www.infura.io/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Alchemy' url='https://www.alchemy.com/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Ark' url='https://ark.io/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Routescan' url='https://routescan.io/documentation' underlined/></span>
-                <p className='inline'> and more!</p>
-              </div>
-            </Card>
-            <Card title='Block Explorers'>
-              <div>
-                <p className='inline'>Stay updated with </p>
-                <span className='inline-block'> <TextLink text='Runescan' url='https://runescan.io/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'> <TextLink text='Etherscan' url='https://etherscan.io/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Snowtrace' url='https://snowtrace.dev/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Blockchain.com' url='https://www.blockchain.com/en/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Bscan' url='https://bscscan.com/' underlined/></span>
-                <p className='inline'>, </p>
-                <span className='inline-block'><TextLink text='Arbiscan' url='https://arbiscan.io/' underlined/></span>
-                <p className='inline'> and the rest of the crew.</p>
-              </div>
-            </Card>
-          </div>
-        </div>
-      </section>
-      <section className='md:mb-20 mb-12 px-4 md:px-16 lg:px-64 flex flex-row justify-center'>
-        <div className='flex flex-col'>
-          <header className='flex flex-row justify-center'>
-            <Subtitle text='Roadmap' />
-          </header>
-          <div className='mt-3 md:mt-6'>
+          <div className='my-5 md:my-8'>
+            <p>{strategy.subtitle}</p>
+            <br></br>
             <ul className='list-disc list-inside'>
               <li>
-                <strong>Xchainjs-aggregator:</strong> Enhancements to provide more robust cross-chain functionality and improved performance.
+                <strong>{strategy.bullet1Title}</strong> {strategy.bullet1Para}
               </li>
               <li>
-                <strong>Ledger Support:</strong> Integration for secure hardware wallet transactions, enhancing user security.
+                <strong>{strategy.bullet2Title}</strong> {strategy.bullet2Para}
               </li>
               <li>
-                <strong>Trezor Support:</strong> Implementing support for Trezor hardware wallets to diversify secure transaction options.
+                <strong>{strategy.bullet3Title}</strong> {strategy.bullet3Para}
+              </li>
+              <li>
+                <strong>{strategy.bullet4Title}</strong> {strategy.bullet4Para}
+              </li>
+              <li>
+                <strong>{strategy.bullet5Title}</strong> {strategy.bullet5Para}
+              </li>
+              <li>
+                <strong>{strategy.bullet6Title}</strong> {strategy.bullet6Para}
               </li>
             </ul>
           </div>
         </div>
       </section>
-      <section className='md:mb-20 mb-14 px-4 md:px-16 lg:px-64'>
-        <div className='flex flex-col items-center'>
+
+      {/* # ASSETS */}
+      <section className={`${styleSectionWide}`}>
+        <div className='flex flex-col'>
           <header className='flex flex-row justify-center'>
-            <Subtitle text='Hop on the XchainJS train' iconClass={IconClass.UFO}/>
+            <Subtitle text={assets.title} />
           </header>
-          <p className='text-center mt-3 md:mt-6'>Ideas brewing? Feature request or a new integration on your mind? Do you want to know more?</p>
-          <div className='flex flex-row mt-3 md:mt-8 gap-x-5 md:gap-x-12'>
-            <ButtonLink url='https://discord.com/channels/838986635756044328/915384547670102037' text='Contact'/>
-            <ButtonLink url='https://docs.xchainjs.org/' text='Documentation' style='secundary'/>
+          <div className='mt-6 md:mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 lg:gap-x-20 gap-y-10 lg:gap-y-12'>
+            <IntegrationCard key='bitcoin' iconClass={IconClass.BTC} name={assets.bullet1Title} url={`${assets.bullet1Url}`} description={assets.bullet1Para} />
+            <IntegrationCard key='layer1' iconClass={IconClass.L1} name={assets.bullet2Title} url={`${assets.bullet2Url}`} description={assets.bullet2Para} />
+            <IntegrationCard key='defi' iconClass={IconClass.DEFI} name={assets.bullet3Title} url={`${assets.bullet3Url}`} description={assets.bullet3Para} />
           </div>
         </div>
       </section>
+
+
+      {/* # BOOKMARKS */}
+      <section className={`${styleSection}`}>
+        <div className='flex flex-col items-center'>
+          <header className='flex flex-row justify-center'>
+            <Subtitle text={bookmarks.title} />
+          </header>
+          <p className='text-center my-5 md:my-8'>{bookmarks.subtitle}</p>
+
+          <ul className='list-disc list-inside'>
+            <li>
+              <a href={`${bookmarks.bullet1Url}`} target='_blank' rel='noreferrer'>
+                <u><strong>{bookmarks.bullet1Title}</strong></u>
+              </a>
+              {bookmarks.bullet1Para}
+            </li>
+            <br></br>
+            <li>
+            <a href={`${bookmarks.bullet2Url}`} target='_blank' rel='noreferrer'>
+                <u><strong>{bookmarks.bullet2Title}</strong></u>
+              </a>
+              {bookmarks.bullet2Para}
+            </li>
+            <br></br>
+            <li>
+            <a href={`${bookmarks.bullet3Url}`} target='_blank' rel='noreferrer'>
+                <u><strong>{bookmarks.bullet3Title}</strong></u>
+              </a> 
+              {bookmarks.bullet3Para}
+            </li>
+            <br></br>
+            <li>
+            <a href={`${bookmarks.bullet4Url}`} target='_blank' rel='noreferrer'>
+                <u><strong>{bookmarks.bullet4Title}</strong></u>
+              </a> 
+              {bookmarks.bullet4Para}
+            </li>
+            <br></br>
+            <li>
+            <a href={`${bookmarks.bullet5Url}`} target='_blank' rel='noreferrer'>
+                <u><strong>{bookmarks.bullet5Title}</strong></u>
+              </a> 
+              {bookmarks.bullet5Para}
+            </li>
+            <br></br>
+            <li>
+            <a href={`${bookmarks.bullet1Url}`} target='_blank' rel='noreferrer'>
+                <u><strong>{bookmarks.bullet1Title}</strong></u>
+              </a> 
+              {bookmarks.bullet6Para}
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* # FOOTER */}
+      <footer className={`${styleFooter}`}>
+        <strong>{social.title}</strong>
+        <div className='flex flex-row justify-center items-center gap-x-8 md:gap-x-20 '>
+          <IconLink iconClass={IconClass.X} url={social.x} />
+          <IconLink iconClass={IconClass.GITHUB} url={social.github} />
+
+        </div>
+      </footer>
+
+
     </main>
   )
 }
+

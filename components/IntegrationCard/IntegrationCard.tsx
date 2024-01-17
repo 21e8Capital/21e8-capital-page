@@ -16,7 +16,9 @@ export function IntegrationCard ({ name, iconClass, url, description }: Props) {
           <IconLink iconClass={iconClass} url={url}/>
         </div>
         <div className='flex flex-row justify-center mt-3'>
-          <p className='font-bold text-lg md:text-2xl'>{name.toUpperCase()}</p>
+          <a href={url} target='_blank' rel='noreferrer'> 
+            <p className='font-bold text-lg md:text-2xl'>{name.toUpperCase()}</p>
+          </a>
         </div>
       </header>
       <p className='mt-4 md:mt-5 text-sm md:text-base'>{description}</p>
