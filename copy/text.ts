@@ -4,8 +4,8 @@ export const logoAlt = '21e8-logo'
 
 export const hero: any = {
     title: '21e8 Capital',
-    subtitle: 'Crypto Fund Trading Macro Timelines',
-    para1: '21e8 Capital is a private Australian crypto Fund trading on macro timelines, backed by a founder and CIO who has over a decade in experience in the industry. 21e8 aims to out-perform Bitcoin price action.',
+    subtitle: '21e8 Capital',
+    para1: '21e8 Capital is a private Australian Crypto Fund trading on macro timelines, backed by a founder and CIO who has over a decade in experience in the industry. 21e8 aims to out-perform Bitcoin price action.',
     para2: '21e8 Capital is not open to the public. General crypto information useful to bookmark is found below.'
 }
 

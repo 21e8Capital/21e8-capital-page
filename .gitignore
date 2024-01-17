@@ -16,6 +16,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+.next/
 
 # Environment variables
 .env
