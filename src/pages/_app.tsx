@@ -1,27 +1,22 @@
-import localFont from "next/font/local";
+import Head from "next/head";
+import { AppProps } from "next/app";
+import { hero } from "@/copy/text";
+import { ContextProvider } from "@/utils/context";
 import { Footer, Navbar, Wrapper } from "@/components/ui";
 import "@/styles/main.scss";
-import Head from "next/head";
-import { ContextProvider } from "@/utils/context";
 
-const menlo = localFont({
-  src: "../../public/fonts/menlo.ttf",
-  variable: "--menlo",
-});
-
-const App = ({ Component, pageProps }: any) => {
-  return (
-    <ContextProvider>
-      <Head>
-        <title>21e8 Capital</title>
-      </Head>
-      <Navbar />
-      <Wrapper className={menlo.variable}>
-        <Component {...pageProps} />
-      </Wrapper>
-      <Footer />
-    </ContextProvider>
-  );
-};
+const App = ({ Component, pageProps }: AppProps) => (
+  <ContextProvider>
+    <Head>
+      <title>21e8 Capital</title>
+      <meta name="description" content={hero.paragraphs[0]} />
+    </Head>
+    <Navbar />
+    <Wrapper>
+      <Component {...pageProps} />
+    </Wrapper>
+    <Footer />
+  </ContextProvider>
+);
 
 export default App;

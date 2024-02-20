@@ -1,11 +1,19 @@
 import Card from "./Card";
 import styles from "./styles.module.scss";
 
-const Cards = ({ data }: Cards) => (
-  <div className="my-5 md:my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-6">
-    {data.map((card, index) => (
-      <Card key={index} {...card} />
-    ))}
+interface CardsProps {
+  title: string;
+  data: Listing[];
+}
+
+const Cards = ({ title, data }: CardsProps) => (
+  <div className={styles.cardsWrapper}>
+    <h2>{title}</h2>
+    <div className={styles.cards}>
+      {data.map((card, index) => (
+        <Card key={index} {...card} />
+      ))}
+    </div>
   </div>
 );
 

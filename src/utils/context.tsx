@@ -5,9 +5,7 @@ import React, {
   useContext,
   createContext,
   SetStateAction,
-  useEffect,
 } from "react";
-import { useRouter } from "next/router";
 
 interface ContextProps {
   isBurgerActive: boolean;

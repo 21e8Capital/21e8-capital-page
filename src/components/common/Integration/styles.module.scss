@@ -1,0 +1,33 @@
+.integration {
+  display: flex;
+  flex-direction: column;
+  padding: 64px 0 64px 0;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  width: 100%;
+
+  h2 {
+    font-size: 36px;
+    color: #252525;
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 80px;
+    grid-row-gap: 48px;
+
+    @media only screen and (max-width: 1200px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 5rem;
+      row-gap: 3rem;
+    }
+
+    @media only screen and (max-width: 768px) {
+      margin-top: 3rem;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+  }
+}

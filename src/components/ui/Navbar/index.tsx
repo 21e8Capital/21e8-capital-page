@@ -23,10 +23,10 @@ const Navbar = () => {
   const { isBurgerActive, setIsBurgerActive } = useContextState();
 
   return (
-    <nav className={styles.naw}>
+    <nav className={styles.nav}>
       <div className={styles.innerNav}>
         <Link href="/" className={styles.logo}>
-          <Logo />
+          <Logo name="21e8-logo" />
         </Link>
         <div
           className={styles.burgerWrapper}
@@ -52,7 +52,7 @@ const Navbar = () => {
           href="/"
           className={styles.logo}
         >
-          <Logo />
+          <Logo name="21e8-logo" />
         </Link>
         {links.map(({ name, href }, index) => (
           <Link

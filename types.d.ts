@@ -1,15 +1,14 @@
-interface Card {
-  icon?: JSX.Element;
+interface Listing {
   title: string;
   para: string;
+  url?: string;
+  icon?: JSX.Element;
 }
 
-interface Cards {
-  data: Card[];
-}
-
-interface Bookmark {
+interface SectionData {
   title: string;
-  para: strong;
-  url: string;
+  subtitle?: string;
+  para?: string;
+  data: Listing[];
+  icon?: JSX.Element;
 }

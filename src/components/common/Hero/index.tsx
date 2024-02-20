@@ -1,4 +1,3 @@
-import Subtitle from "../Subtitle";
 import styles from "./styles.module.scss";
 
 interface HeroProps {
@@ -9,11 +8,9 @@ interface HeroProps {
 const Hero = ({ title, paragraphs }: HeroProps) => {
   return (
     <div className={styles.hero}>
-      <Subtitle text={title} size="lg" />
+      <h1>{title}</h1>
       {paragraphs.map((para, index) => (
-        <p key={index} className="text-center my-5 md:my-8 text-sm md:text-lg">
-          {para}
-        </p>
+        <p key={index}>{para}</p>
       ))}
     </div>
   );

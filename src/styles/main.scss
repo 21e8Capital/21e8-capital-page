@@ -2,7 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "menlo";
+  src: url("../../public/fonts/menlo.ttf") format("ttf");
+}
+
 body {
-  font-family: var(--menlo), sans-serif;
+  font-family: "menlo", sans-serif;
   background-color: #ffffff;
+  cursor: default;
+  color: #252525;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffc303;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
