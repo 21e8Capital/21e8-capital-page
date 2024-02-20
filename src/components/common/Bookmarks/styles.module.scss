@@ -1,0 +1,15 @@
+.bookmarks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    li {
+      font-size: 16px;
+    }
+  }
+}
