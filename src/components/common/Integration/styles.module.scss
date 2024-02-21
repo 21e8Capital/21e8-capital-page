@@ -7,9 +7,17 @@
   gap: 48px;
   width: 100%;
 
+  @media only screen and (max-width: 768px) {
+    gap: 16px;
+  }
+
   h2 {
     font-size: 36px;
     color: #252525;
+
+    @media only screen and (max-width: 768px) {
+      font-size: 20px;
+    }
   }
 
   .list {
@@ -26,7 +34,6 @@
     }
 
     @media only screen and (max-width: 768px) {
-      margin-top: 3rem;
       grid-template-columns: repeat(1, minmax(0, 1fr));
     }
   }
