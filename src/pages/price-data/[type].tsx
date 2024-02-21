@@ -1,5 +1,11 @@
+import { WorkInProgress } from "@/components/common";
+
 const PriceData = () => {
-  return <div>PriceData</div>;
+  return (
+    <div>
+      <WorkInProgress />
+    </div>
+  );
 };
 
 export default PriceData;
