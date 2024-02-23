@@ -12,3 +12,12 @@ interface SectionData {
   data: Listing[];
   icon?: JSX.Element;
 }
+
+interface PerformanceDataType {
+  period: string;
+  priceChange: string;
+  percentageChange: string;
+  highestPrice: string;
+}
+
+type AssetTypeProp = keyof typeof assetTypeMapping;

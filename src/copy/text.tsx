@@ -32,7 +32,7 @@ export const fund = {
   ],
 };
 
-export const assets: any = {
+export const assets = {
   title: "Assets",
   subtitle: "",
   para: "",
@@ -144,7 +144,7 @@ export const bookmarks = {
   ],
 };
 
-export const social: any = {
+export const social = {
   title: "",
   x: "https://x.com/21e8Capital",
   github: "https://github.com/21e8Capital",
