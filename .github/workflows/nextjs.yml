@@ -81,10 +81,12 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
-        env:
-          NEXT_PUBLIC_MOBULA_API: ${{ secrets.NEXT_PUBLIC_MOBULA_API }}
-          NEXT_PUBLIC_CRYPTOCOMPARE_URI: ${{ secrets.NEXT_PUBLIC_CRYPTOCOMPARE_URI }}
-          NEXT_PUBLIC_CRYPTOCOMPARE_KEY: ${{ secrets.NEXT_PUBLIC_CRYPTOCOMPARE_KEY }}
+      - name: Add Env's
+        run: |
+          touch env.local
+          echo NEXT_PUBLIC_MOBULA_API: ${{ secrets.NEXT_PUBLIC_MOBULA_API }} >> env.local
+          echo NEXT_PUBLIC_CRYPTOCOMPARE_URI: ${{ secrets.NEXT_PUBLIC_CRYPTOCOMPARE_URI }} >> env.local
+          echo NEXT_PUBLIC_CRYPTOCOMPARE_KEY: ${{ secrets.NEXT_PUBLIC_CRYPTOCOMPARE_KEY }} >> env.local
 
   # Deployment job
   deploy:
