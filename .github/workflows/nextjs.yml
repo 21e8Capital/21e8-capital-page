@@ -18,6 +18,11 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  NEXT_PUBLIC_MOBULA_API: ${{ secrets.NEXT_PUBLIC_MOBULA_API }}
+  NEXT_PUBLIC_CRYPTOCOMPARE_URI: ${{ secrets.NEXT_PUBLIC_CRYPTOCOMPARE_URI }}
+  NEXT_PUBLIC_CRYPTOCOMPARE_KEY: ${{ secrets.NEXT_PUBLIC_CRYPTOCOMPARE_KEY }}
+
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
@@ -81,12 +86,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
-      - name: Add Env's
-        run: |
-          touch env.local
-          echo NEXT_PUBLIC_MOBULA_API: ${{ secrets.NEXT_PUBLIC_MOBULA_API }} >> env.local
-          echo NEXT_PUBLIC_CRYPTOCOMPARE_URI: ${{ secrets.NEXT_PUBLIC_CRYPTOCOMPARE_URI }} >> env.local
-          echo NEXT_PUBLIC_CRYPTOCOMPARE_KEY: ${{ secrets.NEXT_PUBLIC_CRYPTOCOMPARE_KEY }} >> env.local
 
   # Deployment job
   deploy:
