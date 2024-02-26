@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/db-job?type=btc",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}

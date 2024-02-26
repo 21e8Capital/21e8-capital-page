@@ -7,12 +7,13 @@ import {
 import styles from "./styles.module.scss";
 
 interface TableProps {
-  data: PerformanceDataType[];
-  columns: ColumnDef<PerformanceDataType, any>[];
   title: string;
+  data: PerformanceDataType[] | MarketStatsDataType[];
+  columns: ColumnDef<any, any>[];
+  className?: string;
 }
 
-const DynamicTable = ({ data, columns, title }: TableProps) => {
+const DynamicTable = ({ data, columns, title, className }: TableProps) => {
   const table = useReactTable({
     data,
     columns: columns,
@@ -20,7 +21,7 @@ const DynamicTable = ({ data, columns, title }: TableProps) => {
   });
 
   return (
-    <div className={styles.dynamicTable}>
+    <div className={`${styles.dynamicTable} ${className}`}>
       <p>{title}</p>
       <table>
         <thead>

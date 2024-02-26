@@ -18,6 +18,24 @@ interface PerformanceDataType {
   priceChange: string;
   percentageChange: string;
   highestPrice: string;
+  type: string;
+}
+
+interface MarketStatsDataType {
+  circulatingSupply: number;
+  hashRate: number;
+  marketCap: number;
+  realizedCap?: number;
+  activeAddresses: number;
+  cdd: number;
+  type: string;
+}
+
+interface FormattedMarketStats {
+  latest: string;
+  label: string;
+  changeInNumber: string;
+  changeInPercent: string;
 }
 
 type AssetTypeProp = keyof typeof assetTypeMapping;

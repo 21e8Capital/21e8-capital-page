@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { PriceTable, WorkInProgress } from "@/components/common";
+import { assetTypeMapping, formattedMarketStats } from "@/utils/api";
 import { bookmarks } from "@/copy/text";
-import { ListingText, PriceTable, WorkInProgress } from "@/components/common";
-import { assetTypeMapping, getPricePerformance } from "@/utils/api";
+import { getPerformanceStats } from "@/utils/database/performanceStats";
 
 const staticPaths = ["btc", "layer-1", "defi"];
 
@@ -21,11 +22,10 @@ const PriceData = ({ marketStats, performance }: PriceDataProps) => {
         <WorkInProgress />
       ) : (
         <div className="price-data">
-          <PriceTable title="Bitcoin Price Data" performance={performance} />
-          <ListingText
-            title={bookmarks.title}
-            subtitle={bookmarks.subtitle}
-            data={bookmarks.data}
+          <PriceTable
+            title="Bitcoin Price Data"
+            performance={performance}
+            marketStats={marketStats}
           />
         </div>
       )}
@@ -44,16 +44,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  let performance;
+  let performance, marketStats;
   const type = params?.type as keyof typeof assetTypeMapping;
 
   if (type === "btc") {
-    performance = await getPricePerformance(type);
+    performance = await getPerformanceStats(type);
+    marketStats = await formattedMarketStats(type);
   }
 
   return {
     props: {
-      performance: performance ?? [],
+      performance: performance?.data ?? [],
+      marketStats: marketStats,
     },
     revalidate: 86400,
   };

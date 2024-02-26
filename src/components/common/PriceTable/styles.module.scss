@@ -6,7 +6,7 @@
   gap: 30px;
 
   h1 {
-    font-size: 44px;
+    font-size: 36px;
     text-transform: uppercase;
     color: #252525;
 
@@ -17,12 +17,16 @@
 }
 
 .tableGrid {
+  width: 100%;
   display: flex;
   gap: 40px;
 }
 
+.marketTable {
+}
+
 .dynamicTable {
-  width: 100%;
+  width: 140%;
 
   p {
     font-weight: 600;
@@ -31,17 +35,11 @@
   }
 
   table {
-    min-width: 500px;
+    width: 100%;
     text-align: left;
 
     thead {
       height: 60px;
-
-      th {
-        &:first-child {
-          width: 20%;
-        }
-      }
 
       tr {
         border-top: 1px solid #252525;
@@ -57,6 +55,7 @@
     }
 
     td {
+      width: fit-content;
       padding: 8px;
     }
   }

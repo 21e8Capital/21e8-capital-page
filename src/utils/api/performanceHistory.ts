@@ -13,12 +13,16 @@ const fetchAssetMarketHistory = async (
   from: number | null,
   to: number
 ) => {
-  const marketData = await mobula.fetchAssetMarketHistory({
-    asset,
-    from: from!,
-    to,
-  });
-  return marketData.marketHistoryResponse?.data?.priceHistory;
+  try {
+    const marketData = await mobula.fetchAssetMarketHistory({
+      asset,
+      from: from!,
+      to,
+    });
+    return marketData.marketHistoryResponse?.data?.priceHistory;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const fetchPerformanceData = async (
@@ -26,16 +30,20 @@ const fetchPerformanceData = async (
   from: number,
   to: number
 ) => {
-  const performanceData = await Promise.all([
-    fetchAssetMarketHistory(asset, from - 60 * 60 * 1000, to), // 1h
-    fetchAssetMarketHistory(asset, from - 24 * 60 * 60 * 1000, to), // 1d
-    fetchAssetMarketHistory(asset, from - 7 * 24 * 60 * 60 * 1000, to), // 1w
-    fetchAssetMarketHistory(asset, from - 30 * 24 * 60 * 60 * 1000, to), // 1m
-    fetchAssetMarketHistory(asset, from - 3 * 30 * 24 * 60 * 60 * 1000, to), // 3m
-    fetchAssetMarketHistory(asset, from - 365 * 24 * 60 * 60 * 1000, to), // 1y
-    fetchAssetMarketHistory(asset, null, to), // All
-  ]);
-  return performanceData;
+  try {
+    const performanceData = await Promise.all([
+      fetchAssetMarketHistory(asset, from - 60 * 60 * 1000, to), // 1h
+      fetchAssetMarketHistory(asset, from - 24 * 60 * 60 * 1000, to), // 1d
+      fetchAssetMarketHistory(asset, from - 7 * 24 * 60 * 60 * 1000, to), // 1w
+      fetchAssetMarketHistory(asset, from - 30 * 24 * 60 * 60 * 1000, to), // 1m
+      fetchAssetMarketHistory(asset, from - 3 * 30 * 24 * 60 * 60 * 1000, to), // 3m
+      fetchAssetMarketHistory(asset, from - 365 * 24 * 60 * 60 * 1000, to), // 1y
+      fetchAssetMarketHistory(asset, null, to), // All
+    ]);
+    return performanceData;
+  } catch (err: any) {
+    console.log(err.message);
+  }
 };
 
 export const getPricePerformance = async (asset: AssetTypeProp) => {
@@ -49,7 +57,7 @@ export const getPricePerformance = async (asset: AssetTypeProp) => {
       currentUnixTimeMillis
     );
 
-    const formattedPerformanceData = performanceData.map((data, index) => {
+    const formattedPerformanceData = performanceData?.map((data, index) => {
       const { priceChange, percentageChange, highestPrice } =
         calculatePriceChange(data!);
       const period = getPeriodLabel(index);
@@ -63,7 +71,7 @@ export const getPricePerformance = async (asset: AssetTypeProp) => {
   }
 };
 
-function calculatePriceChange(data: Record<string, any>[]) {
+const calculatePriceChange = (data: Record<string, any>[]) => {
   const priceChange = data[data.length - 1][1] - data[0][1];
   const percentageChange = ((priceChange / data[0][1]) * 100).toFixed(2) + "%";
   const highestPrice = Math.max(...data.map((entry) => entry[1]));
@@ -77,14 +85,14 @@ function calculatePriceChange(data: Record<string, any>[]) {
     percentageChange,
     highestPrice: `$${highestPriceString}`,
   };
-}
+};
 
-function getPeriodLabel(index: number) {
+const getPeriodLabel = (index: number) => {
   const periods = ["1h", "1d", "1w", "1m", "3m", "1y", "All"];
   return periods[index];
-}
+};
 
-function formatPriceChange(priceChange: number) {
+const formatPriceChange = (priceChange: number) => {
   const formattedPriceChange = Math.abs(priceChange).toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -92,4 +100,4 @@ function formatPriceChange(priceChange: number) {
   return priceChange < 0
     ? `-$${formattedPriceChange}`
     : `$${formattedPriceChange}`;
-}
+};
