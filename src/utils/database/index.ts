@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 
 export const db = createClient(
-  process.env.SUPABASE_URI!,
-  process.env.SUPABASE_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_URI!,
+  process.env.NEXT_PUBLIC_SUPABASE_KEY!
 );
 
 export {
