@@ -55,7 +55,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       performance: performance?.data ?? [],
-      marketStats: marketStats,
+      marketStats: marketStats ?? [],
     },
     revalidate: 86400,
   };
