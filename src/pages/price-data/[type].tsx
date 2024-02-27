@@ -4,7 +4,6 @@ import { HalvingView } from "@/components/bitcoin";
 import { PriceTable, WorkInProgress } from "@/components/common";
 import { assetTypeMapping, formattedMarketStats } from "@/utils/api";
 import { getPerformanceStats } from "@/utils/database/performanceStats";
-import { getEmissions } from "@/utils/api/halving-and-emission";
 
 const staticPaths = ["btc", "layer-1", "defi"];
 
@@ -52,7 +51,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (type === "btc") {
     performance = await getPerformanceStats(type);
     marketStats = await formattedMarketStats(type);
-    // getEmissions();
   }
 
   return {
