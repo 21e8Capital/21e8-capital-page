@@ -23,3 +23,7 @@ export const blockchairApi: AxiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const digiconomistApi: AxiosInstance = axios.create({
+  baseURL: apiConfig.digiconomist.utl,
+});

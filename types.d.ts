@@ -1,3 +1,14 @@
+interface HalveningData {
+  halvening_time: string;
+  seconds_left: number;
+}
+interface EmissionData {
+  "24hr_kWh": string;
+  "24hr_kgCO2": string;
+  Output_kWh: string;
+  Output_kgCO2: string;
+}
+
 interface Listing {
   title: string;
   para: string;

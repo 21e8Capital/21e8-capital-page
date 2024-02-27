@@ -1,4 +1,8 @@
 .footer {
+  margin: 0 auto 0 auto;
+  padding-bottom: 40px;
+  max-width: 1400px;
+
   svg {
     @media only screen and (max-width: 1025px) {
       width: 48px;

@@ -5,3 +5,4 @@ export const assetTypeMapping = {
 
 export { getPricePerformance } from "./performanceHistory";
 export { getMarketPerformance, formattedMarketStats } from "./marketStats";
+export { getHalvingData } from "./halving-and-emission";

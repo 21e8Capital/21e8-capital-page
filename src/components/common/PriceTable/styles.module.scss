@@ -20,13 +20,18 @@
   width: 100%;
   display: flex;
   gap: 40px;
-}
 
-.marketTable {
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .dynamicTable {
   width: 140%;
+
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+  }
 
   p {
     font-weight: 600;
@@ -37,6 +42,11 @@
   table {
     width: 100%;
     text-align: left;
+    font-size: 18px;
+
+    @media only screen and (max-width: 768px) {
+      font-size: 14px;
+    }
 
     thead {
       height: 60px;

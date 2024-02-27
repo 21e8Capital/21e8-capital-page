@@ -25,21 +25,21 @@ export const getMarketPerformance = async (type: string) => {
       `/${assetTypeMapping[type as keyof typeof assetTypeMapping]}/stats`
     );
 
-    const marketStats = await cryptoCompareApiData.get(
+    const { data: marketStatsData } = await cryptoCompareApiData.get(
       `/asset/v1/data/by/symbol?asset_symbol=${
         cryptoCompareMapping[type as keyof typeof cryptoCompareMapping]
       }`
     );
 
-    const miningStats = await cryptoCompareApiMining.get(
+    const { data: miningStatsData } = await cryptoCompareApiMining.get(
       `/data/blockchain/latest?fsym=${
         cryptoCompareMapping[type as keyof typeof cryptoCompareMapping]
       }`
     );
 
     const { cdd_24h } = blockchairData.data;
-    const { active_addresses, hashrate } = miningStats.data.Data;
-    const { SUPPLY_CIRCULATING, TOTAL_MKT_CAP_USD } = marketStats.data.Data;
+    const { active_addresses, hashrate } = miningStatsData.data.Data;
+    const { SUPPLY_CIRCULATING, TOTAL_MKT_CAP_USD } = marketStatsData.Data;
 
     return {
       type,
