@@ -27,8 +27,8 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const [isBurgerActive, setIsBurgerActive] = useState(false);
 
   const handleHalvening = async () => {
-    const { countdownTime, halveningDate } = await getHalvingData("btc");
-    setHalving({ countdownTime, halveningDate });
+    const data = await getHalvingData("btc");
+    setHalving(data);
   };
 
   useEffect(() => {

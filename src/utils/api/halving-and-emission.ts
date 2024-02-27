@@ -6,41 +6,35 @@ export const getHalvingData = async (
 ): Promise<any> => {
   try {
     const halving = await blockchairApi.get(`/tools/halvening`);
+    const inflation = await blockchairApi.get(`/bitcoin/stats`);
+    const { circulation, inflation_24h } = inflation.data.data;
     const { seconds_left, halvening_time } = halving.data.data.bitcoin;
+    const inflationRate = calculateInflationRate(inflation_24h, circulation);
+    const emission = await getEmissions();
 
-    return displayHalveningCountdown({ seconds_left, halvening_time });
+    return {
+      countdown: displayHalveningCountdown({ seconds_left, halvening_time }),
+      inflation: inflationRate,
+      emission,
+    };
   } catch (err: any) {
     console.log("Error fetching halving data: ", err.message);
   }
 };
 
-export const getEmissions = async () => {
+const getEmissions = async () => {
   try {
-    const endDate = new Date(); // Today's date
-    endDate.setDate(endDate.getDate() - 1); // Set to yesterday
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() - 1).toLocaleString();
+    const dateString = endDate.toISOString().split("T")[0].replace(/-/g, "");
+    const { data } = await digiconomistApi(`/bitcoin/stats/${dateString}`);
 
-    const startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000); // Date 8 days ago
+    const emissionRates = calculateEmissionPercentage(
+      data[0]["24hr_kgCO2"],
+      data[0]["24hr_kWh"]
+    );
 
-    const historicalData: EmissionData[] = [];
-
-    for (
-      let date = startDate;
-      date <= endDate;
-      date.setDate(date.getDate() + 1)
-    ) {
-      const dateString = date.toISOString().split("T")[0].replace(/-/g, "");
-      const { data } = await digiconomistApi(`/bitcoin/stats/${dateString}`);
-      historicalData.push(...data); // Flatten the array
-    }
-
-    const emissionRates = calculateEmissionRate(historicalData);
-    console.log("Current Daily Emission Rate:", emissionRates.current);
-    console.log("Next Daily Emission Rate (Forecasted):", emissionRates.next);
-
-    return {
-      currentEmission: emissionRates.current,
-      forecastedEmission: emissionRates.next,
-    };
+    return emissionRates;
   } catch (err: any) {
     console.log("Error fetching emissions: ", err.message);
     return { currentEmission: null, forecastedEmission: null };
@@ -81,25 +75,16 @@ function displayHalveningCountdown(halveningData: HalveningData) {
   };
 }
 
-function calculateEmissionRate(data: EmissionData[]): {
-  current: number;
-  next?: number;
-} {
-  const totalEmissions = data.reduce(
-    (acc, curr) => acc + parseFloat(curr["Output_kgCO2"]),
-    0
-  );
+function calculateEmissionPercentage(
+  totalCarbonFootprint24h: number,
+  totalEnergyConsumption24h: number
+) {
+  const emissionPercentage =
+    (totalCarbonFootprint24h / totalEnergyConsumption24h) * 100;
+  return emissionPercentage.toFixed(2);
+}
 
-  const totalEnergy = data.reduce(
-    (acc, curr) => acc + parseFloat(curr["Output_kWh"]),
-    0
-  );
-  const averageEmissionRate = totalEmissions / totalEnergy;
-
-  console.log(totalEnergy, totalEmissions);
-
-  const nextDayEmissions =
-    averageEmissionRate * parseFloat(data[0]["24hr_kWh"]);
-
-  return { current: averageEmissionRate, next: nextDayEmissions };
+function calculateInflationRate(inflationBTC: number, totalSupplyBTC: number) {
+  const inflationRate = (inflationBTC / totalSupplyBTC) * 100;
+  return inflationRate.toFixed(4);
 }
