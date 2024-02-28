@@ -9,15 +9,15 @@ interface HeroProps {
 const gradients = [
   {
     className: styles.gradient0,
-    src: "/images/radial-gradient-0.png",
+    src: "/images/radial-gradient-0.webp",
   },
   {
     className: styles.gradient1,
-    src: "/images/radial-gradient-1.png",
+    src: "/images/radial-gradient-1.webp",
   },
   {
     className: styles.gradient2,
-    src: "/images/radial-gradient-2.png",
+    src: "/images/radial-gradient-2.webp",
   },
 ];
 
