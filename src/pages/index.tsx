@@ -1,9 +1,15 @@
 import { hero, fund, assets, strategy, bookmarks } from "../copy/text";
-import { Cards, Hero, Integration, ListingText } from "@/components/common";
+import {
+  Cards,
+  Hero,
+  Integration,
+  ListingText,
+  WorkInProgress,
+} from "@/components/common";
 
 const Home = () => (
   <div className="home">
-    <Hero title={hero.title} paragraphs={hero.paragraphs} />
+    <Hero span={hero.span} title={hero.title} paragraphs={hero.paragraphs} />
     <Cards title={fund.title} data={fund.data} />
     <ListingText
       textStart

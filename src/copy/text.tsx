@@ -1,7 +1,8 @@
 import { BitcoinSVG, EthSVG, RuneSVG } from "@/svg";
 
 export const hero = {
-  title: "21e8 Capital",
+  title: "Unlocking Crypto Potential",
+  span: "21e8 Capital",
   paragraphs: [
     "21e8 Capital is a private Australian Crypto Fund trading on macro timelines, backed by a founder and CIO who has over a decade in experience in the industry. 21e8 aims to out-perform Bitcoin price action.",
     "21e8 Capital is not open to the public. General crypto information useful to bookmark is found below.",
@@ -10,24 +11,26 @@ export const hero = {
 
 export const fund = {
   title: "Fund Highlights",
-  subtitle: "21e8 Capital",
-  para: "",
   data: [
     {
       title: "Strategy",
       para: "A clear 4-year cycle exists in crypto due to Bitcoin monetary policy. 21e8 recognises that market timing entry and exit is crucial to outperforming Bitcoin price action across these cycles.",
-    },
-    {
-      title: "Assets",
-      para: "Most liquidity is in Bitcoin, but due to the ephemeral nature of market participants, capital flows in and out of different crypto-asset verticals at different parts of the cycle.",
+      img: "/images/strategy-squares.png",
     },
     {
       title: "Experience",
       para: "The fund is backed a founder who has spent over a decade in the industry, with the majority of that time building, investing and growing portfolios.",
+      img: "/images/bitcoin-person.png",
+    },
+    {
+      title: "Assets",
+      para: "Most liquidity is in Bitcoin, but due to the ephemeral nature of market participants, capital flows in and out of different crypto-asset verticals at different parts of the cycle.",
+      img: "/images/bitcoin-graph.png",
     },
     {
       title: "Vision",
       para: "The vision of the fund is to share the wealth preservation characteristics of crypto-assets with Australian capital allocators.",
+      img: "/images/phone-graph.png",
     },
   ],
 };

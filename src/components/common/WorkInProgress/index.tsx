@@ -1,11 +1,20 @@
-import { WIP } from "@/svg";
+import Lottie from "lottie-react";
+import Hero from "../Hero";
 import styles from "./styles.module.scss";
+import blockAnimation from "@/animations/blocks.json";
 
 const WorkInProgress = () => {
   return (
     <div className={styles.wip}>
-      <h2>Coming soon...</h2>
-      <WIP />
+      <Hero
+        span="Coming Soon"
+        paragraphs={["We are launching this page very soon."]}
+      />
+      <Lottie
+        animationData={blockAnimation}
+        loop={true}
+        className="absolute bottom-[140px]"
+      />
     </div>
   );
 };

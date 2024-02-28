@@ -1,19 +1,22 @@
 .nav {
   width: 100%;
   height: 100%;
+  background-color: #0000004f;
+  z-index: 1;
   position: relative;
 
   .innerNav {
     display: flex;
     width: 100%;
-    padding: 10px 0px;
-    max-width: 1400px;
+    padding: 15px 50px;
+    max-width: 1520px;
     margin: 0 auto;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 
-    @media only screen and (max-width: 1200px) {
-      padding: 10px 10px;
+    @media only screen and (max-width: 768px) {
+      padding: 5px 20px;
     }
 
     .burgerWrapper {
@@ -32,7 +35,15 @@
     .links {
       display: flex;
       align-items: center;
-      gap: 40px;
+      gap: 100px;
+
+      a {
+        font-size: 20px;
+      }
+
+      @media only screen and (max-width: 1200px) {
+        gap: 50px;
+      }
 
       @media only screen and (max-width: 768px) {
         display: none;
@@ -55,6 +66,7 @@
     padding-top: 10px;
     transform: translateX(100%);
     transition: all 0.4s ease;
+    z-index: 1000;
 
     &Active {
       transform: translateX(0%);
@@ -73,7 +85,7 @@
       bottom: -4px;
       left: 0;
       width: 0;
-      height: 5px;
+      height: 3px;
       background-color: #ffc303;
       transition: width 0.25s ease-in;
     }
@@ -84,6 +96,11 @@
   }
 
   .logo {
+    svg {
+      width: 82px;
+      height: 82px;
+    }
+
     svg {
       @media only screen and (max-width: 768px) {
         width: 70px;

@@ -7,6 +7,7 @@ import { Footer, Navbar, Wrapper } from "@/components/ui";
 
 import "@/styles/main.scss";
 import "react-loading-skeleton/dist/skeleton.css";
+import { WorkInProgress } from "@/components/common";
 
 const App = ({ Component, pageProps }: AppProps) => (
   <ContextProvider>
@@ -17,7 +18,7 @@ const App = ({ Component, pageProps }: AppProps) => (
     <Navbar />
     <Wrapper>
       <SkeletonTheme baseColor="#ffd755" highlightColor="#ffff">
-        <Component {...pageProps} />
+        <WorkInProgress />
       </SkeletonTheme>
     </Wrapper>
     <Footer />

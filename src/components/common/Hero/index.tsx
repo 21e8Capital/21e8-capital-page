@@ -1,17 +1,75 @@
 import styles from "./styles.module.scss";
 
 interface HeroProps {
-  title: string;
+  span: string;
+  title?: string;
   paragraphs: string[];
 }
 
-const Hero = ({ title, paragraphs }: HeroProps) => {
+const gradients = [
+  {
+    className: styles.gradient0,
+    src: "/images/radial-gradient-0.png",
+  },
+  {
+    className: styles.gradient1,
+    src: "/images/radial-gradient-1.png",
+  },
+  {
+    className: styles.gradient2,
+    src: "/images/radial-gradient-2.png",
+  },
+];
+
+const circles = [
+  {
+    className: styles.ball0,
+    src: "/images/ball.png",
+  },
+  {
+    className: styles.ball1,
+    src: "/images/ball.png",
+  },
+  {
+    className: styles.ball2,
+    src: "/images/ball.png",
+  },
+];
+
+const Hero = ({ span, title, paragraphs }: HeroProps) => {
   return (
-    <div className={styles.hero}>
-      <h1>{title}</h1>
-      {paragraphs.map((para, index) => (
-        <p key={index}>{para}</p>
-      ))}
+    <div className={styles.heroWrapper}>
+      <div className={styles.hero}>
+        <h1>
+          <span>{span}</span> {title}
+        </h1>
+        <div className={styles.desc}>
+          {paragraphs.map((para, index) => (
+            <p key={index}>{para}</p>
+          ))}
+        </div>
+        {gradients.map((grad, i) => (
+          <img
+            key={i}
+            className={`${grad.className} absolute`}
+            src={grad.src}
+            alt="Radial Gradient"
+          />
+        ))}
+        {circles.map((circ, i) => (
+          <img
+            key={i}
+            className={`${circ.className} absolute`}
+            src={circ.src}
+            alt="Radial Gradient"
+          />
+        ))}
+        <img
+          className={`${styles.dots} absolute`}
+          src="/images/dots.png"
+          alt="Radial Gradient"
+        />
+      </div>
     </div>
   );
 };

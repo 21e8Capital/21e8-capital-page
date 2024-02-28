@@ -14,6 +14,7 @@ interface Listing {
   para: string;
   url?: string;
   icon?: JSX.Element;
+  img?: string;
 }
 
 interface SectionData {

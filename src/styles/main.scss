@@ -9,10 +9,11 @@
 
 body {
   font-family: "menlo", sans-serif;
-  background-color: #ffffff;
+  background-color: #0d0d0d;
   cursor: default;
-  color: #252525;
+  color: #ffffff;
   height: 100vh;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {

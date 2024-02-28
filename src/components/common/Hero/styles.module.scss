@@ -1,32 +1,142 @@
+.heroWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-image: url("../../../../public/images/hero-squares.png");
+  background-position: center 70%;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+}
+
 .hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 850px;
-  margin: 64px auto 64px auto;
-  gap: 32px;
+  margin: -100px auto 0px auto;
+  padding: 200px 50px;
+  gap: 86px;
+  max-width: 1400px;
+  height: 1000px;
 
   @media only screen and (max-width: 768px) {
     padding: 0 20px;
+    margin-top: -170px;
+    gap: 40px;
   }
 
   h1 {
-    font-size: 44px;
+    font-size: 64px;
+    text-align: center;
+    line-height: 74.5px;
+    max-width: 850px;
+
+    @media only screen and (max-width: 1025px) {
+      font-size: 50px;
+    }
 
     @media only screen and (max-width: 768px) {
-      font-size: 24px;
+      font-size: 34px;
+      line-height: 50px;
+    }
+
+    span {
+      background: linear-gradient(
+        95deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 196, 3, 1) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   }
 
-  p {
-    font-size: 18px;
-    align-items: center;
-    text-align: center;
-    font-weight: 400;
+  .desc {
+    display: flex;
+    flex-direction: column;
+    gap: 86px;
 
     @media only screen and (max-width: 768px) {
-      font-size: 14px;
+      gap: 40px;
+    }
+
+    p {
+      text-align: center;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 37.2px;
+      max-width: 1270px;
+
+      @media only screen and (max-width: 1025px) {
+        font-size: 18px;
+      }
+
+      @media only screen and (max-width: 768px) {
+        font-size: 14px;
+      }
+
+      &:last-child {
+        font-size: 20px;
+        line-height: 31.4px;
+        max-width: 100%;
+
+        @media only screen and (max-width: 1025px) {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  .gradient0 {
+    top: -46%;
+    left: -30%;
+    z-index: -1;
+  }
+
+  .gradient1 {
+    top: -100px;
+    left: -600px;
+    height: 140%;
+    z-index: -1;
+  }
+
+  .gradient2 {
+    top: 20%;
+    right: -20%;
+  }
+
+  .ball0 {
+    top: 31%;
+    left: 11%;
+    width: 47px;
+
+    @media only screen and (max-width: 768px) {
+      top: 24%;
+    }
+  }
+
+  .ball1 {
+    top: 650px;
+    left: 60px;
+    width: 61px;
+  }
+
+  .ball2 {
+    top: 86%;
+    left: 26%;
+    width: 41px;
+  }
+
+  .dots {
+    top: 12%;
+    left: 6%;
+    width: 400px;
+    z-index: -1;
+
+    @media only screen and (max-width: 768px) {
+      top: 38%;
     }
   }
 }
