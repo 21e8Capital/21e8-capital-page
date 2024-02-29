@@ -1,50 +1,198 @@
-.listingText {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 950px;
-  margin: 64px auto;
-  gap: 16px;
-  cursor: default;
+.wrapper {
+  position: relative;
+  margin: 0 auto;
 
-  .textStart {
-    align-self: flex-start;
-  }
-
-  h3 {
-    font-size: 36px;
-    @media only screen and (max-width: 768px) {
-      font-size: 20px;
-    }
-  }
-
-  p {
-    font-size: 16px;
-
-    @media only screen and (max-width: 768px) {
-      font-size: 14px;
-    }
-  }
-
-  ul {
+  .listingText {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    list-style: disc;
-    list-style-position: inside;
+    align-items: center;
+    margin: 64px auto 0px auto;
+    cursor: default;
+    justify-content: center;
+    max-width: 1400px;
 
-    li {
-      font-size: 16px;
+    h3 {
+      font-size: 48px;
+      line-height: 55px;
+      background: linear-gradient(
+        95deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 196, 3, 1) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 46px;
+
+      @media only screen and (max-width: 768px) {
+        font-size: 20px;
+      }
+    }
+
+    .sub {
+      font-size: 20px;
+      line-height: 31px;
+      color: #c7c7c7;
+      max-width: 670px;
+      text-align: center;
+      margin-bottom: 200px;
 
       @media only screen and (max-width: 768px) {
         font-size: 14px;
       }
+    }
 
-      a {
-        &:hover {
-          text-decoration: underline;
+    .gridContainer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      grid-column-gap: 75px;
+      grid-row-gap: 80px;
+      margin-bottom: 600px;
+
+      .textWrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background-clip: padding-box;
+        border: solid 1px transparent;
+        border-radius: 10px;
+        box-sizing: border-box;
+
+        &:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: -1;
+          margin: -1px;
+          border-radius: inherit;
+          background: linear-gradient(
+            180deg,
+            rgba(255, 196, 3, 0.25) 0%,
+            rgba(0, 0, 0, 0) 100%
+          );
+        }
+      }
+
+      .text {
+        padding: 30px 30px 60px 30px;
+        background-color: #121212;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: 14px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        border-radius: 10px;
+
+        h4 {
+          font-size: 20px;
+          line-height: 23.28px;
+          font-weight: 600;
+        }
+
+        p {
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 400;
+        }
+
+        .radialGradientTop {
+          position: absolute;
+          width: 1200px;
+          height: 900px;
+          top: -220%;
+          right: 0%;
+
+          background: radial-gradient(
+            rgba(255, 196, 3, 0.2) 0%,
+            rgba(0, 0, 0, 0) 60%
+          );
+          overflow: visible;
+        }
+
+        .radialGradientBottom {
+          position: absolute;
+          width: 1200px;
+          height: 900px;
+          bottom: -260%;
+          left: -60%;
+
+          background: radial-gradient(
+            rgba(255, 196, 3, 0.2) 0%,
+            rgba(0, 0, 0, 0) 60%
+          );
+          overflow: visible;
         }
       }
     }
+  }
+
+  .moonGradient {
+    top: 20%;
+    z-index: -100;
+    width: 2000px;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    @media only screen and (min-width: 1750px) {
+      top: 38%;
+    }
+  }
+
+  .moonGradientReverse {
+    z-index: -100;
+    width: 1250px;
+    top: 76%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+    z-index: -99;
+  }
+
+  .ball0 {
+    top: 55%;
+    width: 61px;
+    left: 5%;
+
+    @media only screen and (min-width: 2000px) {
+      left: 10%;
+    }
+  }
+
+  .ball1 {
+    top: 55%;
+    width: 41px;
+    right: 5%;
+
+    @media only screen and (min-width: 2000px) {
+      right: 10%;
+    }
+  }
+
+  .ball2 {
+    top: 74%;
+    width: 41px;
+    left: 30%;
+
+    @media only screen and (min-width: 2000px) {
+      right: 10%;
+    }
+  }
+
+  .gradient0 {
+    top: -25%;
+    left: -15%;
+    z-index: -102;
+  }
+
+  .gradient1 {
+    top: 20%;
+    right: -14%;
+    z-index: -1;
   }
 }

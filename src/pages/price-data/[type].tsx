@@ -18,7 +18,7 @@ const PriceData = ({ marketStats, performance }: PriceDataProps) => {
 
   return (
     <>
-      {type !== "btc" ? (
+      {type === "btc" || "layer-1" || "defi" ? (
         <WorkInProgress />
       ) : (
         <div className="price-data">

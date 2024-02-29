@@ -6,6 +6,28 @@ interface CardsProps {
   data: Listing[];
 }
 
+const dots = [
+  {
+    className: styles.dots,
+    src: "/images/dots.png",
+  },
+  {
+    className: styles.dots2,
+    src: "/images/dots-2.png",
+  },
+];
+
+const gradients = [
+  {
+    className: styles.gradient1,
+    src: "/images/radial-gradient-1.webp",
+  },
+  {
+    className: styles.gradient2,
+    src: "/images/radial-gradient-2.webp",
+  },
+];
+
 const Cards = ({ title, data }: CardsProps) => (
   <div className={styles.container}>
     <div className={styles.cardsWrapper}>
@@ -21,6 +43,16 @@ const Cards = ({ title, data }: CardsProps) => (
         ))}
       </div>
     </div>
+    {dots.map((dot) => (
+      <img className={`${dot.className} absolute`} src={dot.src} alt="Stars" />
+    ))}
+    {gradients.map((gradient) => (
+      <img
+        className={`${gradient.className} absolute`}
+        src={gradient.src}
+        alt="Radial Gradient"
+      />
+    ))}
   </div>
 );
 

@@ -1,6 +1,42 @@
 .container {
   position: relative;
   padding: 0 50px;
+  position: relative;
+
+  .dots {
+    top: 6%;
+    right: 2%;
+    width: 350px;
+    z-index: 200;
+
+    @media only screen and (max-width: 768px) {
+      top: 38%;
+    }
+  }
+
+  .dots2 {
+    top: 17%;
+    left: 2%;
+    width: 300px;
+    z-index: 200;
+
+    @media only screen and (max-width: 768px) {
+      top: 38%;
+    }
+  }
+
+  .gradient1 {
+    top: -50%;
+    left: -600px;
+    height: 140%;
+    z-index: -1;
+  }
+
+  .gradient2 {
+    top: 5%;
+    right: -6%;
+    width: 600px;
+  }
 }
 
 .cardsWrapper {
@@ -9,7 +45,8 @@
   align-items: center;
   padding-bottom: 64px;
   max-width: 1400px;
-  margin: 120px auto 200px auto;
+  margin: 200px auto 200px auto;
+  position: relative;
 
   h2 {
     font-size: 48px;

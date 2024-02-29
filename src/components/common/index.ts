@@ -1,5 +1,6 @@
 export { default as Hero } from "./Hero";
 export { default as Cards } from "./Cards";
+export { default as Bookmarks } from "./Bookmarks";
 export { default as PriceTable } from "./PriceTable";
 export { default as IconLink } from "./Link/IconLink";
 export { default as TextLink } from "./Link/TextLink";

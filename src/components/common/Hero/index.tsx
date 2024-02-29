@@ -61,13 +61,13 @@ const Hero = ({ span, title, paragraphs }: HeroProps) => {
             key={i}
             className={`${circ.className} absolute`}
             src={circ.src}
-            alt="Radial Gradient"
+            alt="Circles"
           />
         ))}
         <img
           className={`${styles.dots} absolute`}
           src="/images/dots.png"
-          alt="Radial Gradient"
+          alt="Stars"
         />
       </div>
     </div>
