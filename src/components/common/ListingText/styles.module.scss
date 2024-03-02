@@ -1,6 +1,7 @@
 .wrapper {
   position: relative;
   margin: 0 auto;
+  padding: 0 50px;
 
   @media only screen and (max-width: 768px) {
     padding: 0 20px;
@@ -56,11 +57,17 @@
       grid-row-gap: 80px;
       margin-bottom: 600px;
 
+      @media only screen and (max-width: 1150px) {
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 30px;
+        grid-row-gap: 40px;
+        margin-bottom: 300px;
+      }
+
       @media only screen and (max-width: 768px) {
         display: flex;
         flex-direction: column;
         gap: 60px;
-        margin-bottom: 300px;
       }
 
       .textWrapper {
@@ -171,6 +178,10 @@
     top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    @media only screen and (max-width: 1150px) {
+      top: 30%;
+    }
 
     @media only screen and (max-width: 768px) {
       top: 15%;

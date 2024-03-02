@@ -13,7 +13,7 @@ const gradients = [
 ];
 
 const Integration = ({ title, data }: SectionData) => (
-  <div className={styles.wrapper}>
+  <div className={styles.wrapperInt}>
     <div className={styles.integration}>
       <h2>{title}</h2>
       <div className={styles.list}>

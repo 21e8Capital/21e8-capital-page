@@ -6,7 +6,11 @@
 }
 
 .down {
-  top: -59px;
+  top: -102px;
+
+  @media only screen and (max-width: 768px) {
+    top: -59px;
+  }
 }
 
 .up {
