@@ -2,11 +2,15 @@
   position: relative;
   margin: 0 auto;
 
+  @media only screen and (max-width: 768px) {
+    padding: 0 20px;
+  }
+
   .listingText {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 64px auto 0px auto;
+    margin: 0px auto;
     cursor: default;
     justify-content: center;
     max-width: 1400px;
@@ -24,7 +28,9 @@
       margin-bottom: 46px;
 
       @media only screen and (max-width: 768px) {
-        font-size: 20px;
+        text-align: center;
+        font-size: 26px;
+        margin-bottom: 32px;
       }
     }
 
@@ -37,7 +43,8 @@
       margin-bottom: 200px;
 
       @media only screen and (max-width: 768px) {
-        font-size: 14px;
+        font-size: 12px;
+        margin-bottom: 155px;
       }
     }
 
@@ -48,6 +55,13 @@
       grid-column-gap: 75px;
       grid-row-gap: 80px;
       margin-bottom: 600px;
+
+      @media only screen and (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+        margin-bottom: 300px;
+      }
 
       .textWrapper {
         width: 100%;
@@ -93,12 +107,20 @@
           font-size: 20px;
           line-height: 23.28px;
           font-weight: 600;
+
+          @media only screen and (max-width: 768px) {
+            font-size: 16px;
+          }
         }
 
         p {
           font-size: 16px;
           line-height: 24px;
           font-weight: 400;
+
+          @media only screen and (max-width: 768px) {
+            font-size: 14px;
+          }
         }
 
         .radialGradientTop {
@@ -113,6 +135,11 @@
             rgba(0, 0, 0, 0) 60%
           );
           overflow: visible;
+
+          @media only screen and (max-width: 768px) {
+            top: -350%;
+            right: 20%;
+          }
         }
 
         .radialGradientBottom {
@@ -127,6 +154,11 @@
             rgba(0, 0, 0, 0) 60%
           );
           overflow: visible;
+
+          @media only screen and (max-width: 768px) {
+            left: 20%;
+            top: -20%;
+          }
         }
       }
     }
@@ -140,8 +172,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
-    @media only screen and (min-width: 1750px) {
-      top: 38%;
+    @media only screen and (max-width: 768px) {
+      top: 15%;
     }
   }
 
@@ -152,6 +184,11 @@
     left: 50%;
     transform: translate(-50%, -50%) rotate(180deg);
     z-index: -99;
+
+    @media only screen and (max-width: 768px) {
+      top: 87%;
+      width: 660px;
+    }
   }
 
   .ball0 {
@@ -161,6 +198,11 @@
 
     @media only screen and (min-width: 2000px) {
       left: 10%;
+    }
+
+    @media only screen and (max-width: 768px) {
+      top: 8%;
+      width: 21px;
     }
   }
 
@@ -172,6 +214,11 @@
     @media only screen and (min-width: 2000px) {
       right: 10%;
     }
+
+    @media only screen and (max-width: 768px) {
+      top: 90%;
+      width: 21px;
+    }
   }
 
   .ball2 {
@@ -182,17 +229,31 @@
     @media only screen and (min-width: 2000px) {
       right: 10%;
     }
+
+    @media only screen and (max-width: 768px) {
+      top: 88%;
+      left: 12%;
+    }
   }
 
   .gradient0 {
     top: -25%;
     left: -15%;
     z-index: -102;
+
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
   }
 
   .gradient1 {
     top: 20%;
     right: -14%;
     z-index: -1;
+
+    @media only screen and (max-width: 768px) {
+      top: -10%;
+      right: -40%;
+    }
   }
 }

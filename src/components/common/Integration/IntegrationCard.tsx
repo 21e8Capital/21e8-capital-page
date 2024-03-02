@@ -11,8 +11,11 @@ interface Props {
 const IntegrationCard = ({ name, img, url, description }: Props) => (
   <div className={styles.wrapper}>
     <div className={styles.integrationCard}>
-      <img src={img} alt={name} />
-      <h3>{name}</h3>
+      <div className="max-sm:flex items-center gap-4">
+        <img src={img} alt={name} />
+        <br />
+        <h3>{name}</h3>
+      </div>
       <p>{description}</p>
       <Link href={url} target="_blank" rel="noopener noreferrer">
         <span>Learn More</span>

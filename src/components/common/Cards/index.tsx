@@ -43,11 +43,17 @@ const Cards = ({ title, data }: CardsProps) => (
         ))}
       </div>
     </div>
-    {dots.map((dot) => (
-      <img className={`${dot.className} absolute`} src={dot.src} alt="Stars" />
-    ))}
-    {gradients.map((gradient) => (
+    {dots.map((dot, i) => (
       <img
+        key={i}
+        className={`${dot.className} absolute`}
+        src={dot.src}
+        alt="Stars"
+      />
+    ))}
+    {gradients.map((gradient, i) => (
+      <img
+        key={i}
         className={`${gradient.className} absolute`}
         src={gradient.src}
         alt="Radial Gradient"

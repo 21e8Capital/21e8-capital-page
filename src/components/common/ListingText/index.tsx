@@ -60,8 +60,9 @@ const ListingText = ({ data, title, subtitle }: ListingTextProps) => (
       alt="Moon Gradient"
       className={`${styles.moonGradientReverse} absolute`}
     />
-    {circles.map((circle) => (
+    {circles.map((circle, i) => (
       <img
+        key={i}
         src={circle.src}
         alt="Circle"
         className={`${circle.className} absolute`}

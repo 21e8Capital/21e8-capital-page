@@ -14,6 +14,8 @@ interface ContextProps {
   setIsBurgerActive: Dispatch<SetStateAction<boolean>>;
   halving: any;
   setHalving: Dispatch<SetStateAction<any>>;
+  scrolling: string;
+  setScrolling: Dispatch<SetStateAction<string>>;
 }
 
 const Context = createContext<ContextProps | undefined>(undefined);
@@ -24,6 +26,7 @@ interface ContextProviderProps {
 
 const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const [halving, setHalving] = useState({});
+  const [scrolling, setScrolling] = useState("");
   const [isBurgerActive, setIsBurgerActive] = useState(false);
 
   const handleHalvening = async () => {
@@ -35,11 +38,29 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
     handleHalvening();
   }, []);
 
+  useEffect(() => {
+    let lastScrollPos = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      setScrolling(lastScrollPos > currentScrollPos ? "up" : "down");
+      lastScrollPos = currentScrollPos;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const contextValue: ContextProps = {
-    isBurgerActive,
-    setIsBurgerActive,
     halving,
     setHalving,
+    scrolling,
+    setScrolling,
+    isBurgerActive,
+    setIsBurgerActive,
   };
 
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;

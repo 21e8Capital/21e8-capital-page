@@ -7,12 +7,20 @@
     top: 5%;
     left: -45%;
     z-index: -102;
+
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
   }
 
   .gradient1 {
     top: 30%;
     right: -28%;
     z-index: 1;
+
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
   }
 }
 
@@ -26,7 +34,8 @@
   width: 100%;
 
   @media only screen and (max-width: 768px) {
-    gap: 16px;
+    padding: 0 20px;
+    gap: 42px;
   }
 
   h2 {
@@ -41,7 +50,7 @@
     -webkit-text-fill-color: transparent;
 
     @media only screen and (max-width: 768px) {
-      font-size: 20px;
+      font-size: 26px;
     }
   }
 
@@ -86,6 +95,10 @@
       border-radius: 10px;
       margin-bottom: auto;
 
+      @media only screen and (max-width: 768px) {
+        min-height: auto;
+      }
+
       h3 {
         font-size: 20px;
         font-weight: 600;
@@ -93,10 +106,18 @@
 
       p {
         font-size: 16px;
+
+        @media only screen and (max-width: 768px) {
+          font-size: 14px;
+        }
       }
 
       img {
         max-width: 80px;
+
+        @media only screen and (max-width: 768px) {
+          width: 40px;
+        }
       }
 
       a {
@@ -104,9 +125,15 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        width: 100%;
+        width: fit-content;
         font-size: 16px;
         gap: 24px;
+        z-index: 10000;
+        margin-left: auto;
+
+        @media only screen and (max-width: 768px) {
+          font-size: 14px;
+        }
       }
     }
   }
@@ -116,5 +143,9 @@
     width: 100%;
     display: flex;
     gap: 40px;
+
+    @media only screen and (max-width: 768px) {
+      flex-direction: column;
+    }
   }
 }
