@@ -36,6 +36,7 @@
     text-align: center;
     line-height: 74.5px;
     max-width: 850px;
+    font-weight: 600;
 
     @media only screen and (max-width: 1025px) {
       font-size: 50px;
@@ -95,9 +96,15 @@
   }
 
   .gradient0 {
-    top: -10%;
-    left: -50%;
+    top: -40%;
+    left: -30%;
     z-index: -1;
+
+    @media only screen and (max-width: 768px) {
+      top: -10%;
+      left: -50%;
+      z-index: -1;
+    }
   }
 
   .gradient1 {
@@ -160,6 +167,28 @@
     @media only screen and (max-width: 768px) {
       width: 350px;
       left: 5%;
+    }
+  }
+}
+
+[data-theme="light"] .heroWrapper {
+  background-image: none;
+
+  h1 {
+    span {
+      background: linear-gradient(
+        95deg,
+        rgb(6, 6, 6) 0%,
+        rgba(255, 196, 3, 1) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .desc {
+    p {
+      color: #232121 !important;
     }
   }
 }

@@ -32,3 +32,12 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+[data-theme="light"] body {
+  background-color: #fbfbfb;
+  color: #232121;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #fbfbfb;
+}

@@ -32,3 +32,14 @@
     }
   }
 }
+
+[data-theme="light"] .footer {
+  background-color: #fbfbfb;
+
+  .socials {
+    svg {
+      background-color: black;
+      fill: #fff;
+    }
+  }
+}

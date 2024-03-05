@@ -18,6 +18,7 @@
     "lottie-react": "^2.4.0",
     "mobula-sdk": "^1.5.4",
     "next": "13.5.6",
+    "next-themes": "^0.2.1",
     "puppeteer": "^22.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

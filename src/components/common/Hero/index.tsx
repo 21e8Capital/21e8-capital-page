@@ -1,3 +1,4 @@
+import { useTheme } from "next-themes";
 import styles from "./styles.module.scss";
 
 interface HeroProps {
@@ -5,21 +6,6 @@ interface HeroProps {
   title?: string;
   paragraphs: string[];
 }
-
-const gradients = [
-  {
-    className: styles.gradient0,
-    src: "/images/radial-gradient-0.webp",
-  },
-  {
-    className: styles.gradient1,
-    src: "/images/radial-gradient-1.webp",
-  },
-  {
-    className: styles.gradient2,
-    src: "/images/radial-gradient-2.webp",
-  },
-];
 
 const circles = [
   {
@@ -37,6 +23,29 @@ const circles = [
 ];
 
 const Hero = ({ span, title, paragraphs }: HeroProps) => {
+  const { theme } = useTheme();
+
+  const gradients = [
+    {
+      className: styles.gradient0,
+      src: `/images/${
+        theme === "light" ? "circle-gradient-small" : "radial-gradient-0"
+      }.webp`,
+    },
+    {
+      className: styles.gradient1,
+      src: `/images/${
+        theme === "light" ? "circle-gradient-small" : "radial-gradient-1"
+      }.webp`,
+    },
+    {
+      className: styles.gradient2,
+      src: `/images/${
+        theme === "light" ? "circle-gradient-small" : "radial-gradient-2"
+      }.webp`,
+    },
+  ];
+
   return (
     <div className={styles.heroWrapper}>
       <div className={styles.hero}>

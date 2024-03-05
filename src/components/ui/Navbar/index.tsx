@@ -1,8 +1,9 @@
 import Link from "next/link";
+import ThemeSwitcher from "./ThemeSwitcher";
+import { useContextState } from "@/utils/context";
 import { Logo } from "@/svg";
 import styles from "./styles.module.scss";
-import { useState } from "react";
-import { useContextState } from "@/utils/context";
+import { useTheme } from "next-themes";
 
 const links = [
   {
@@ -20,6 +21,7 @@ const links = [
 ];
 
 const Navbar = () => {
+  const { resolvedTheme } = useTheme();
   const { isBurgerActive, setIsBurgerActive, scrolling } = useContextState();
 
   return (
@@ -31,7 +33,7 @@ const Navbar = () => {
       <div className={styles.nav}>
         <div className={styles.innerNav}>
           <Link href="/" className={styles.logo}>
-            <Logo name="21e8-logo" />
+            <Logo />
           </Link>
           <div
             className={styles.burgerWrapper}
@@ -39,13 +41,16 @@ const Navbar = () => {
           >
             <img src="/images/burger.png" alt="menu" />
           </div>
-          <ul className={styles.links}>
-            {links.map(({ name, href }, index) => (
-              <Link className={styles.link} key={index} href={href}>
-                {name}
-              </Link>
-            ))}
-          </ul>
+          <div className={styles.rhs}>
+            <ul className={styles.links}>
+              {links.map(({ name, href }, index) => (
+                <Link className={styles.link} key={index} href={href}>
+                  {name}
+                </Link>
+              ))}
+            </ul>
+            <ThemeSwitcher />
+          </div>
         </div>
         <ul
           className={`${styles.mobileLinks} ${
@@ -57,8 +62,8 @@ const Navbar = () => {
             href="/"
             className={styles.logoWrapper}
           >
-            <Logo name="21e8-logo" />
-            <img src="/images/x.png" alt="close" />
+            <Logo />
+            <img src="/images/x.png" alt="close" className={styles.close} />
           </Link>
           {links.map(({ name, href }, index) => (
             <Link
