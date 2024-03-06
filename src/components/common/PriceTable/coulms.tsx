@@ -42,12 +42,16 @@ export const performanceColumns = [
 export const marketStatsColumn = [
   columnHelperMarket.accessor("label" as any, {
     id: "label",
-    cell: (info) => <span>{info.getValue()}</span>,
+    cell: (info) => <span className={styles.info}>{info.getValue()}</span>,
     header: () => <span></span>,
   }),
   columnHelperMarket.accessor((row) => row.latest, {
     id: "latest",
-    cell: (info) => <span>{formatNumber(Number(info.getValue()))}</span>,
+    cell: (info) => (
+      <span className={styles.latest}>
+        {formatNumber(Number(info.getValue()))}
+      </span>
+    ),
     header: () => <span>Latest</span>,
   }),
   columnHelperMarket.accessor("changeInNumber", {

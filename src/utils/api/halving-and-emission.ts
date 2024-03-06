@@ -24,15 +24,13 @@ export const getHalvingData = async (
 
 const getEmissions = async () => {
   try {
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() - 1).toLocaleString();
-    const dateString = endDate.toISOString().split("T")[0].replace(/-/g, "");
-    const { data } = await digiconomistApi(`/bitcoin/stats/${dateString}`);
-
-    const emissionRates = calculateEmissionPercentage(
-      data[0]["24hr_kgCO2"],
-      data[0]["24hr_kWh"]
-    );
+    const blockReward = 6.25;
+    const minutesInDay = 24 * 60;
+    const dailyEmissionRate = (minutesInDay / 10) * blockReward;
+    const emissionRates = {
+      currentEmission: dailyEmissionRate,
+      forecastedEmission: dailyEmissionRate / 2,
+    };
 
     return emissionRates;
   } catch (err: any) {
@@ -75,16 +73,12 @@ function displayHalveningCountdown(halveningData: HalveningData) {
   };
 }
 
-function calculateEmissionPercentage(
-  totalCarbonFootprint24h: number,
-  totalEnergyConsumption24h: number
-) {
-  const emissionPercentage =
-    (totalCarbonFootprint24h / totalEnergyConsumption24h) * 100;
-  return emissionPercentage.toFixed(2);
-}
-
 function calculateInflationRate(inflationBTC: number, totalSupplyBTC: number) {
-  const inflationRate = (inflationBTC / totalSupplyBTC) * 100;
-  return inflationRate.toFixed(4);
+  const inflationRate = ((365 * inflationBTC) / totalSupplyBTC) * 100;
+  const nextInfationRate = (((365 * inflationBTC) / totalSupplyBTC) * 100) / 2;
+
+  return {
+    currentInflationRate: inflationRate.toFixed(2),
+    nextInfationRate: nextInfationRate.toFixed(2),
+  };
 }

@@ -2,41 +2,95 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 80px;
-  gap: 30px;
+  gap: 100px;
+  padding-top: 220px;
+  background-image: url("../../../../public/images/hero-squares.webp");
+  background-position: center 70%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 1000px;
+
+  @media only screen and (max-width: 1500px) {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  @media only screen and (max-width: 900px) {
+    height: 100%;
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding-top: 120px;
+    background-size: contain;
+    background-position: 100% 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 65px;
+  }
 
   h1 {
-    font-size: 36px;
-    text-transform: uppercase;
-    color: #252525;
+    font-size: 48px;
+    background: linear-gradient(
+      95deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 196, 3, 1) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    @media only screen and (max-width: 1025px) {
+      font-size: 50px;
+    }
 
     @media only screen and (max-width: 768px) {
-      font-size: 24px;
+      font-size: 32px;
+      line-height: 50px;
+      text-align: center;
     }
   }
 }
 
 .tableGrid {
+  max-width: 1400px;
   width: 100%;
   display: flex;
-  gap: 40px;
+  gap: 80px;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 1250px) {
+    gap: 20px;
+  }
+
+  @media only screen and (max-width: 900px) {
     flex-direction: column;
   }
 }
 
 .dynamicTable {
-  width: 140%;
+  width: 100%;
+  background-color: #141414;
+  border: 2px solid rgba(252, 223, 166, 0.15);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media only screen and (max-width: 768px) {
     width: 100%;
+    overflow-x: scroll;
   }
 
   p {
     font-weight: 600;
     font-size: 24px;
-    color: #252525;
+    color: #ffc403;
+
+    @media only screen and (max-width: 768px) {
+      font-size: 16px;
+      font-weight: normal;
+    }
   }
 
   table {
@@ -46,27 +100,51 @@
 
     @media only screen and (max-width: 768px) {
       font-size: 14px;
+      width: 180%;
     }
 
     thead {
-      height: 60px;
+      height: 90px;
+      border-bottom: 1px solid #3e3c3c;
 
-      tr {
-        border-top: 1px solid #252525;
+      th {
+        font-size: 14px;
+        color: #fff;
       }
     }
 
     tbody {
       tr {
-        &:nth-child(2n - 1) {
-          background-color: #ffc40363;
+        &:not(:last-child) {
+          border-bottom: 1px solid #3e3c3c;
+        }
+
+        td {
+          font-size: 15px;
+          padding: 16px 0;
         }
       }
     }
+  }
 
-    td {
-      width: fit-content;
-      padding: 8px;
+  .radialGradient {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    bottom: -260%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background: radial-gradient(
+      rgba(255, 196, 3, 0.07) 0%,
+      rgba(0, 0, 0, 0) 50%
+    );
+    overflow: visible;
+
+    @media only screen and (max-width: 768px) {
+      top: -110%;
+      left: 20%;
     }
   }
 }
@@ -77,4 +155,34 @@
 
 .green {
   color: #0ea52c;
+}
+
+[data-theme="light"] .priceTable {
+  background-image: none;
+
+  h1 {
+    background: linear-gradient(
+      95deg,
+      rgb(6, 6, 6) 0%,
+      rgba(255, 196, 3, 1) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dynamicTable {
+    background-color: white;
+    border: none;
+    -webkit-box-shadow: 0px 5px 10.4px 1px rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0px 5px 10.4px 1px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 5px 10.4px 1px rgba(0, 0, 0, 0.12);
+
+    th {
+      color: #141414;
+    }
+  }
+
+  .radialGradient {
+    display: none;
+  }
 }

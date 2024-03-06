@@ -4,6 +4,7 @@ import { HalvingView } from "@/components/bitcoin";
 import { PriceTable, WorkInProgress } from "@/components/common";
 import { assetTypeMapping, formattedMarketStats } from "@/utils/api";
 import { getPerformanceStats } from "@/utils/database/performanceStats";
+import { scrapeEtfFlows } from "@/utils/scraper/etfFlows";
 
 const staticPaths = ["btc", "layer-1", "defi"];
 
@@ -18,7 +19,7 @@ const PriceData = ({ marketStats, performance }: PriceDataProps) => {
 
   return (
     <>
-      {type === "btc" || "layer-1" || "defi" ? (
+      {type === "layer-1" || type === "defi" ? (
         <WorkInProgress />
       ) : (
         <div className="price-data">

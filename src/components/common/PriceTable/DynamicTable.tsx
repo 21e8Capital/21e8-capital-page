@@ -68,6 +68,7 @@ const DynamicTable = ({ data, columns, title, className }: TableProps) => {
           ))}
         </tfoot>
       </table>
+      <div className={styles.radialGradient}></div>
     </div>
   );
 };

@@ -2,57 +2,153 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 128px;
-  gap: 40px;
+  margin-top: 400px;
+  margin-bottom: 250px;
+  gap: 160px;
   font-size: 88px;
   width: 100%;
+  position: relative;
+
+  @media only screen and (max-width: 900px) {
+    margin-top: 180px;
+    margin-bottom: 100px;
+    gap: 48px;
+  }
 
   h2 {
-    font-size: 36px;
+    font-size: 48px;
     text-transform: uppercase;
     color: #252525;
+    background: linear-gradient(
+      95deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 196, 3, 1) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    @media only screen and (max-width: 900px) {
+      font-size: 24px;
+    }
   }
 
   &Grid {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 135px;
+    grid-row-gap: 65px;
     text-align: center;
-    width: 100%;
     text-transform: uppercase;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
 
-    .small {
-      display: flex;
-      flex-direction: column;
-      font-size: 38px;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 6px;
-      text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.75);
+    @media only screen and (max-width: 1500px) {
+      padding-left: 50px;
+      padding-right: 50px;
+    }
 
-      span {
-        font-size: 18px;
-        width: 100%;
-      }
+    @media only screen and (max-width: 1420px) {
+      grid-column-gap: 75px;
+    }
+
+    @media only screen and (max-width: 1150px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+    }
+
+    @media only screen and (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      margin: 0 auto;
     }
 
     h3 {
       display: flex;
       align-items: center;
-      max-width: 280px;
-      gap: 20px;
-      font-weight: 600;
+      gap: 22px;
       color: #ffc303;
-      font-size: 100px;
-      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.75);
+      font-size: 76px;
+
+      @media only screen and (max-width: 1420px) {
+        font-size: 56px;
+      }
+
+      @media only screen and (max-width: 900px) {
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+        font-size: 36px;
+      }
+
+      .smallTxt {
+        font-size: 22px;
+        width: 190px;
+
+        @media only screen and (max-width: 900px) {
+          width: 100%;
+          font-size: 16px;
+          text-align: center;
+        }
+      }
 
       span {
         text-align: left;
         font-size: 28px;
         font-weight: 400;
-        color: #252525;
-        text-shadow: none;
-        width: 100px;
+        color: #fff;
+        width: 100%;
+
+        @media only screen and (max-width: 900px) {
+          width: unset;
+          font-size: 16px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .moonGradient {
+    z-index: -100;
+    width: 2000px;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    @media only screen and (min-width: 1750px) {
+      top: 20%;
+    }
+
+    @media only screen and (max-width: 1150px) {
+      top: -15%;
+    }
+
+    @media only screen and (max-width: 900px) {
+      top: 13%;
+    }
+
+    @media only screen and (max-width: 768px) {
+      top: 0%;
+    }
+  }
+}
+
+[data-theme="light"] .halving {
+  h2 {
+    background: linear-gradient(
+      95deg,
+      rgb(6, 6, 6) 0%,
+      rgba(255, 196, 3, 1) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &Grid {
+    h3 {
+      span {
+        color: #232121;
       }
     }
   }
