@@ -38,7 +38,7 @@ export const getMarketPerformance = async (type: string) => {
     );
 
     const { cdd_24h } = blockchairData.data;
-    const { active_addresses, hashrate } = miningStatsData.data.Data;
+    const { active_addresses, hashrate } = miningStatsData.Data;
     const { SUPPLY_CIRCULATING, TOTAL_MKT_CAP_USD } = marketStatsData.Data;
 
     return {
