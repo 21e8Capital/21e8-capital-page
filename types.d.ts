@@ -50,4 +50,13 @@ interface FormattedMarketStats {
   changeInPercent: string;
 }
 
+interface ChartInfoProps {
+  title: string;
+  desc: string;
+}
+
+interface BsicChartProps {
+  data: any;
+}
+
 type AssetTypeProp = keyof typeof assetTypeMapping;

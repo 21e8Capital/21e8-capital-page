@@ -11,6 +11,7 @@ const Logo = (props: React.SVGProps<SVGSVGElement>) => {
       height={100}
       viewBox="0 0 600 600"
       fill="none"
+      className={props.className}
     >
       <path fill="none" d="M0 0h600v600H0z" />
       <path

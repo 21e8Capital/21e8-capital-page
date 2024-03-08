@@ -25,5 +25,12 @@ export const blockchairApi: AxiosInstance = axios.create({
 });
 
 export const digiconomistApi: AxiosInstance = axios.create({
-  baseURL: apiConfig.digiconomist.utl,
+  baseURL: apiConfig.digiconomist.url,
+});
+
+export const googleTrends: AxiosInstance = axios.create({
+  baseURL: apiConfig.googleTrends.url,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
