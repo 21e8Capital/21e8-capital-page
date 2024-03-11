@@ -55,8 +55,24 @@ interface ChartInfoProps {
   desc: string;
 }
 
-interface BsicChartProps {
-  data: any;
+interface ChartTypeConfig {
+  type: string;
+  dataKey?: string;
+  stroke?: string;
+  barDataKey?: string;
+  fill?: string;
+  lineDataKey?: string;
+  lineStroke?: string;
+  barFill?: string;
+}
+
+interface CustomBarLabelProps {
+  index: number;
+  value: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 type AssetTypeProp = keyof typeof assetTypeMapping;

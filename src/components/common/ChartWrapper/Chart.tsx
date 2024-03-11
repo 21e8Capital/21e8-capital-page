@@ -1,63 +1,46 @@
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import styles from "./styles.module.scss";
+import { LineChart, LineBarChart } from "./custom";
 import Hoverable from "../Hoverable";
-import { Logo, Question, Share } from "@/svg";
+import { Logo, Question } from "@/svg";
+import styles from "./styles.module.scss";
+import ShareButton from "../ShareButton";
 
-const CustomizedAxisTick = (props: any) => {
-  const { x, y, payload } = props;
-  const dateParts = payload.value.split(" ");
-  const year = dateParts[1];
-
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <text
-        x={0}
-        y={0}
-        dy={16}
-        textAnchor="end"
-        fill="#666"
-        transform="rotate(-35)"
-        strokeDasharray="10 10"
-      >
-        {year}
-      </text>
-    </g>
-  );
+type ChartProps = {
+  id?: string;
+  data: any[];
+  info?: { title: string; desc: string };
+  share?: {
+    title: string;
+    url: string;
+  };
+  chartType: ChartTypeConfig;
 };
 
-const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="custom-tooltip">
-        <p className="label">{`${label} : ${payload[0].value}`}</p>
-        <div
-          className="vertical-line"
-          style={{
-            height: "100%",
-            width: 1,
-            position: "absolute",
-            left: payload[0].payload.cx,
-            top: 0,
-            borderStyle: "dashed",
-          }}
-        />
-      </div>
-    );
-  }
+const Chart = ({ data, info, share, chartType }: ChartProps) => {
+  const renderChart = (config: ChartTypeConfig) => {
+    switch (config.type) {
+      case "line":
+        return (
+          <LineChart
+            data={data}
+            dataKey={config.dataKey!}
+            stroke={config.stroke!}
+          />
+        );
+      case "line-bar":
+        return (
+          <LineBarChart
+            data={data}
+            lineDataKey={config.lineDataKey!}
+            barDataKey={config.barDataKey!}
+            lineStroke={config.lineStroke!}
+            barFill={config.barFill!}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
-  return null;
-};
-
-const Chart = ({ data, info, share }: any) => {
   return (
     <div className={styles.chart}>
       <div className={styles.topSide}>
@@ -69,26 +52,9 @@ const Chart = ({ data, info, share }: any) => {
             </Hoverable>
           </div>
         )}
-        {share && (
-          <div className={styles.share}>
-            <Share />
-          </div>
-        )}
+        {/* {share?.url && <ShareButton />} */}
       </div>
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-          data={data}
-          margin={{
-            left: -25,
-          }}
-        >
-          <CartesianGrid horizontal={true} vertical={false} />
-          <XAxis dataKey="date" height={60} tick={<CustomizedAxisTick />} />
-          <YAxis strokeOpacity={0} />
-          <Tooltip content={<CustomTooltip />} />
-          <Line type="monotone" dataKey="data" stroke="#FFC403" dot={false} />
-        </LineChart>
-      </ResponsiveContainer>
+      {renderChart(chartType)}
       <div className={styles.radialGradient}></div>
       <Logo className={styles.logo} />
     </div>

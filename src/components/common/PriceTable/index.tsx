@@ -16,12 +16,14 @@ const PriceTable = ({ title, performance, marketStats }: PriceTableProps) => (
         title="Bitcoin Price Performance"
         data={performance}
         columns={performanceColumns}
+        id="performance"
       />
       <DynamicTable
         title="Bitcoin Market Stats"
         data={marketStats}
         className={styles.marketTable}
         columns={marketStatsColumn}
+        id="market-stats"
       />
     </div>
   </div>

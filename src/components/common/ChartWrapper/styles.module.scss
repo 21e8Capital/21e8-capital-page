@@ -4,7 +4,7 @@
   align-items: center;
   max-width: 1400px;
   max-height: 700px;
-  margin: 0 auto 100px auto;
+  margin: 200px auto 100px auto;
   gap: 35px;
   width: 100%;
   height: 100%;
@@ -16,6 +16,12 @@
 
   @media only screen and (max-width: 768px) {
     padding: 0 20px;
+    margin: 100px auto 100px auto;
+  }
+
+  .chartId {
+    width: 100%;
+    height: 100%;
   }
 
   h2 {
@@ -48,6 +54,7 @@
       padding: 0;
       border: 0;
       height: 300px;
+      background-color: transparent;
     }
 
     .radialGradient {
@@ -105,6 +112,10 @@
         font-size: 20px;
       }
     }
+
+    .share {
+      margin-left: auto;
+    }
   }
 }
 
@@ -131,4 +142,9 @@
       background-color: transparent;
     }
   }
+}
+
+.lineBarLegend {
+  position: absolute;
+  top: 0 !important;
 }

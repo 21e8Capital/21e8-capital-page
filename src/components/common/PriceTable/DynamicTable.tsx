@@ -11,9 +11,10 @@ interface TableProps {
   data: PerformanceDataType[] | MarketStatsDataType[];
   columns: ColumnDef<any, any>[];
   className?: string;
+  id?: string;
 }
 
-const DynamicTable = ({ data, columns, title, className }: TableProps) => {
+const DynamicTable = ({ data, columns, title, className, id }: TableProps) => {
   const table = useReactTable({
     data,
     columns: columns,
@@ -21,7 +22,7 @@ const DynamicTable = ({ data, columns, title, className }: TableProps) => {
   });
 
   return (
-    <div className={`${styles.dynamicTable} ${className}`}>
+    <div className={`${styles.dynamicTable} ${className}`} id={id}>
       <p>{title}</p>
       <table>
         <thead>

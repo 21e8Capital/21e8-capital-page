@@ -8,8 +8,8 @@ export const fetchGoogleTrends = async (query: string) => {
 
     return response.data.interest_over_time.timeline_data.map((item: any) => {
       return {
-        date: item.date,
-        data: item.values[0].extracted_value,
+        key: item.date,
+        interest: item.values[0].extracted_value,
       };
     });
   } catch (err) {

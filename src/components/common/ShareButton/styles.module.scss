@@ -1,0 +1,34 @@
+.shareWrapper {
+  margin-left: auto;
+  position: relative;
+
+  svg {
+    cursor: pointer;
+  }
+
+  .shareOpen {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1;
+    border-radius: 5px;
+    width: 150px;
+    height: 40px;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .shareHidden {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+  }
+}

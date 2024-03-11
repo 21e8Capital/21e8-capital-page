@@ -18,6 +18,10 @@ const App = ({ Component, pageProps }: AppProps) => (
     <Head>
       <title>21e8 Capital</title>
       <meta name="description" content={heroCopy.paragraphs[0]} />
+      <meta property="og:url" content="https://21e8.capital/" />
+      <meta property="og:title" content="21e8 Capital" />
+      <meta property="og:description" content={heroCopy.paragraphs[0]} />
+      <meta property="og:image" content="/public/android-chrome-512x512.png" />
     </Head>
     <DynamicTheme>
       <Navbar />
