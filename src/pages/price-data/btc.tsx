@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
 import { GetStaticProps } from "next";
+import React, { useEffect, useState } from "react";
+import { formattedMarketStats } from "@/utils/api";
+import captureScreenshots from "@/utils/captureDom";
+import { scrapeEtfFlows } from "@/utils/scraper/etfFlows";
+import { fetchGoogleTrends } from "@/utils/api/googlTrends";
+import { getPerformanceStats } from "@/utils/database/performanceStats";
 import { HalvingView } from "@/components/bitcoin";
 import { ChartWrapper, PriceTable } from "@/components/common";
-import { formattedMarketStats } from "@/utils/api";
-import { getPerformanceStats } from "@/utils/database/performanceStats";
-import { fetchGoogleTrends } from "@/utils/api/googlTrends";
-import { scrapeEtfFlows } from "@/utils/scraper/etfFlows";
-import axios from "axios";
-import html2canvas from "html2canvas";
 
 interface PriceDataProps {
   performance: PerformanceDataType[];
@@ -36,6 +35,10 @@ const PriceData = ({
   performance,
   googleTrends,
 }: PriceDataProps) => {
+  const [imagesToDownload, setImagesToDownload] = useState<
+    { [key: string]: string }[]
+  >([]);
+
   const shareLinks = {
     bitcoinMarketStats: {
       url: `${window.location.href}#market-stats`,
@@ -64,39 +67,23 @@ const PriceData = ({
         "interest-over-time",
       ];
 
-      const imageData = await Promise.all(
-        imageIds.map(async (id) => {
-          const element = document.getElementById(id);
-          if (element) {
-            const canvas = await html2canvas(element, {
-              windowWidth: 1920,
-              windowHeight: 1080,
-            });
-            return {
-              image: canvas.toDataURL("image/png"),
-              fileName: `${id}`,
-            };
-          } else {
-            return null;
-          }
-        })
+      const images = await captureScreenshots(imageIds, "/api/saveImages");
+
+      setImagesToDownload(
+        // @ts-ignore
+        images.reduce(
+          (acc, { fileName, image }) => ({
+            ...acc,
+            [fileName]: image,
+          }),
+          {}
+        )
       );
-
-      const validImageData = imageData.filter((data) => data !== null);
-
-      try {
-        await axios.post("/api/saveImages", {
-          images: validImageData,
-        });
-        console.log("Images captured and saved successfully");
-      } catch (error) {
-        console.error("Error capturing and saving images:", error);
-      }
     };
 
     const imageSavingTimeout = setTimeout(() => {
       handleImageSaving();
-    }, 5000);
+    }, 1100);
 
     return () => {
       clearTimeout(imageSavingTimeout);
@@ -117,6 +104,9 @@ const PriceData = ({
         header="Etf Tracker"
         subheader="Daily & Total To Date Inflows (Excluding Grayscale)"
         share={shareLinks.etfTracker}
+        downloadImage={
+          imagesToDownload["etf-tracker" as keyof typeof imagesToDownload]
+        }
       />
       <HalvingView />
       <ChartWrapper
@@ -129,6 +119,11 @@ const PriceData = ({
         data={googleTrends}
         header="Retail Interest"
         share={shareLinks.interestOverTime}
+        downloadImage={
+          imagesToDownload[
+            "interest-over-time" as keyof typeof imagesToDownload
+          ]
+        }
       />
     </div>
   );

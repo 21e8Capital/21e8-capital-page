@@ -29,7 +29,13 @@ const LineChart = ({ id, data, dataKey, stroke }: LineChartProps) => (
       <XAxis dataKey="key" tick={<CustomizedAxisTick />} />
       <YAxis />
       <Tooltip content={<CustomTooltip />} />
-      <Line type="monotone" dataKey={dataKey} stroke={stroke} dot={false} />
+      <Line
+        type="monotone"
+        dataKey={dataKey}
+        stroke={stroke}
+        dot={false}
+        animationDuration={1000}
+      />
     </RechartsLineChart>
   </ResponsiveContainer>
 );

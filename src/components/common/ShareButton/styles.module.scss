@@ -1,9 +1,12 @@
 .shareWrapper {
-  margin-left: auto;
+  margin-left: 24px;
   position: relative;
+  opacity: 0;
+  transition: all 0.3s;
 
   svg {
     cursor: pointer;
+    transform: scale(0.9);
   }
 
   .shareOpen {

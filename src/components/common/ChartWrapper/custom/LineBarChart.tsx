@@ -79,7 +79,12 @@ const LineBarChartComponent = ({
           tickLine={false}
         />
         {activeKeys[barDataKey] && (
-          <Bar dataKey={barDataKey} fill={barFill} barSize={20}>
+          <Bar
+            dataKey={barDataKey}
+            fill={barFill}
+            barSize={20}
+            animationDuration={1000}
+          >
             <LabelList content={CustomBarLabel} />
           </Bar>
         )}
@@ -89,6 +94,7 @@ const LineBarChartComponent = ({
             dataKey={lineDataKey}
             stroke={lineStroke}
             label={CustomLineLabel}
+            animationDuration={1000}
           />
         )}
         {renderLegend()}

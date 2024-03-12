@@ -7,7 +7,7 @@ const ShareButton = ({ url, title }: { url: string; title: string }) => {
   const [isShareOpen, setIsShareOpen] = useState(false);
 
   return (
-    <div className={styles.shareWrapper}>
+    <div className={`share ${styles.shareWrapper}`}>
       <Share onClick={() => setIsShareOpen(true)} />
       <div
         className={`${styles.shareHidden} ${isShareOpen && styles.shareOpen}`}

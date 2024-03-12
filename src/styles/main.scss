@@ -41,3 +41,8 @@ body {
 [data-theme="light"] ::-webkit-scrollbar-track {
   background: #fbfbfb;
 }
+
+.active-after-screenshot {
+  opacity: 1;
+  transition: all 0.3s;
+}

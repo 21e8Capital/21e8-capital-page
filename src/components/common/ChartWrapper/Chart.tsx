@@ -1,6 +1,6 @@
 import { LineChart, LineBarChart } from "./custom";
 import Hoverable from "../Hoverable";
-import { Logo, Question } from "@/svg";
+import { Download, Logo, Question } from "@/svg";
 import styles from "./styles.module.scss";
 import ShareButton from "../ShareButton";
 
@@ -13,9 +13,17 @@ type ChartProps = {
     url: string;
   };
   chartType: ChartTypeConfig;
+  downloadImage?: any;
 };
 
-const Chart = ({ data, info, share, chartType }: ChartProps) => {
+const Chart = ({
+  id,
+  data,
+  info,
+  share,
+  chartType,
+  downloadImage,
+}: ChartProps) => {
   const renderChart = (config: ChartTypeConfig) => {
     switch (config.type) {
       case "line":
@@ -52,7 +60,14 @@ const Chart = ({ data, info, share, chartType }: ChartProps) => {
             </Hoverable>
           </div>
         )}
-        {/* {share?.url && <ShareButton />} */}
+        <a
+          className="ml-auto download opacity-0 transition-all transition-300ms"
+          href={downloadImage}
+          download={`${id}.jpg`}
+        >
+          <Download />
+        </a>
+        {share?.url && <ShareButton url={share.url} title={share.title} />}
       </div>
       {renderChart(chartType)}
       <div className={styles.radialGradient}></div>
