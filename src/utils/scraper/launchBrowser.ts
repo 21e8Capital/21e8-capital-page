@@ -4,7 +4,7 @@ import chromium from "chrome-aws-lambda";
 export const launchBrowser = async () => {
   let executablePath;
 
-  if (process.env.VERCEL) {
+  if (true) {
     executablePath = await chromium.executablePath;
   } else {
     executablePath =
@@ -12,7 +12,7 @@ export const launchBrowser = async () => {
   }
 
   return puppeteer.launch({
-    args: process.env.VERCEL ? [...require("chrome-aws-lambda").args] : [],
+    args: [...require("chrome-aws-lambda").args],
     executablePath,
     headless: true,
   });
