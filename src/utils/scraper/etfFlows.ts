@@ -1,7 +1,8 @@
-import puppeteer from "puppeteer";
+import { launchBrowser } from "./launchBrowser";
 
 export const scrapeEtfFlows = async () => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await launchBrowser();
+
   const page = await browser.newPage();
   await page.setUserAgent(
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.0.0 Safari/537.36"
@@ -13,7 +14,7 @@ export const scrapeEtfFlows = async () => {
 
   const tableSelector = ".etf-stop-table";
   await page.waitForFunction(
-    (selector) => !!document.querySelector(selector),
+    (selector: string) => !!document.querySelector(selector),
     {},
     tableSelector
   );
@@ -27,11 +28,6 @@ export const scrapeEtfFlows = async () => {
   });
 
   await browser.close();
-
-  const parseValue = (value: string) => {
-    const multiplier = value.endsWith("K") ? 1000 : 1;
-    return parseFloat(value.replace(/[^\d.-]/g, "")) * multiplier;
-  };
 
   let sortedFormattedData = data
     .filter((row) => row[0] !== "Total" && row[0])
@@ -80,6 +76,11 @@ export const scrapeEtfFlows = async () => {
       (item) => !isNaN(Number(item.dailyTotalExcludingGBTC))
     ),
   };
+};
+
+const parseValue = (value: string) => {
+  const multiplier = value.endsWith("K") ? 1000 : 1;
+  return parseFloat(value.replace(/[^\d.-]/g, "")) * multiplier;
 };
 
 const formatDate = (dateString: string) => {
