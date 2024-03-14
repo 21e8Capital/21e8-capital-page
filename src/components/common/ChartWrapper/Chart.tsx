@@ -69,9 +69,11 @@ const Chart = ({
         </a>
         {share?.url && <ShareButton url={share.url} title={share.title} />}
       </div>
-      {renderChart(chartType)}
-      <div className={styles.radialGradient}></div>
-      <Logo className={styles.logo} />
+      <div id={id} className={styles.chartContainer}>
+        {renderChart(chartType)}
+        <div className={styles.radialGradient}></div>
+        <Logo className={styles.logo} />
+      </div>
     </div>
   );
 };

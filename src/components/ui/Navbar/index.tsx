@@ -8,7 +8,7 @@ import { useTheme } from "next-themes";
 const links = [
   {
     name: "Bitcoin",
-    href: "/price-data/btc",
+    href: "/price-data/bitcoin",
   },
   {
     name: "Layer1",
@@ -21,7 +21,6 @@ const links = [
 ];
 
 const Navbar = () => {
-  const { resolvedTheme } = useTheme();
   const { isBurgerActive, setIsBurgerActive, scrolling } = useContextState();
 
   return (

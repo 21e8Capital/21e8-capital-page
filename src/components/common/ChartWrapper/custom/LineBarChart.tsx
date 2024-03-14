@@ -14,6 +14,7 @@ import {
   Legend,
 } from "recharts";
 import styles from "../styles.module.scss";
+import { useTheme } from "next-themes";
 
 type LineBarChartProps = {
   id?: string;
@@ -32,6 +33,7 @@ const LineBarChartComponent = ({
   lineStroke,
   barFill,
 }: LineBarChartProps) => {
+  const { resolvedTheme } = useTheme();
   const [activeKeys, setActiveKeys] = useState({
     [lineDataKey]: true,
     [barDataKey]: true,
@@ -60,8 +62,40 @@ const LineBarChartComponent = ({
     );
   };
 
+  const CustomLineLabel = ({ x, y, value }: LabelProps) => (
+    <text
+      x={x}
+      y={y}
+      dy={-10}
+      fill={resolvedTheme === "light" ? "#000" : "#fff"}
+      fontSize={14}
+      textAnchor="middle"
+    >
+      {formatToK(Number(value))}
+    </text>
+  );
+
+  const CustomBarLabel = ({ index, value, x, y, width }: LabelProps) => {
+    if (index === 0) {
+      return null;
+    }
+
+    return (
+      <text
+        x={Number(x) + Number(width) / 2}
+        y={Number(y) - 20}
+        fill={resolvedTheme === "light" ? "#000" : "#fff"}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontSize={14}
+      >
+        {formatToK(Number(value))}
+      </text>
+    );
+  };
+
   return (
-    <ResponsiveContainer width="100%" height="100%" id={id}>
+    <ResponsiveContainer width="100%" height="100%">
       <ComposedChart
         data={data}
         margin={{
@@ -92,7 +126,7 @@ const LineBarChartComponent = ({
           <Line
             type="monotone"
             dataKey={lineDataKey}
-            stroke={lineStroke}
+            stroke={resolvedTheme === "dark" ? lineStroke : "#232121"}
             label={CustomLineLabel}
             animationDuration={1000}
           />
@@ -100,31 +134,6 @@ const LineBarChartComponent = ({
         {renderLegend()}
       </ComposedChart>
     </ResponsiveContainer>
-  );
-};
-
-const CustomLineLabel = ({ x, y, value }: LabelProps) => (
-  <text x={x} y={y} dy={-10} fill="#fff" fontSize={14} textAnchor="middle">
-    {formatToK(Number(value))}
-  </text>
-);
-
-const CustomBarLabel = ({ index, value, x, y, width }: LabelProps) => {
-  if (index === 0) {
-    return null;
-  }
-
-  return (
-    <text
-      x={Number(x) + Number(width) / 2}
-      y={Number(y) - 20}
-      fill="#fff"
-      textAnchor="middle"
-      dominantBaseline="middle"
-      fontSize={14}
-    >
-      {formatToK(Number(value))}
-    </text>
   );
 };
 

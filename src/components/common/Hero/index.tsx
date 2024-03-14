@@ -10,15 +10,12 @@ interface HeroProps {
 const circles = [
   {
     className: styles.ball0,
-    src: "/images/ball.png",
   },
   {
     className: styles.ball1,
-    src: "/images/ball.png",
   },
   {
     className: styles.ball2,
-    src: "/images/ball.png",
   },
 ];
 
@@ -69,7 +66,7 @@ const Hero = ({ span, title, paragraphs }: HeroProps) => {
           <img
             key={i}
             className={`${circ.className} absolute`}
-            src={circ.src}
+            src="/images/ball.png"
             alt="Circles"
           />
         ))}

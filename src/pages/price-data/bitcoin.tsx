@@ -83,7 +83,7 @@ const PriceData = ({
 
     const imageSavingTimeout = setTimeout(() => {
       handleImageSaving();
-    }, 1100);
+    }, 2000);
 
     return () => {
       clearTimeout(imageSavingTimeout);
@@ -98,6 +98,7 @@ const PriceData = ({
         marketStats={marketStats}
       />
       <ChartWrapper
+        graphics
         id="etf-tracker"
         chartType={etfTrackerConfig}
         data={etfData}
