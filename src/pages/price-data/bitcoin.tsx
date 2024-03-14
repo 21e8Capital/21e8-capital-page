@@ -27,6 +27,8 @@ const etfTrackerConfig = {
   barDataKey: "dailyTotalExcludingGBTC",
   lineStroke: "#fff",
   barFill: "#FFC403",
+  barLabel: "Daily ETF Flows",
+  lineLabel: "Total Net BTS flows to ETFs",
 };
 
 const PriceData = ({

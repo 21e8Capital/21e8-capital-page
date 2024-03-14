@@ -48,7 +48,7 @@ const ChartWrapper = ({
   return (
     <div className={styles.chartWrapper}>
       <h2>{header}</h2>
-      {subheader ?? <p>{subheader}</p>}
+      {subheader ? <p className="text-center">{subheader}</p> : null}
       <div className={styles.chartId}>
         <Chart
           id={id}

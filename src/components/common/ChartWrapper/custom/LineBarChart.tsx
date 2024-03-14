@@ -6,14 +6,11 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   ResponsiveContainer,
   LabelList,
   LabelProps,
-  BarProps,
   Legend,
 } from "recharts";
-import styles from "../styles.module.scss";
 import { useTheme } from "next-themes";
 
 type LineBarChartProps = {
@@ -23,14 +20,15 @@ type LineBarChartProps = {
   barDataKey: string;
   lineStroke: string;
   barFill: string;
+  legendView?: { [key: string]: boolean };
 };
 
 const LineBarChartComponent = ({
-  id,
   data,
   lineDataKey,
   barDataKey,
   lineStroke,
+  legendView,
   barFill,
 }: LineBarChartProps) => {
   const { resolvedTheme } = useTheme();
@@ -38,29 +36,6 @@ const LineBarChartComponent = ({
     [lineDataKey]: true,
     [barDataKey]: true,
   });
-
-  const handleLegendClick = (key: string) => {
-    setActiveKeys((prevActiveKeys) => ({
-      ...prevActiveKeys,
-      [key]: !prevActiveKeys[key],
-    }));
-  };
-
-  const renderLegend = () => {
-    return (
-      <div className="custom-legend">
-        {Object.entries(activeKeys).map(([key, active]) => (
-          <div
-            key={key}
-            onClick={() => handleLegendClick(key)}
-            style={{ textDecoration: active ? "none" : "line-through" }}
-          >
-            {key}
-          </div>
-        ))}
-      </div>
-    );
-  };
 
   const CustomLineLabel = ({ x, y, value }: LabelProps) => (
     <text
@@ -99,9 +74,10 @@ const LineBarChartComponent = ({
       <ComposedChart
         data={data}
         margin={{
-          top: 20,
+          top: legendView && legendView[lineDataKey] ? 25 : 160,
           left: 20,
           bottom: 20,
+          right: legendView && !legendView[barDataKey] ? 40 : 35,
         }}
       >
         <CartesianGrid vertical={false} />
@@ -112,26 +88,27 @@ const LineBarChartComponent = ({
           tickFormatter={formatToK}
           tickLine={false}
         />
-        {activeKeys[barDataKey] && (
+        {legendView && legendView[barDataKey] && (
           <Bar
             dataKey={barDataKey}
             fill={barFill}
             barSize={20}
             animationDuration={1000}
+            name="Daily ETF Flows"
           >
             <LabelList content={CustomBarLabel} />
           </Bar>
         )}
-        {activeKeys[lineDataKey] && (
+        {legendView && legendView[lineDataKey] && (
           <Line
             type="monotone"
             dataKey={lineDataKey}
             stroke={resolvedTheme === "dark" ? lineStroke : "#232121"}
             label={CustomLineLabel}
             animationDuration={1000}
+            name="Total Net BTS flows to ETFs"
           />
         )}
-        {renderLegend()}
       </ComposedChart>
     </ResponsiveContainer>
   );

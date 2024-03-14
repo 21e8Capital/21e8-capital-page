@@ -3,6 +3,8 @@ import Hoverable from "../Hoverable";
 import { Download, Logo, Question } from "@/svg";
 import styles from "./styles.module.scss";
 import ShareButton from "../ShareButton";
+import { Legend } from "recharts";
+import { useState } from "react";
 
 type ChartProps = {
   id?: string;
@@ -14,6 +16,7 @@ type ChartProps = {
   };
   chartType: ChartTypeConfig;
   downloadImage?: any;
+  legend?: boolean;
 };
 
 const Chart = ({
@@ -21,9 +24,15 @@ const Chart = ({
   data,
   info,
   share,
+  legend,
   chartType,
   downloadImage,
 }: ChartProps) => {
+  const [legendView, setLegendView] = useState({
+    [chartType.lineDataKey!]: true,
+    [chartType.barDataKey!]: true,
+  });
+
   const renderChart = (config: ChartTypeConfig) => {
     switch (config.type) {
       case "line":
@@ -42,12 +51,15 @@ const Chart = ({
             barDataKey={config.barDataKey!}
             lineStroke={config.lineStroke!}
             barFill={config.barFill!}
+            legendView={legendView}
           />
         );
       default:
         return null;
     }
   };
+
+  console.log(legendView[chartType.lineDataKey!]);
 
   return (
     <div className={styles.chart}>
@@ -60,14 +72,62 @@ const Chart = ({
             </Hoverable>
           </div>
         )}
+        {legendView && (
+          <div className={styles.legend}>
+            <div
+              className={styles.wrapper}
+              style={{
+                opacity: legendView[chartType.lineDataKey!] ? 1 : 0.5,
+              }}
+              onClick={() =>
+                setLegendView({
+                  ...legendView,
+                  [chartType.lineDataKey!]: !legendView[chartType.lineDataKey!],
+                })
+              }
+            >
+              <div
+                className={styles.circle}
+                style={{
+                  backgroundColor: chartType.lineStroke,
+                }}
+              ></div>
+              <p>{chartType.lineLabel}</p>
+            </div>
+            <div
+              className={styles.wrapper}
+              onClick={() =>
+                setLegendView({
+                  ...legendView,
+                  [chartType.barDataKey!]: !legendView[chartType.barDataKey!],
+                })
+              }
+              style={{
+                opacity: legendView[chartType.barDataKey!] ? 1 : 0.5,
+              }}
+            >
+              <div
+                className={styles.circle}
+                style={{
+                  backgroundColor: chartType.barFill,
+                }}
+              ></div>
+              <p>{chartType.barLabel}</p>
+            </div>
+          </div>
+        )}
         <a
-          className="ml-auto download opacity-0 transition-all transition-300ms"
+          className="ml-auto download opacity-0 transition-all transition-300ms absolute right-20"
           href={downloadImage}
           download={`${id}.jpg`}
         >
           <Download />
         </a>
-        {share?.url && <ShareButton url={share.url} title={share.title} />}
+        {share?.url && (
+          <div className="absolute right-8">
+            <ShareButton url={share.url} title={share.title} />
+          </div>
+        )}
       </div>
       <div id={id} className={styles.chartContainer}>
         {renderChart(chartType)}

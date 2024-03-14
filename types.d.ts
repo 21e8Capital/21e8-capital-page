@@ -64,6 +64,8 @@ interface ChartTypeConfig {
   lineDataKey?: string;
   lineStroke?: string;
   barFill?: string;
+  barLabel?: string;
+  lineLabel?: string;
 }
 
 interface CustomBarLabelProps {
