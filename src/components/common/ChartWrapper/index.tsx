@@ -1,6 +1,8 @@
 import { useTheme } from "next-themes";
 import Chart from "./Chart";
 import styles from "./styles.module.scss";
+import ShareButton from "../ShareButton";
+import { useState } from "react";
 
 interface ChartWrapperProps {
   id?: string;
@@ -15,6 +17,7 @@ interface ChartWrapperProps {
   chartType: ChartTypeConfig;
   downloadImage?: any;
   graphics?: boolean;
+  legend?: boolean;
 }
 
 const ChartWrapper = ({
@@ -23,12 +26,14 @@ const ChartWrapper = ({
   info,
   share,
   header,
+  legend,
   graphics,
   subheader,
   chartType,
   downloadImage,
 }: ChartWrapperProps) => {
   const { theme } = useTheme();
+  const [isShareOpen, setIsShareOpen] = useState(false);
 
   const gradients = [
     {
@@ -55,6 +60,7 @@ const ChartWrapper = ({
           info={info}
           data={data}
           share={share}
+          legend={legend}
           chartType={chartType}
           downloadImage={downloadImage}
         />

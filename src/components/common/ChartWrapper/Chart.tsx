@@ -59,8 +59,6 @@ const Chart = ({
     }
   };
 
-  console.log(legendView[chartType.lineDataKey!]);
-
   return (
     <div className={styles.chart}>
       <div className={styles.topSide}>

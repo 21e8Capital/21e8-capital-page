@@ -11,6 +11,9 @@ const Share = (props: SVGProps<SVGSVGElement>) => {
       width={24}
       height={24}
       fill="none"
+      style={{
+        cursor: "pointer",
+      }}
       {...props}
     >
       <path

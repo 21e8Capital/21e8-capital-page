@@ -4,34 +4,154 @@
   opacity: 0;
   transition: all 0.3s;
 
-  svg {
-    cursor: pointer;
-    transform: scale(0.9);
+  .shareHidden {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 42px;
+    top: -150px;
+    right: 0;
+    border-radius: 14px;
+    border: 2px solid rgba(252, 223, 166, 0.15);
+    background-color: #141414;
+    padding: 20px 30px;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.18s ease-in-out;
+    width: 500px;
+
+    @media only screen and (max-width: 768px) {
+      padding: 10px 15px;
+      width: 300px;
+    }
+
+    .upper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 24px;
+
+      @media only screen and (max-width: 768px) {
+        font-size: 14px;
+      }
+
+      .close {
+        cursor: pointer;
+
+        @media only screen and (max-width: 768px) {
+          transform: scale(0.8);
+        }
+      }
+    }
+
+    .social {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+
+      @media only screen and (max-width: 768px) {
+        gap: 2px;
+      }
+
+      .logoWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+        transform: scale(1.2);
+
+        @media only screen and (max-width: 768px) {
+          transform: scale(0.8);
+        }
+      }
+    }
   }
 
   .shareOpen {
     position: absolute;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    position: absolute;
-    top: 0;
+    gap: 42px;
+    top: -12px;
     right: 0;
-    background-color: #fff;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    border-radius: 14px;
+    border: 2px solid rgba(252, 223, 166, 0.15);
+    background-color: #141414;
+    padding: 20px 30px;
     z-index: 1;
-    border-radius: 5px;
-    width: 150px;
-    height: 40px;
+    width: 500px;
     opacity: 1;
     transition: all 0.3s ease-in-out;
-  }
+    pointer-events: all;
 
-  .shareHidden {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease-in-out;
+    @media only screen and (max-width: 768px) {
+      padding: 10px 15px;
+      width: 300px;
+      gap: 20px;
+    }
+
+    .upper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 24px;
+
+      @media only screen and (max-width: 768px) {
+        font-size: 14px;
+      }
+
+      .close {
+        cursor: pointer;
+
+        @media only screen and (max-width: 768px) {
+          transform: scale(0.8);
+        }
+      }
+    }
+
+    .social {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+
+      @media only screen and (max-width: 768px) {
+        gap: 8px;
+      }
+
+      .logoWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100%;
+        transform: scale(1.2);
+
+        @media only screen and (max-width: 768px) {
+          transform: scale(0.8);
+        }
+      }
+    }
+  }
+}
+
+[data-theme="light"] {
+  .shareWrapper {
+    .shareHidden {
+      background-color: #fff;
+      -webkit-box-shadow: 0px 5px 10.4px 1px rgba(0, 0, 0, 0.12);
+      -moz-box-shadow: 0px 5px 10.4px 1px rgba(0, 0, 0, 0.12);
+      box-shadow: 0px 5px 10.4px 1px rgba(0, 0, 0, 0.12);
+    }
+
+    .shareOpen {
+      background-color: #fff;
+      -webkit-box-shadow: 0px 5px 10.4px 1px rgba(0, 0, 0, 0.12);
+      -moz-box-shadow: 0px 5px 10.4px 1px rgba(0, 0, 0, 0.12);
+      box-shadow: 0px 5px 10.4px 1px rgba(0, 0, 0, 0.12);
+    }
   }
 }

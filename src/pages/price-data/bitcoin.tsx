@@ -44,19 +44,19 @@ const PriceData = ({
   const shareLinks = {
     bitcoinMarketStats: {
       url: `${window.location.href}#market-stats`,
-      title: "Bitcoin Market Stats",
+      title: "21e8.Capital - Bitcoin Market Stats",
     },
     bitcoinPerformance: {
       url: `${window.location.href}#performance`,
-      title: "Bitcoin Performance",
+      title: "21e8.Capital - Bitcoin Performance",
     },
     etfTracker: {
       url: `${window.location.href}#etf-tracker`,
-      title: "Etf Tracker",
+      title: "21e8.Capital - Etf Tracker",
     },
     interestOverTime: {
       url: `${window.location.href}#interest-over-time`,
-      title: "Interest Over Time",
+      title: "21e8.Capital - Interest Over Time",
     },
   };
 
@@ -100,6 +100,7 @@ const PriceData = ({
         marketStats={marketStats}
       />
       <ChartWrapper
+        legend
         graphics
         id="etf-tracker"
         chartType={etfTrackerConfig}
