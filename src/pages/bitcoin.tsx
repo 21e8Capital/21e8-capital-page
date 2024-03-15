@@ -52,11 +52,11 @@ const PriceData = ({
     },
     etfTracker: {
       url: `${window.location.href}#etf-tracker`,
-      title: "21e8.Capital - Etf Tracker",
+      title: "21e8.Capital - Bitcoin Etf Tracker",
     },
     interestOverTime: {
       url: `${window.location.href}#interest-over-time`,
-      title: "21e8.Capital - Interest Over Time",
+      title: "21e8.Capital - Bitcoin Interest Over Time",
     },
   };
 

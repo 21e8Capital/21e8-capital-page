@@ -8,15 +8,15 @@ import { useTheme } from "next-themes";
 const links = [
   {
     name: "Bitcoin",
-    href: "/price-data/bitcoin",
+    href: "/bitcoin",
   },
   {
     name: "Layer1",
-    href: "/price-data/layer-1",
+    href: "/layer-1",
   },
   {
     name: "defi",
-    href: "/price-data/defi",
+    href: "/defi",
   },
 ];
 
