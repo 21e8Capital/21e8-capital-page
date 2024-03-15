@@ -33,7 +33,7 @@ const ChartWrapper = ({
   downloadImage,
 }: ChartWrapperProps) => {
   const { theme } = useTheme();
-  const [isShareOpen, setIsShareOpen] = useState(false);
+  
 
   const gradients = [
     {

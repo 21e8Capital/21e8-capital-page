@@ -21,7 +21,17 @@ const App = ({ Component, pageProps }: AppProps) => (
       <meta property="og:url" content="https://21e8.capital/" />
       <meta property="og:title" content="21e8 Capital" />
       <meta property="og:description" content={heroCopy.paragraphs[0]} />
-      <meta property="og:image" content="/public/android-chrome-512x512.png" />
+      <meta
+        property="og:image"
+        content="https://21e8.capital/android-chrome-512x512.png"
+      />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@21e8Capital" />
+      <meta name="twitter:creator" content="@21e8Capital" />
+      <meta
+        name="googlebot"
+        content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+      />
     </Head>
     <DynamicTheme>
       <Navbar />
