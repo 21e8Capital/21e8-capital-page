@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Hoverable from "../Hoverable";
 import ShareButton from "../ShareButton";
 import { LineChart, LineBarChart } from "./custom";
@@ -19,6 +19,7 @@ type ChartProps = {
   chartType: any;
   downloadImage?: any;
   legend?: boolean;
+  children?: React.ReactNode;
 };
 
 const Chart = ({
@@ -28,6 +29,7 @@ const Chart = ({
   share,
   chartType,
   downloadImage,
+  children,
 }: ChartProps) => {
   const [activeDatasets, setActiveDatasets] = useState<Dataset[]>(
     chartType.datasets
@@ -50,6 +52,10 @@ const Chart = ({
   };
 
   const renderChart = (config: ChartTypeConfig) => {
+    if (children) {
+      return children;
+    }
+
     switch (config.type) {
       case "line":
         return (

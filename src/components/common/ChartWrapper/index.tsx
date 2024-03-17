@@ -18,6 +18,7 @@ interface ChartWrapperProps {
   downloadImage?: any;
   graphics?: boolean;
   legend?: boolean;
+  children?: React.ReactNode;
 }
 
 const ChartWrapper = ({
@@ -31,6 +32,7 @@ const ChartWrapper = ({
   subheader,
   chartType,
   downloadImage,
+  children
 }: ChartWrapperProps) => {
   const { theme } = useTheme();
 
@@ -62,7 +64,7 @@ const ChartWrapper = ({
           legend={legend}
           chartType={chartType}
           downloadImage={downloadImage}
-        />
+        >{children}</Chart>
         {graphics && (
           <>
             {gradients.map((grad, i) => (
