@@ -66,6 +66,7 @@ interface ChartTypeConfig {
   barFill?: string;
   barLabel?: string;
   lineLabel?: string;
+  datasets?: Dataset;
 }
 
 interface CustomBarLabelProps {
@@ -81,6 +82,29 @@ interface ImageTypeData {
   image: string;
   fileName: string;
 }
+
+interface ChartData {
+  key?: string;
+  type: string;
+  dataKey: string;
+  stroke: string;
+}
+
+interface Layer1Charts {
+  chartViewTypes: string[];
+  type: string;
+  charts: {
+    dataKey: string;
+    stroke: string;
+  }[];
+}
+
+type Dataset = {
+  data: any[];
+  key: string;
+  stroke: string;
+  isActive: boolean;
+};
 
 type AssetTypeProp = keyof typeof assetTypeMapping;
 

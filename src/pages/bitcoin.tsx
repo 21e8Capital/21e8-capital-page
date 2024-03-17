@@ -93,7 +93,7 @@ const PriceData = ({
   }, []);
 
   return (
-    <div className="price-data">
+    <div className="bitcoin-page">
       <PriceTable
         title="Bitcoin Price Data"
         performance={performance}
@@ -136,19 +136,17 @@ const PriceData = ({
 export default PriceData;
 
 export const getStaticProps: GetStaticProps = async () => {
-  let performance, marketStats, googleTrends, etfData;
-
-  performance = await getPerformanceStats("btc");
-  marketStats = await formattedMarketStats("btc");
-  googleTrends = await fetchGoogleTrends("bitcoin");
-  etfData = await scrapeEtfFlows();
+  const etfData = await scrapeEtfFlows();
+  const performance = await getPerformanceStats("btc");
+  const marketStats = await formattedMarketStats("btc");
+  const googleTrends = await fetchGoogleTrends("bitcoin");
 
   return {
     props: {
-      performance: performance?.data ?? [],
       marketStats: marketStats ?? [],
       googleTrends: googleTrends ?? [],
       etfData: etfData?.dailyFlows ?? [],
+      performance: performance?.data ?? [],
     },
     revalidate: 43200,
   };

@@ -1,20 +1,22 @@
-import { LineChart, LineBarChart } from "./custom";
+import { useState } from "react";
 import Hoverable from "../Hoverable";
+import ShareButton from "../ShareButton";
+import { LineChart, LineBarChart } from "./custom";
 import { Download, Logo, Question } from "@/svg";
 import styles from "./styles.module.scss";
-import ShareButton from "../ShareButton";
-import { Legend } from "recharts";
-import { useState } from "react";
+import AreaLineChart from "./custom/AreaLineChartSingle";
+import ChartLegend from "./ChartLegend";
+import AreaLineChartMultiple from "./custom/AreaLineChartMultiple";
 
 type ChartProps = {
   id?: string;
-  data: any[];
+  data: any;
   info?: { title: string; desc: string };
   share?: {
     title: string;
     url: string;
   };
-  chartType: ChartTypeConfig;
+  chartType: any;
   downloadImage?: any;
   legend?: boolean;
 };
@@ -24,14 +26,28 @@ const Chart = ({
   data,
   info,
   share,
-  legend,
   chartType,
   downloadImage,
 }: ChartProps) => {
+  const [activeDatasets, setActiveDatasets] = useState<Dataset[]>(
+    chartType.datasets
+  );
+
+  const [chartView, setChartView] = useState(chartType?.chartViewTypes?.[0]);
   const [legendView, setLegendView] = useState({
     [chartType.lineDataKey!]: true,
     [chartType.barDataKey!]: true,
   });
+
+  const toggleDataset = (key: string) => {
+    setActiveDatasets((currentDatasets) =>
+      currentDatasets.map((dataset) =>
+        dataset.key === key
+          ? { ...dataset, isActive: true }
+          : { ...dataset, isActive: false }
+      )
+    );
+  };
 
   const renderChart = (config: ChartTypeConfig) => {
     switch (config.type) {
@@ -54,6 +70,17 @@ const Chart = ({
             legendView={legendView}
           />
         );
+      case "area-single":
+        return (
+          <AreaLineChart
+            chartView={chartView}
+            data={data}
+            lineDataKey={config.lineDataKey!}
+            lineStroke={config.lineStroke!}
+          />
+        );
+      case "area-multiple":
+        return <AreaLineChartMultiple datasets={activeDatasets} />;
       default:
         return null;
     }
@@ -62,6 +89,30 @@ const Chart = ({
   return (
     <div className={styles.chart}>
       <div className={styles.topSide}>
+        {chartType.chartViewTypes && (
+          <div className="chartView">
+            {chartType?.chartViewTypes.map((type: string) => (
+              <button
+                key={type}
+                onClick={() => setChartView(type)}
+                className={chartView === type ? styles.active : styles.inactive}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        )}
+        <div className={styles.datasetSelector}>
+          {activeDatasets?.map((dataset) => (
+            <button
+              key={dataset.key}
+              onClick={() => toggleDataset(dataset.key)}
+              className={dataset.isActive ? styles.active : styles.inactive}
+            >
+              {dataset.key}
+            </button>
+          ))}
+        </div>
         {info && (
           <div className={styles.info}>
             <h3>{info.title}</h3>
@@ -70,54 +121,17 @@ const Chart = ({
             </Hoverable>
           </div>
         )}
-        {legendView && (
-          <div className={styles.legend}>
-            <div
-              className={styles.wrapper}
-              style={{
-                opacity: legendView[chartType.lineDataKey!] ? 1 : 0.5,
-              }}
-              onClick={() =>
-                setLegendView({
-                  ...legendView,
-                  [chartType.lineDataKey!]: !legendView[chartType.lineDataKey!],
-                })
-              }
-            >
-              <div
-                className={styles.circle}
-                style={{
-                  backgroundColor: chartType.lineStroke,
-                }}
-              ></div>
-              <p>{chartType.lineLabel}</p>
-            </div>
-            <div
-              className={styles.wrapper}
-              onClick={() =>
-                setLegendView({
-                  ...legendView,
-                  [chartType.barDataKey!]: !legendView[chartType.barDataKey!],
-                })
-              }
-              style={{
-                opacity: legendView[chartType.barDataKey!] ? 1 : 0.5,
-              }}
-            >
-              <div
-                className={styles.circle}
-                style={{
-                  backgroundColor: chartType.barFill,
-                }}
-              ></div>
-              <p>{chartType.barLabel}</p>
-            </div>
-          </div>
-        )}
+        {legendView[0] === true ? (
+          <ChartLegend
+            chartType={chartType}
+            legendView={legendView}
+            setLegendView={setLegendView}
+          />
+        ) : null}
         <a
-          className="ml-auto download opacity-0 transition-all transition-300ms absolute right-20"
+          className="ml-auto download opacity-0 transition-all transition-300ms absolute right-20 z-200"
           href={downloadImage}
-          download={`${id}.jpg`}
+          download={`${id}`}
         >
           <Download />
         </a>

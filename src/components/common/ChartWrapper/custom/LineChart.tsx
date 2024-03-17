@@ -25,7 +25,7 @@ const LineChart = ({ id, data, dataKey, stroke }: LineChartProps) => (
         bottom: 12,
       }}
     >
-      <CartesianGrid vertical={false} />
+      <CartesianGrid vertical={false} strokeOpacity={0.3} />
       <XAxis dataKey="key" tick={<CustomizedAxisTick />} />
       <YAxis />
       <Tooltip content={<CustomTooltip />} />
@@ -35,6 +35,7 @@ const LineChart = ({ id, data, dataKey, stroke }: LineChartProps) => (
         stroke={stroke}
         dot={false}
         animationDuration={1000}
+        strokeWidth={2}
       />
     </RechartsLineChart>
   </ResponsiveContainer>
@@ -42,7 +43,7 @@ const LineChart = ({ id, data, dataKey, stroke }: LineChartProps) => (
 
 export default LineChart;
 
-export const CustomizedAxisTick = (props: any) => {
+const CustomizedAxisTick = (props: any) => {
   const { x, y, payload } = props;
   const dateParts = payload.value.split(" ");
   const year = dateParts[1];
@@ -64,11 +65,11 @@ export const CustomizedAxisTick = (props: any) => {
   );
 };
 
-export const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="custom-tooltip">
-        <p className="label">{`${label} : ${payload[0].value}`}</p>
+        <p className="label">{`${label}: ${payload[0].value}`}</p>
         <div
           className="vertical-line"
           style={{

@@ -6,8 +6,8 @@ import { useState } from "react";
 
 interface ChartWrapperProps {
   id?: string;
-  data: any[];
-  header: string;
+  data?: any[];
+  header?: string;
   subheader?: string;
   info?: { title: string; desc: string };
   share?: {
@@ -33,7 +33,6 @@ const ChartWrapper = ({
   downloadImage,
 }: ChartWrapperProps) => {
   const { theme } = useTheme();
-  
 
   const gradients = [
     {
@@ -52,7 +51,7 @@ const ChartWrapper = ({
 
   return (
     <div className={styles.chartWrapper}>
-      <h2>{header}</h2>
+      {header ? <h2 className="text-center">{header}</h2> : null}
       {subheader ? <p className="text-center">{subheader}</p> : null}
       <div className={styles.chartId}>
         <Chart

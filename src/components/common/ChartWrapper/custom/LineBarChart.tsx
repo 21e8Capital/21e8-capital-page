@@ -12,6 +12,7 @@ import {
   Legend,
 } from "recharts";
 import { useTheme } from "next-themes";
+import { formatToE } from "@/utils/format";
 
 type LineBarChartProps = {
   id?: string;
@@ -46,7 +47,7 @@ const LineBarChartComponent = ({
       fontSize={14}
       textAnchor="middle"
     >
-      {formatToK(Number(value))}
+      {formatToE(Number(value))}
     </text>
   );
 
@@ -64,7 +65,7 @@ const LineBarChartComponent = ({
         dominantBaseline="middle"
         fontSize={14}
       >
-        {formatToK(Number(value))}
+        {formatToE(Number(value))}
       </text>
     );
   };
@@ -80,12 +81,12 @@ const LineBarChartComponent = ({
           right: legendView && !legendView[barDataKey] ? 40 : 35,
         }}
       >
-        <CartesianGrid vertical={false} />
+        <CartesianGrid vertical={false} strokeOpacity={0.3} />
         <XAxis dataKey="key" tickMargin={15} />
         <YAxis
           strokeOpacity={0}
           domain={[0, "dataMax"]}
-          tickFormatter={formatToK}
+          tickFormatter={formatToE}
           tickLine={false}
         />
         {legendView && legendView[barDataKey] && (
@@ -107,15 +108,12 @@ const LineBarChartComponent = ({
             label={CustomLineLabel}
             animationDuration={1000}
             name="Total Net BTS flows to ETFs"
+            strokeWidth={2}
           />
         )}
       </ComposedChart>
     </ResponsiveContainer>
   );
-};
-
-const formatToK = (num: number) => {
-  return Math.abs(num) >= 1000 ? `${(num / 1000).toFixed(2)}K` : `${num}`;
 };
 
 export default LineBarChartComponent;

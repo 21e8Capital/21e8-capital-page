@@ -72,7 +72,7 @@
 
   .ball {
     top: 6%;
-    left: 0%;
+    left: -5%;
     width: 41px;
 
     @media only screen and (max-width: 768px) {
@@ -220,4 +220,44 @@
 .lineBarLegend {
   position: absolute;
   top: 0 !important;
+}
+
+.inactive {
+  text-transform: capitalize;
+  background-color: #564200;
+  color: white;
+  padding: 7px 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #ffc403;
+    color: black;
+  }
+}
+
+.active {
+  text-transform: capitalize;
+  background-color: #ffc403;
+  color: black;
+  padding: 7px 14px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+[data-theme="light"] .inactive {
+  background-color: #fff2c7;
+  color: black;
+
+  &:hover {
+    background-color: #564200;
+    color: white;
+  }
+}
+
+.datasetSelector {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }

@@ -34,3 +34,18 @@ export const googleTrends: AxiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const defILama: AxiosInstance = axios.create({
+  baseURL: apiConfig.defiLama.url,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+export const defILamaCoins: AxiosInstance = axios.create({
+  baseURL: apiConfig.defiLama.coinsUrl,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 1200000,
+});

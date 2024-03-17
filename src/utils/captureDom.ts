@@ -5,7 +5,7 @@ const captureScreenshots = async (
   imageIds: string[],
   postUrl: string
 ): Promise<ImageTypeData[]> => {
-  const elementsToHide = document.querySelectorAll(".share, .download");
+  const elementsToHide = document.querySelectorAll(".share, .download, .chart");
 
   const imageData: (ImageTypeData | null)[] = await Promise.all(
     imageIds.map(async (id): Promise<ImageTypeData | null> => {

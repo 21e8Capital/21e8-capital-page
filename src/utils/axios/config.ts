@@ -8,12 +8,16 @@ export const apiConfig = {
   digiconomist: {
     url: process.env.NEXT_PUBLIC_DIGICONOMIST_URI,
   },
+  googleTrends: {
+    url: process.env.NEXT_PUBLIC_GOOGLE_TRENDS_URI,
+  },
+  defiLama: {
+    url: process.env.NEXT_PUBLIC_DEFI_LAMA_URI,
+    coinsUrl: process.env.NEXT_PUBLIC_DEFI_LAMA_COINS_URI,
+  },
   cryptoCompare: {
     urlData: process.env.NEXT_PUBLIC_CRYPTOCOMPARE_URI_DATA,
     urlMining: process.env.NEXT_PUBLIC_CRYPTOCOMPARE_URI_MINING,
     key: process.env.NEXT_PUBLIC_CRYPTOCOMPARE_KEY,
-  },
-  googleTrends: {
-    url: process.env.NEXT_PUBLIC_GOOGLE_TRENDS_URI,
   },
 };
