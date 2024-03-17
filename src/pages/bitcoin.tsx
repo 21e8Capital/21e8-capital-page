@@ -154,6 +154,7 @@ const PriceData = ({
             }}
           >
             <XAxis
+              interval={500}
               dataKey="t"
               tickFormatter={(unixTime) => {
                 const date = new Date(unixTime * 1000);
@@ -183,8 +184,13 @@ const PriceData = ({
               stroke="#82ca9d"
               dot={false}
             />
-            {halvingDates.map((ts) => (
-              <ReferenceLine x={ts} stroke="#777777" strokeDasharray="3 3" />
+            {halvingDates.map((ts, i) => (
+              <ReferenceLine
+                key={`${ts}-${i}`}
+                x={ts}
+                stroke="#777777"
+                strokeDasharray="3 3"
+              />
             ))}
           </LineChart>
         </ResponsiveContainer>
@@ -227,6 +233,7 @@ export const getStaticProps: GetStaticProps = async () => {
     revalidate: 43200,
   };
 };
+
 function getColor(num: number) {
   const normalizedNum = num / 1400;
 
@@ -248,7 +255,6 @@ function getColor(num: number) {
       const rangeSize = colors[i].range[1] - colors[i].range[0];
       const positionInRange = (normalizedNum - colors[i].range[0]) / rangeSize;
 
-      // If it's not the last color, interpolate with the next color
       if (i < colors.length - 1) {
         const nextColor = colors[i + 1].color;
         const color = colors[i].color.map((c, index) =>
@@ -259,7 +265,6 @@ function getColor(num: number) {
         return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
       }
 
-      // If it's the last color, just return it
       const color = colors[i].color;
       return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
     }

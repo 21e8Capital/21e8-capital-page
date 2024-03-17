@@ -1,4 +1,5 @@
 // LineChartComponent.tsx
+import { useTheme } from "next-themes";
 import {
   LineChart as RechartsLineChart,
   Line,
@@ -16,54 +17,58 @@ type LineChartProps = {
   stroke: string;
 };
 
-const LineChart = ({ id, data, dataKey, stroke }: LineChartProps) => (
-  <ResponsiveContainer width="100%" height="100%">
-    <RechartsLineChart
-      data={data}
-      margin={{
-        left: -25,
-        bottom: 12,
-      }}
-    >
-      <CartesianGrid vertical={false} strokeOpacity={0.3} />
-      <XAxis dataKey="key" tick={<CustomizedAxisTick />} />
-      <YAxis />
-      <Tooltip content={<CustomTooltip />} />
-      <Line
-        type="monotone"
-        dataKey={dataKey}
-        stroke={stroke}
-        dot={false}
-        animationDuration={1000}
-        strokeWidth={2}
-      />
-    </RechartsLineChart>
-  </ResponsiveContainer>
-);
+const LineChart = ({ id, data, dataKey, stroke }: LineChartProps) => {
+  const { resolvedTheme } = useTheme();
 
-export default LineChart;
+  const CustomizedAxisTick = (props: any) => {
+    const { x, y, payload } = props;
+    const dateParts = payload.value.split(" ");
+    const year = dateParts[1];
 
-const CustomizedAxisTick = (props: any) => {
-  const { x, y, payload } = props;
-  const dateParts = payload.value.split(" ");
-  const year = dateParts[1];
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={0}
+          dy={16}
+          textAnchor="end"
+          fill={resolvedTheme === "light" ? "#000" : "#fff"}
+          transform="rotate(-35)"
+          strokeDasharray="10 10"
+        >
+          {year}
+        </text>
+      </g>
+    );
+  };
 
   return (
-    <g transform={`translate(${x},${y})`}>
-      <text
-        x={0}
-        y={0}
-        dy={16}
-        textAnchor="end"
-        fill="#fff"
-        transform="rotate(-35)"
-        strokeDasharray="10 10"
+    <ResponsiveContainer width="100%" height="100%">
+      <RechartsLineChart
+        data={data}
+        margin={{
+          left: -25,
+          bottom: 12,
+        }}
       >
-        {year}
-      </text>
-    </g>
+        <CartesianGrid vertical={false} strokeOpacity={0.3} />
+        <XAxis dataKey="key" tick={<CustomizedAxisTick />} />
+        <YAxis />
+        <Tooltip content={<CustomTooltip />} />
+        <Line
+          type="monotone"
+          dataKey={dataKey}
+          stroke={stroke}
+          dot={false}
+          animationDuration={1000}
+          strokeWidth={2}
+        />
+      </RechartsLineChart>
+    </ResponsiveContainer>
   );
 };
+
+export default LineChart;
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {

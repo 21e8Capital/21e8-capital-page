@@ -2,6 +2,7 @@ export { default as WIP } from "./WIP";
 export { default as Logo } from "./Logo";
 export { default as Close } from "./Close";
 export { default as Share } from "./Share";
+export { default as Anchor } from "./Anchor";
 export { default as Question } from "./Question";
 export { default as Download } from "./Download";
 

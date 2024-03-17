@@ -37,7 +37,7 @@ const AreaLineChartMultiple = ({ datasets }: AreaLineChartMultipleProps) => {
           tickLine={false}
         />
         <Tooltip content={<CustomTooltip />} />
-        {datasets.map(
+        {datasets?.map(
           (dataset, index) =>
             dataset.isActive && (
               <Area
@@ -50,7 +50,7 @@ const AreaLineChartMultiple = ({ datasets }: AreaLineChartMultipleProps) => {
               />
             )
         )}
-        {datasets.map((dataset, index) => (
+        {datasets?.map((dataset, index) => (
           <defs key={index}>
             <linearGradient id={`colorUv${index}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor={dataset.stroke} stopOpacity={0.8} />

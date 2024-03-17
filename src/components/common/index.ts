@@ -7,6 +7,7 @@ export { default as IconLink } from "./Link/IconLink";
 export { default as TextLink } from "./Link/TextLink";
 export { default as ListingText } from "./ListingText";
 export { default as Integration } from "./Integration";
+export { default as Layer1Table } from "./Layer1Table";
 export { default as ChartWrapper } from "./ChartWrapper";
 export { default as ButtonLink } from "./Link/ButtonLink";
 export { default as WorkInProgress } from "./WorkInProgress";

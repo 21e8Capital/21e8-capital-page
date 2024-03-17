@@ -106,6 +106,23 @@ type Dataset = {
   isActive: boolean;
 };
 
+interface Layer1Chains {
+  name: string;
+  imageUrl: string;
+  protocols: string;
+  activeAddresses: string;
+  oneDayChange: string;
+  oneWeekChange: string;
+  oneMonthChange: string;
+  tvl: string;
+  bridgedTVL: string;
+  stables: string;
+  oneDayVolume: string;
+  oneDayFees: string;
+  mcapToTVL: string;
+  totalBridged: string;
+}
+
 type AssetTypeProp = keyof typeof assetTypeMapping;
 
 declare module "dom-to-image" {

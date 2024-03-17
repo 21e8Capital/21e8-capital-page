@@ -33,10 +33,6 @@ const LineBarChartComponent = ({
   barFill,
 }: LineBarChartProps) => {
   const { resolvedTheme } = useTheme();
-  const [activeKeys, setActiveKeys] = useState({
-    [lineDataKey]: true,
-    [barDataKey]: true,
-  });
 
   const CustomLineLabel = ({ x, y, value }: LabelProps) => (
     <text

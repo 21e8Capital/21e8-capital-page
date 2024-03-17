@@ -127,7 +127,7 @@ const Chart = ({
             </Hoverable>
           </div>
         )}
-        {legendView[0] === true ? (
+        {typeof Object.keys(legendView) !== "undefined" ? (
           <ChartLegend
             chartType={chartType}
             legendView={legendView}

@@ -114,7 +114,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 const preprocessDataForChart = (data: any[]) => {
   let lastYear = "";
-  return data.map((item) => {
+  return data?.map((item) => {
     const year = item.key.split("-")[2];
     if (year !== lastYear) {
       lastYear = year;

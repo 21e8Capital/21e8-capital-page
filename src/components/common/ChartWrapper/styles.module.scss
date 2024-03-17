@@ -231,6 +231,11 @@
   border-radius: 10px;
   transition: all 0.3s ease;
 
+  @media only screen and (max-width: 670px) {
+    font-size: 12px;
+    padding: 3.5px 8px;
+  }
+
   &:hover {
     background-color: #ffc403;
     color: black;
@@ -244,6 +249,11 @@
   padding: 7px 14px;
   font-weight: 600;
   border-radius: 10px;
+
+  @media only screen and (max-width: 670px) {
+    font-size: 12px;
+    padding: 3.5px 8px;
+  }
 }
 
 [data-theme="light"] .inactive {
@@ -260,4 +270,23 @@
   display: flex;
   align-items: center;
   gap: 20px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media only screen and (max-width: 1050px) {
+    max-width: 500px;
+    overflow-x: scroll;
+  }
+
+  @media only screen and (max-width: 670px) {
+    max-width: 300px;
+    overflow-x: scroll;
+  }
+
+  @media only screen and (max-width: 460px) {
+    max-width: 150px;
+    overflow-x: scroll;
+  }
 }

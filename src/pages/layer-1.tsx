@@ -1,8 +1,10 @@
-import { ChartWrapper, WorkInProgress } from "@/components/common";
-import { fetchPrices, fetchStats } from "@/utils/api/defi-lama";
-import captureScreenshots from "@/utils/captureDom";
 import { GetStaticProps } from "next";
 import { useEffect, useState } from "react";
+import { ChartWrapper, Layer1Table } from "@/components/common";
+import { layer1Top } from "@/components/common/Layer1Table/columns";
+import { fetchPrices, fetchStats } from "@/utils/api/defi-lama";
+import captureScreenshots from "@/utils/captureDom";
+import { scrapeLayer1Chains } from "@/utils/scraper/laye1chains";
 
 const statsChartConfig: Layer1Charts = {
   chartViewTypes: ["tvl", "fees", "revenue"],
@@ -23,7 +25,7 @@ const statsChartConfig: Layer1Charts = {
   ],
 };
 
-const Layer1 = ({ stats, prices }: any) => {
+const Layer1 = ({ stats, prices, topChains }: any) => {
   const [imagesToDownload, setImagesToDownload] = useState<
     { [key: string]: string }[]
   >([]);
@@ -86,6 +88,7 @@ const Layer1 = ({ stats, prices }: any) => {
           imagesToDownload["layer-1-prices" as keyof typeof imagesToDownload]
         }
       />
+      <Layer1Table data={topChains} title="Top 10 Chains" columns={layer1Top} />
     </div>
   );
 };
@@ -95,11 +98,13 @@ export default Layer1;
 export const getStaticProps: GetStaticProps = async () => {
   const stats = await fetchStats();
   const prices = await fetchPrices();
+  const topChains = await scrapeLayer1Chains();
 
   return {
     props: {
       stats,
       prices,
+      topChains,
     },
     revalidate: 43200,
   };
