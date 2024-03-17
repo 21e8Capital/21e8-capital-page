@@ -1,5 +1,4 @@
 import { defILama, defILamaCoins } from "../axios";
-import { formatToE } from "../format";
 
 export const fetchStats = async () => {
   try {

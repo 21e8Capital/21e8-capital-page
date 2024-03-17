@@ -106,6 +106,6 @@ export const getStaticProps: GetStaticProps = async () => {
       prices,
       topChains,
     },
-    revalidate: 43200,
+    revalidate: 7200,
   };
 };

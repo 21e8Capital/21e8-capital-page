@@ -105,9 +105,12 @@ export const scrapeLayer1Chains = async () => {
 
       await browser.close();
 
-      return data
-        .filter((chain: any) => !chainsToRemove.includes(chain.name))
-        .sort((a, b) => parseTVL(b.tvl as string) - parseTVL(a.tvl as string));
+      const filteredData = data.filter(
+        (chain: any) => !chainsToRemove.includes(chain.name)
+      );
+
+      const limitedData = filteredData.slice(0, 10);
+      return limitedData;
     }
   } catch (err) {
     console.log("An error occurred:", err);
