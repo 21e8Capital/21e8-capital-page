@@ -43,15 +43,15 @@ export const scrapeLayer1Chains = async () => {
                   ? details[2]?.textContent.trim()
                   : "-",
               oneDayChange:
-                details[6].textContent && details[6]?.textContent.trim(),
-              oneWeekChange:
                 details[3].textContent && details[3]?.textContent.trim(),
+              oneWeekChange:
+                details[4].textContent && details[4]?.textContent.trim(),
               oneMonthChange:
-                details[7].textContent &&
-                details[7]?.textContent.trim().length > 0
-                  ? details[7]?.textContent.trim()
+                details[5].textContent &&
+                details[5]?.textContent.trim().length > 0
+                  ? details[5]?.textContent.trim()
                   : "-",
-              tvl: details[4].textContent && details[4]?.textContent.trim(),
+              tvl: details[6].textContent && details[6]?.textContent.trim(),
               bridgedTVL:
                 details[5].textContent &&
                 details[5]?.textContent.trim().length > 0
