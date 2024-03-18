@@ -16,13 +16,14 @@ import { fetchGoogleTrends } from "@/utils/api/googlTrends";
 import { getPerformanceStats } from "@/utils/database/performanceStats";
 import { HalvingView } from "@/components/bitcoin";
 import { ChartWrapper, PriceTable } from "@/components/common";
-import { stockToFlow } from "@/data";
+import { fetchStockToFlow } from "@/data";
 
 interface PriceDataProps {
   performance: PerformanceDataType[];
   marketStats: any;
   googleTrends: any;
   etfData: any;
+  stockToFlow: any;
 }
 
 const interestChartConfig = {
@@ -45,6 +46,7 @@ const PriceData = ({
   etfData,
   marketStats,
   performance,
+  stockToFlow,
   googleTrends,
 }: PriceDataProps) => {
   const [imagesToDownload, setImagesToDownload] = useState<
@@ -73,8 +75,6 @@ const PriceData = ({
       title: "21e8.Capital - Bitcoin Interest Over Time",
     },
   };
-
-  const halvingDates = [1354060800, 1467936000, 1589155200, 1714262400];
 
   useEffect(() => {
     const handleImageSaving = async () => {
@@ -131,70 +131,17 @@ const PriceData = ({
       />
       <HalvingView />
       <ChartWrapper
+        data={stockToFlow}
         id="stock-to-flow"
         chartType={{
-          type: "line",
+          type: "stock-to-flow",
         }}
         header="Stock to Flow"
         share={shareLinks.stockToFlow}
         downloadImage={
           imagesToDownload["stock-to-flow" as keyof typeof imagesToDownload]
         }
-      >
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            width={500}
-            height={600}
-            data={stockToFlow}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <XAxis
-              interval={500}
-              dataKey="t"
-              tickFormatter={(unixTime) => {
-                const date = new Date(unixTime * 1000);
-                const year = date.getFullYear();
-                return year.toString();
-              }}
-              tickCount={1}
-            />
-            <YAxis scale="log" domain={["auto", "auto"]} /> <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="o.price"
-              stroke="transparent"
-              dot={({ payload, cx, cy }) => {
-                if (!payload.o.price) return <></>;
-                const color = getColor(payload.o.daysTillHalving);
-                return (
-                  <svg>
-                    <circle cx={cx - 1} cy={cy - 1} r={2} fill={color} />
-                  </svg>
-                );
-              }}
-            />
-            <Line
-              type="monotone"
-              dataKey="o.ratio"
-              stroke="#82ca9d"
-              dot={false}
-            />
-            {halvingDates.map((ts, i) => (
-              <ReferenceLine
-                key={`${ts}-${i}`}
-                x={ts}
-                stroke="#777777"
-                strokeDasharray="3 3"
-              />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
-      </ChartWrapper>
+      />
       <ChartWrapper
         id="interest-over-time"
         info={{
@@ -219,12 +166,14 @@ export default PriceData;
 
 export const getStaticProps: GetStaticProps = async () => {
   const etfData = await scrapeEtfFlows();
+  const stockToFlow = await fetchStockToFlow();
   const performance = await getPerformanceStats("btc");
   const marketStats = await formattedMarketStats("btc");
   const googleTrends = await fetchGoogleTrends("bitcoin");
 
   return {
     props: {
+      stockToFlow: stockToFlow ?? [],
       marketStats: marketStats ?? [],
       googleTrends: googleTrends ?? [],
       etfData: etfData?.dailyFlows ?? [],
@@ -233,40 +182,3 @@ export const getStaticProps: GetStaticProps = async () => {
     revalidate: 43200,
   };
 };
-
-function getColor(num: number) {
-  const normalizedNum = num / 1400;
-
-  const colors = [
-    { color: [128, 0, 128], range: [0, 0.143] },
-    { color: [0, 0, 255], range: [0.143, 0.286] },
-    { color: [0, 255, 255], range: [0.286, 0.429] },
-    { color: [0, 255, 0], range: [0.429, 0.572] },
-    { color: [255, 255, 0], range: [0.572, 0.715] },
-    { color: [255, 165, 0], range: [0.715, 0.858] },
-    { color: [255, 0, 0], range: [0.858, 1] },
-  ];
-
-  for (let i = 0; i < colors.length; i++) {
-    if (
-      normalizedNum >= colors[i].range[0] &&
-      normalizedNum <= colors[i].range[1]
-    ) {
-      const rangeSize = colors[i].range[1] - colors[i].range[0];
-      const positionInRange = (normalizedNum - colors[i].range[0]) / rangeSize;
-
-      if (i < colors.length - 1) {
-        const nextColor = colors[i + 1].color;
-        const color = colors[i].color.map((c, index) =>
-          Math.round(
-            c * (1 - positionInRange) + nextColor[index] * positionInRange
-          )
-        );
-        return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
-      }
-
-      const color = colors[i].color;
-      return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
-    }
-  }
-}

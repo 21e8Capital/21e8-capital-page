@@ -1,4 +1,5 @@
 import { formatToE } from "@/utils/format";
+import { useTheme } from "next-themes";
 import React from "react";
 import {
   Area,
@@ -20,6 +21,30 @@ type AreaLineChartProps = {
 };
 
 const AreaLineChartSingle = ({ data, chartView }: AreaLineChartProps) => {
+  const { resolvedTheme } = useTheme();
+
+  const CustomizedAxisTick = (props: any) => {
+    const { x, y, payload } = props;
+    const dateParts = payload.value.split("-");
+    const year = dateParts[2];
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={3}
+          dy={16}
+          textAnchor="end"
+          fill={resolvedTheme === "light" ? "#000" : "#fff"}
+          transform="rotate(-35)"
+          strokeDasharray="10 10"
+        >
+          {year}
+        </text>
+      </g>
+    );
+  };
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart
@@ -65,27 +90,6 @@ const AreaLineChartSingle = ({ data, chartView }: AreaLineChartProps) => {
 };
 
 export default AreaLineChartSingle;
-
-export const CustomizedAxisTick = (props: any) => {
-  const { x, y, payload } = props;
-  const dateParts = payload.value.split("-");
-  const year = dateParts[2];
-
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <text
-        x={20}
-        y={4}
-        dy={16}
-        textAnchor="end"
-        fill="#fff"
-        strokeDasharray="10 10"
-      >
-        {year}
-      </text>
-    </g>
-  );
-};
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {

@@ -33844,3 +33844,8 @@ export const stockToFlow: Array<{
   { t: 1837814400, o: { daysTillHalving: 17, ratio: 1406054.91921176 } },
   { t: 1837900800, o: { daysTillHalving: 16, ratio: 1406165.63243186 } },
 ];
+
+
+export const fetchStockToFlow = async () => {
+  return stockToFlow;
+};

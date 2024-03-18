@@ -7,6 +7,7 @@ import styles from "./styles.module.scss";
 import AreaLineChart from "./custom/AreaLineChartSingle";
 import ChartLegend from "./ChartLegend";
 import AreaLineChartMultiple from "./custom/AreaLineChartMultiple";
+import StockToFlow from "./custom/StockToFlow";
 
 type ChartProps = {
   id?: string;
@@ -87,6 +88,8 @@ const Chart = ({
         );
       case "area-multiple":
         return <AreaLineChartMultiple datasets={activeDatasets} />;
+      case "stock-to-flow":
+        return <StockToFlow data={data} />;
       default:
         return null;
     }
