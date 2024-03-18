@@ -53,9 +53,9 @@ export const scrapeLayer1Chains = async () => {
                   : "-",
               tvl: details[6].textContent && details[6]?.textContent.trim(),
               bridgedTVL:
-                details[5].textContent &&
-                details[5]?.textContent.trim().length > 0
-                  ? details[5]?.textContent.trim()
+                details[7].textContent &&
+                details[7]?.textContent.trim().length > 0
+                  ? details[7]?.textContent.trim()
                   : "-",
               stables:
                 details[8].textContent &&
