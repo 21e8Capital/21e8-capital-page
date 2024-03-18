@@ -9,7 +9,7 @@
   height: 100%;
 
   @media only screen and (max-width: 1500px) {
-    padding: 0 50px;
+    padding: 200px 50px;
   }
 
   @media only screen and (max-width: 768px) {
@@ -301,4 +301,8 @@
   background-position: center 70%;
   background-repeat: no-repeat;
   background-size: cover;
+
+  @media only screen and (max-width: 768px) {
+    background: none;
+  }
 }

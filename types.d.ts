@@ -123,6 +123,26 @@ interface Layer1Chains {
   totalBridged: string;
 }
 
+interface Perp {
+  "#": string;
+  address: string;
+  quantity: string;
+  percentage: string;
+  "7d change": string;
+}
+
+interface Dex {
+  "#": string;
+  name: string;
+  logoUrl: string;
+  volGraph: string;
+  "trading volume(24h)": string;
+  "% mkt share": string;
+  noMarkets: string;
+  type: string;
+  launched: string;
+}
+
 type AssetTypeProp = keyof typeof assetTypeMapping;
 
 declare module "dom-to-image" {

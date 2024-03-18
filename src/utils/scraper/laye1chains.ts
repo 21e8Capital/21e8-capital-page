@@ -117,17 +117,3 @@ export const scrapeLayer1Chains = async () => {
     return [];
   }
 };
-
-const parseTVL = (tvl: string): number => {
-  const value = parseFloat(tvl.slice(1));
-  const suffix = tvl[tvl.length - 1];
-
-  switch (suffix) {
-    case "b":
-      return value * 1e9;
-    case "m":
-      return value * 1e6;
-    default:
-      return value;
-  }
-};

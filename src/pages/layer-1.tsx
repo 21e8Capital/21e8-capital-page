@@ -1,10 +1,10 @@
 import { GetStaticProps } from "next";
 import { useEffect, useState } from "react";
+import captureScreenshots from "@/utils/captureDom";
+import { scrapeLayer1Chains } from "@/utils/scraper";
+import { fetchPrices, fetchStats } from "@/utils/api/defi-lama";
 import { ChartWrapper, Layer1Table } from "@/components/common";
 import { layer1Top } from "@/components/common/Layer1Table/columns";
-import { fetchPrices, fetchStats } from "@/utils/api/defi-lama";
-import captureScreenshots from "@/utils/captureDom";
-import { scrapeLayer1Chains } from "@/utils/scraper/laye1chains";
 
 const statsChartConfig: Layer1Charts = {
   chartViewTypes: ["tvl", "fees", "revenue"],
@@ -65,7 +65,7 @@ const Layer1 = ({ stats, prices, topChains }: any) => {
   }, []);
 
   return (
-    <div className="bitcoin-page">
+    <div className="layer-1-page">
       <ChartWrapper
         bg
         id="layer-1-stats"
