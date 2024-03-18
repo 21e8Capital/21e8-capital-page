@@ -99,11 +99,11 @@ export const fetchPrices = async () => {
 
   try {
     const { data: firstPartData } = await defILamaCoins.get(
-      `/chart/${firstPartFetch}?end=${unixTimestamp}&span=500&period=1w&searchWidth=300`
+      `/chart/${firstPartFetch}?end=${unixTimestamp}&span=500&period=1w&searchWidth=600`
     );
 
     const { data: secondPartData } = await defILamaCoins.get(
-      `/chart/${secondPartFetch}?end=${unixTimestamp}&span=500&period=1w&searchWidth=300`
+      `/chart/${secondPartFetch}?end=${unixTimestamp}&span=500&period=1w&searchWidth=600`
     );
 
     const formattedData = Object.entries(firstPartData.coins).reduce(

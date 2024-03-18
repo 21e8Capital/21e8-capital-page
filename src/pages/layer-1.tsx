@@ -67,6 +67,7 @@ const Layer1 = ({ stats, prices, topChains }: any) => {
   return (
     <div className="bitcoin-page">
       <ChartWrapper
+        bg
         id="layer-1-stats"
         chartType={statsChartConfig}
         data={stats}
