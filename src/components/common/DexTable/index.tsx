@@ -48,7 +48,12 @@ const DexTable = ({ data, columns, title, className, id }: TableProps) => {
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
+                  <td
+                    key={cell.id}
+                    style={{
+                      width: "auto",
+                    }}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

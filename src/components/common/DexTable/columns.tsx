@@ -29,13 +29,27 @@ export const perpColumns = [
   }),
   columnHelperPerp.accessor("quantity", {
     id: "quantity",
-    cell: (info) => <span>{info.getValue()}</span>,
+    cell: (info) => (
+      <span
+        style={{
+          marginRight: "30px",
+        }}
+      >
+        {info.getValue()}
+      </span>
+    ),
     header: () => <span>Quantity</span>,
   }),
   columnHelperPerp.accessor("percentage", {
     id: "percentage",
     cell: (info) => (
-      <span>
+      <span
+        style={{
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
         <PercentageBar percentage={info.getValue()} />
       </span>
     ),
@@ -46,7 +60,7 @@ export const perpColumns = [
     cell: (info) => (
       <span
         style={{
-          paddingLeft: "20px",
+          marginLeft: "100px",
         }}
       >
         {info.getValue()}
@@ -55,7 +69,7 @@ export const perpColumns = [
     header: () => (
       <span
         style={{
-          paddingLeft: "20px",
+          marginLeft: "100px",
         }}
       >
         1d Change

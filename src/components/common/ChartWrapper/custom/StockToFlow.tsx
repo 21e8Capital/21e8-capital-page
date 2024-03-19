@@ -1,3 +1,4 @@
+import { formatToE } from "@/utils/format";
 import { cpSync } from "fs";
 import { useTheme } from "next-themes";
 import React from "react";
@@ -36,6 +37,40 @@ const StockToFlow = ({ data }: any) => {
     );
   };
 
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    console.log(payload[0]?.dataKey);
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip">
+          {payload[0]?.dataKey === "o.price" ? (
+            <p className="label">{`${new Date(
+              label * 1000
+            ).toLocaleDateString()}: ${formatToE(payload[0].value)} USD`}</p>
+          ) : null}
+          <p>
+            Stock-to-flow Ratio [USD]:{" "}
+            {payload[payload[0]?.dataKey === "o.price" ? 1 : 0]?.value?.toFixed(
+              2
+            )}
+          </p>
+          <div
+            className="vertical-line"
+            style={{
+              height: "100%",
+              width: 1,
+              position: "absolute",
+              left: payload[0].payload.cx,
+              top: 0,
+              borderStyle: "dashed",
+            }}
+          />
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
@@ -60,7 +95,7 @@ const StockToFlow = ({ data }: any) => {
           tickCount={1}
           tick={<CustomizedAxisTick />}
         />
-        <YAxis scale="log" domain={["auto", "auto"]} /> <Tooltip />
+        <YAxis scale="log" domain={["auto", "auto"]} />
         <Line
           animationDuration={1000}
           type="monotone"
@@ -74,6 +109,13 @@ const StockToFlow = ({ data }: any) => {
                 <circle cx={cx - 1} cy={cy - 1} r={2} fill={color} />
               </svg>
             );
+          }}
+        />
+        <Tooltip
+          content={<CustomTooltip />}
+          position={{
+            x: 0,
+            y: -70,
           }}
         />
         <Line
