@@ -24,11 +24,7 @@ const Navbar = () => {
   const { isBurgerActive, setIsBurgerActive, scrolling } = useContextState();
 
   return (
-    <nav
-      className={`${styles.wrapper} ${
-        scrolling == "down" ? styles.down : styles.up
-      }`}
-    >
+    <nav className={`${styles.wrapper}`}>
       <div className={styles.nav}>
         <div className={styles.innerNav}>
           <Link href="/" className={styles.logo}>
