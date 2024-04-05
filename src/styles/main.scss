@@ -113,6 +113,73 @@ body {
   }
 }
 
+.fund-assets-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("../../public/images/hero-squares.webp");
+  background-position: center 0%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 200px 50px 100px ;
+
+
+  @media only screen and (max-width: 1500px) {
+    padding: 200px 50px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding: 0 20px;
+    margin: 100px auto 100px auto;
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding-top: 100px;
+  }
+
+  h1 {
+    font-size: 48px;
+    background: linear-gradient(
+      95deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 196, 3, 1) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    @media only screen and (max-width: 1025px) {
+      font-size: 50px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      font-size: 32px;
+      line-height: 50px;
+      text-align: center;
+    }
+  }
+
+  p {
+    margin-top: 30px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 37.2px;
+    max-width: 1270px;
+    color: #ffc403;
+
+    @media only screen and (max-width: 1025px) {
+      font-size: 18px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      font-size: 16px;
+    }
+  }
+}
+
+
+
+
 [data-theme="light"] .defi {
   background: none;
 

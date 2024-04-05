@@ -1,4 +1,5 @@
 import { GetStaticProps } from "next";
+
 import DexTable from "@/components/common/DexTable";
 import { dexColumns, perpColumns } from "@/components/common/DexTable/columns";
 import { scrapePerp, scrapeExchanges } from "@/utils/scraper";

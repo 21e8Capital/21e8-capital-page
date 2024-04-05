@@ -3,20 +3,23 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import { useContextState } from "@/utils/context";
 import { Logo } from "@/svg";
 import styles from "./styles.module.scss";
-import { useTheme } from "next-themes";
 
 const links = [
   {
     name: "Bitcoin",
-    href: "/bitcoin",
+    href: "bitcoin",
   },
   {
     name: "Layer1",
-    href: "/layer-1",
+    href: "layer-1",
   },
   {
     name: "defi",
-    href: "/defi",
+    href: "defi",
+  },
+  {
+    name: "fund assets",
+    href: "fund-assets",
   },
 ];
 
@@ -39,7 +42,7 @@ const Navbar = () => {
           <div className={styles.rhs}>
             <ul className={styles.links}>
               {links.map(({ name, href }, index) => (
-                <Link className={styles.link} key={index} href={href}>
+                <Link className={styles.link} key={index} href={`/${href}`}>
                   {name}
                 </Link>
               ))}
