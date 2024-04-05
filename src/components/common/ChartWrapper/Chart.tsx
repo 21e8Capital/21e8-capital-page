@@ -145,7 +145,7 @@ const Chart = ({
           <Download />
         </a>
         {share?.url && (
-          <div className="absolute right-8">
+          <div className="absolute right-8 opacity-1">
             <ShareButton url={share.url} title={share.title} />
           </div>
         )}

@@ -1,14 +1,6 @@
 import { GetStaticProps } from "next";
 import React, { useEffect, useState } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  ReferenceLine,
-} from "recharts";
+
 import { formattedMarketStats } from "@/utils/api";
 import captureScreenshots from "@/utils/captureDom";
 import { scrapeEtfFlows } from "@/utils/scraper/etfFlows";

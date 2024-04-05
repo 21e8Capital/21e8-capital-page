@@ -8,6 +8,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: "1.25rem",
+        },
+      },
       textColor: {
         primary: {
           DEFAULT: "#252525",
