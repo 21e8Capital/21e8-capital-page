@@ -85,7 +85,7 @@ const FundAssets = ({ btc, layer1, defi, other }: Props) => {
   };
 
   return (
-    <div className="container">
+    <div className="fund-assets-page container">
       <h1>Fund Assets</h1>
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-[40px] xl:gap-x-[69px] w-full pt-[160px] max-md:gap-y-10">
         <AssetList
