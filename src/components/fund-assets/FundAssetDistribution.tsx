@@ -44,8 +44,8 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
     percent,
     index,
   }: any) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.75;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN) + 8;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
