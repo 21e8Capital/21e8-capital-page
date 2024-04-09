@@ -11,7 +11,12 @@ import {
 
 import ShareButton from "@/components/common/ShareButton";
 
-export const FundPerformance = () => {
+interface Props {
+  btcHistory?: any[];
+  ethHistory?: any[];
+}
+
+export const FundPerformance = ({ btcHistory, ethHistory }: Props) => {
   const [legendView, setLegendView] = useState({
     bitconDataKey: true,
     layer1DataKey: true,
@@ -19,49 +24,99 @@ export const FundPerformance = () => {
     otherDataKey: true,
   });
 
+  let data = [
+    {
+      name: "Jan",
+      btc: 0,
+      layer1: 0,
+      defi: 0,
+      other: 0,
+    },
+    {
+      name: "Feb",
+      btc: 0,
+      layer1: 0,
+      defi: 0,
+      other: 0,
+    },
+    {
+      name: "Mar",
+      btc: 0,
+      layer1: 0,
+      defi: 0,
+      other: 0,
+    },
+    {
+      name: "Apr",
+      btc: 0,
+      layer1: 0,
+      defi: 0,
+      other: 0,
+    },
+    {
+      name: "May",
+      btc: 0,
+      layer1: 0,
+      defi: 0,
+      other: 0,
+    },
+    {
+      name: "Jun",
+      btc: 0,
+      layer1: 0,
+      defi: 0,
+      other: 0,
+    },
+  ];
+
+  data = data.map((item) => {
+    const matchingSecondItems = ethHistory?.filter(
+      (secondItem) => secondItem.time === item.name
+    );
+    if (matchingSecondItems && matchingSecondItems?.length > 0) {
+      // If there are matching items, sum up the values
+      const sum = matchingSecondItems?.reduce(
+        (total, current) => total + current.value,
+        0
+      );
+
+      // Update the layer1 property
+      return {
+        ...item,
+        layer1: sum,
+      };
+    } else {
+      // If no matching items, return the original item
+      return item;
+    }
+  });
+
+  data = data.map((item) => {
+    const matchingSecondItems = btcHistory?.filter(
+      (secondItem) => secondItem.time === item.name
+    );
+    if (matchingSecondItems && matchingSecondItems?.length > 0) {
+      // If there are matching items, sum up the values
+      const sum = matchingSecondItems?.reduce(
+        (total, current) => total + current.value,
+        0
+      );
+
+      // Update the btc property
+      return {
+        ...item,
+        btc: sum,
+      };
+    } else {
+      // If no matching items, return the original item
+      return item;
+    }
+  });
+
   const share = {
     url: `${window.location.href}#etf-tracker`,
     title: "21e8.Capital - Bitcoin Etf Tracker",
   };
-
-  const data = [
-    {
-      name: "Jan",
-      uv: 2000,
-      pv: 2400,
-      amt: 2600,
-    },
-    {
-      name: "Feb",
-      uv: 3000,
-      pv: 3198,
-      amt: 3210,
-    },
-    {
-      name: "Mar",
-      uv: 3000,
-      pv: 3500,
-      amt: 3790,
-    },
-    {
-      name: "Apr",
-      uv: 3980,
-      pv: 4208,
-      amt: 4400,
-    },
-    {
-      name: "May",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Jun",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-  ];
 
   return (
     <section className="mt-[88px] mb-[172px] p-5 md:py-10 md:px-[30px] w-full border border-[rgba(252, 223, 166, 0.15)] rounded-[10px] bg-[#141414]">
@@ -170,7 +225,7 @@ export const FundPerformance = () => {
           {legendView.bitconDataKey && (
             <Area
               type="monotone"
-              dataKey="uv"
+              dataKey="btc"
               stackId="1"
               stroke="#FFC403"
               fill="#FFC403"
@@ -179,33 +234,43 @@ export const FundPerformance = () => {
           {legendView.layer1DataKey && (
             <Area
               type="monotone"
-              dataKey="uv"
+              dataKey="layer1"
               stackId="1"
               stroke="#17CACC"
               fill="#17CACC"
             />
           )}
-          {legendView.deFiDataKey && (
+          {/* {legendView.deFiDataKey && (
             <Area
               type="monotone"
-              dataKey="pv"
+              dataKey="defi"
               stackId="1"
               stroke="#40E782"
               fill="#40E782"
             />
           )}
-
           {legendView.otherDataKey && (
             <Area
               type="monotone"
-              dataKey="amt"
+              dataKey="other"
               stackId="1"
               stroke="#EE6565"
               fill="#EE6565"
             />
-          )}
+          )} */}
         </AreaChart>
       </ResponsiveContainer>
     </section>
   );
 };
+
+[
+  { time: "Feb", value: 50000000000000000 },
+  { time: "Feb", value: 0 },
+  { time: "Feb", value: 0 },
+  { time: "Mar", value: 0 },
+  { time: "Apr", value: 1000000000000000000 },
+  { time: "Apr", value: 99000000000000000000 },
+  { time: "Apr", value: 50000000000000000000 },
+  { time: "Apr", value: 44771400000000000000 },
+];

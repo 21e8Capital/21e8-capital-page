@@ -12,30 +12,56 @@ const one9 = 1000000000;
 const one18 = 1000000000000000000;
 
 export const formatCurrency = (value: any) => {
-  return value.toLocaleString("en-AU", {
+  return value?.toLocaleString("en-US", {
     style: "currency",
-    currency: "AUD",
+    currency: "USD",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });
 };
 
+function getMonthFromTimestamp(timestamp: number) {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const date = new Date(timestamp * 1000); // Convert to milliseconds
+  const monthIndex = date.getMonth();
+  return months[monthIndex].slice(0, 3);
+}
+
 export async function fetchBitcoinData() {
   try {
-    // const btcHistory = await axios.get(
-    //   `https://mempool.space/api/address/${btc_address}/txs`
-    // );
+    const btcHistory = await axios.get(
+      `https://mempool.space/api/address/${btc_address}/txs`
+    );
 
     const btcPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud"
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
     );
-    const btcPrice = btcPriceResponse.data.bitcoin.aud;
+    const btcPrice = btcPriceResponse.data.bitcoin.usd;
 
     const btcBalResponse = await axios.get(
       `https://mempool.space/api/address/${btc_address}`
     );
 
     const { funded_txo_sum, spent_txo_sum } = btcBalResponse.data.chain_stats;
+
+    const history = btcHistory.data.map((item: any) => ({
+      time: getMonthFromTimestamp(item.status.block_time),
+      value: item.vout[0].value / one8,
+    }));
 
     const btcBalance = (funded_txo_sum - spent_txo_sum) / one8;
     const btcValue = btcBalance * btcPrice;
@@ -44,6 +70,7 @@ export async function fetchBitcoinData() {
       balance: btcBalance,
       value: btcValue,
       price: btcPrice,
+      history,
     };
   } catch (error) {
     console.error("Error fetching Bitcoin data");
@@ -56,6 +83,7 @@ export async function fetchEthereumData() {
     const ethHistory = await axios.get(
       `https://api.etherscan.io/api?module=account&action=txlist&address=${eth_address}&startblock=0&endblock=99999999&sort=asc`
     );
+
     const ethPriceResponse = await axios.get(
       "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=aud"
     );
@@ -66,7 +94,10 @@ export async function fetchEthereumData() {
     );
     const ethBalance = ethBalResponse.data.result / one18;
 
-    // console.log(ethBalResponse.data.result)
+    const history = ethHistory.data.result.map((item: any) => ({
+      time: getMonthFromTimestamp(item.timeStamp),
+      value: Number(item.value) / one18,
+    }));
 
     const ethValue = ethBalance * ethPrice;
 
@@ -74,7 +105,7 @@ export async function fetchEthereumData() {
       balance: ethBalance,
       value: ethValue,
       price: ethPrice,
-      ethHistory,
+      history,
     };
   } catch (error) {
     console.error("Error fetching Ethereum data");

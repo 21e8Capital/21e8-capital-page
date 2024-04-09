@@ -18,11 +18,19 @@ interface Props {
     balance: number;
     value: number;
     price: number;
+    history?: {
+      time: number;
+      value: number;
+    }[];
   };
   layer1: {
     balance: number;
     value: number;
     price: number;
+    history?: {
+      time: number;
+      value: number;
+    }[];
   };
   defi: {
     balance: number;
@@ -36,7 +44,16 @@ interface Props {
   };
 }
 
-const FundAssets = ({ btc, other, layer1, defi }: Props) => {
+const FundAssets = ({
+  btc,
+  layer1,
+  defi = { balance: 90488.82, price: 11.63, value: 1052384.9766000002 },
+  other = {
+    balance: 90488.82,
+    price: 11.63,
+    value: 1052384.9766000002,
+  },
+}: Props) => {
   const [imagesToDownload, setImagesToDownload] = useState<
     { [key: string]: string }[]
   >([]);
@@ -71,7 +88,7 @@ const FundAssets = ({ btc, other, layer1, defi }: Props) => {
   return (
     <div className="fund-assets-page container">
       <h1>Fund Assets</h1>
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-[40px] xl:gap-x-[69px] w-full pt-[160px] max-md:gap-y-10">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-[40px] xl:gap-x-[69px] w-full pt-[160px] max-lg:gap-y-10">
         <AssetList
           btcPrice={formatCurrency(btc?.value)}
           layer1Price={formatCurrency(layer1?.value)}
@@ -79,13 +96,13 @@ const FundAssets = ({ btc, other, layer1, defi }: Props) => {
           otherPrice={formatCurrency(other?.value)}
         />
         <FundAssetDistribution
-          btc={btc?.balance}
-          layer1={layer1?.balance}
-          defi={defi?.balance}
-          other={other?.balance}
+          btc={btc?.value}
+          layer1={layer1?.value}
+          defi={defi?.value}
+          other={other?.value}
         />
       </section>
-      <FundPerformance />
+      <FundPerformance btcHistory={btc?.history} ethHistory={layer1?.history} />
     </div>
   );
 };
@@ -95,29 +112,16 @@ export default FundAssets;
 export const getStaticProps: GetStaticProps = async () => {
   const btc = await fetchBitcoinData();
   const layer1 = await fetchEthereumData();
-  const defi = await fetchThorchainData();
-  const other = await fetchSolanaData();
+  // const defi = await fetchThorchainData();
+  // const other = await fetchSolanaData();
 
   return {
     props: {
       btc,
       layer1,
-      defi,
-      other,
+      // defi,
+      // other,
     },
     revalidate: 43200,
   };
 };
-
-// btc = {
-//   balance: 26.8747625,
-//   price: 108877,
-//   value: 2926043.5167125,
-// },
-// layer1 = { balance: 194.7864, price: 5589.59, value: 1088776.1135759999 },
-// defi = { balance: 90488.82, price: 11.63, value: 1052384.9766000002 },
-// other = {
-//   balance: 90488.82,
-//   price: 11.63,
-//   value: 1052384.9766000002,
-// },
