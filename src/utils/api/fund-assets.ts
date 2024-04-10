@@ -71,7 +71,7 @@ export async function fetchBitcoinData() {
 export async function fetchEthereumData() {
   try {
     const ethHistory = await axios.get(
-      `https://api.etherscan.io/api?module=account&action=txlist&address=${eth_address}&startblock=0&endblock=99999999&sort=asc`
+      `https://api.etherscan.io/api?module=account&action=txlist&address=${eth_address}&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.ETHERSCAN_API_KEY}`
     );
 
     const ethPriceResponse = await axios.get(
@@ -80,7 +80,7 @@ export async function fetchEthereumData() {
     const ethPrice = ethPriceResponse.data.ethereum.usd;
 
     const ethBalResponse = await axios.get(
-      `https://api.etherscan.io/api?module=account&action=balance&address=${eth_address}&tag=latest`
+      `https://api.etherscan.io/api?module=account&action=balance&address=${eth_address}&tag=latest&apikey=${process.env.ETHERSCAN_API_KEY}`
     );
     const ethBalance = ethBalResponse.data.result / one18;
 

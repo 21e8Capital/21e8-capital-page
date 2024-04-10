@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
+  Bar,
 } from "recharts";
 
 import ShareButton from "@/components/common/ShareButton";
@@ -127,13 +128,13 @@ export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
     otherDataKey: true,
   });
 
-  const index =
+  const numOfMonths =
     layer1History[layer1History?.length - 1].time.index >
     btcHistory[btcHistory?.length - 1].time.index
       ? layer1History[layer1History?.length - 1].time.index
       : btcHistory[btcHistory.length - 1].time.index;
 
-  let data = initializedData.slice(0, index + 2);
+  let data = initializedData.slice(0, numOfMonths + 1);
 
   data = data.map((item) => {
     const matchingSecondItems = layer1History?.filter(
@@ -206,8 +207,12 @@ export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
   };
 
   return (
-    <section className="mt-[88px] mb-[172px] p-5 md:py-10 md:px-[30px] w-full border-[2px] border-solid border-[#FCDFA6] border-opacity-[0.15] rounded-[10px] bg-[#141414]">
-      <h2 className="text-[20px]">Fund Performance</h2>
+    <section
+      className={`max-w-[1440px] mx-auto mt-[88px] p-5 md:py-10 md:px-[30px] shadow-lg w-full border-[2px] border-solid border-[#FCDFA6] border-opacity-[0.15] rounded-[10px] ${
+        resolvedTheme === "light" ? "bg-[#fff]" : "bg-[#141414]"
+      }`}
+    >
+      <h4 className={`text-[24px] ${resolvedTheme === "light" ? "text-black" : "text-white"}`}>Fund Performance</h4>
       <div className="py-4 flex items-center justify-between relative">
         <ul className="flex gap-2 md:gap-x-5 max-md:flex-wrap">
           <li
@@ -354,7 +359,7 @@ const CustomTooltip = ({ active, payload }: any) => {
         {payload.map((item: any, idx: number) => (
           <div key={idx} className="custom-tooltip">
             <p className="label">{`${item.name} : ${formatToE(
-              item.value.toFixed(2)
+              item.value
             )} USD`}</p>
             <div
               className="vertical-line"

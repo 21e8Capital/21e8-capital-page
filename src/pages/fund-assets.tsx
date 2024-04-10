@@ -64,8 +64,6 @@ const FundAssets = ({
     { [key: string]: string }[]
   >([]);
 
-  console.log(layer1)
-
   useEffect(() => {
     const handleImageSaving = async () => {
       const imageIds = ["fund-assets"];
@@ -94,9 +92,9 @@ const FundAssets = ({
   }, []);
 
   return (
-    <div className="fund-assets-page container">
-      <h1>Fund Assets</h1>
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-[40px] xl:gap-x-[69px] w-full pt-[160px] max-lg:gap-y-10">
+    <div className="fund-assets-page">
+      <h2>Fund Assets</h2>
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-[40px] xl:gap-x-[69px] w-full pt-10 lg:pt-[160px] max-lg:gap-y-10 max-w-[1440px] mx-auto">
         <AssetList
           btcPrice={formatCurrency(btc?.value)}
           layer1Price={formatCurrency(layer1?.value)}
