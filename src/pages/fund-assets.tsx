@@ -18,8 +18,11 @@ interface Props {
     balance: number;
     value: number;
     price: number;
-    history?: {
-      time: number;
+    history: {
+      time: {
+        month: string;
+        index: number;
+      };
       value: number;
     }[];
   };
@@ -27,8 +30,11 @@ interface Props {
     balance: number;
     value: number;
     price: number;
-    history?: {
-      time: number;
+    history: {
+      time: {
+        month: string;
+        index: number;
+      };
       value: number;
     }[];
   };
@@ -47,7 +53,7 @@ interface Props {
 const FundAssets = ({
   btc,
   layer1,
-  defi = { balance: 90488.82, price: 11.63, value: 1052384.9766000002 },
+  defi,
   other = {
     balance: 90488.82,
     price: 11.63,
@@ -57,6 +63,8 @@ const FundAssets = ({
   const [imagesToDownload, setImagesToDownload] = useState<
     { [key: string]: string }[]
   >([]);
+
+  console.log(layer1)
 
   useEffect(() => {
     const handleImageSaving = async () => {
@@ -102,7 +110,10 @@ const FundAssets = ({
           other={other?.value}
         />
       </section>
-      <FundPerformance btcHistory={btc?.history} ethHistory={layer1?.history} />
+      <FundPerformance
+        btcHistory={btc?.history}
+        layer1History={layer1?.history}
+      />
     </div>
   );
 };
@@ -112,14 +123,14 @@ export default FundAssets;
 export const getStaticProps: GetStaticProps = async () => {
   const btc = await fetchBitcoinData();
   const layer1 = await fetchEthereumData();
-  // const defi = await fetchThorchainData();
+  const defi = await fetchThorchainData();
   // const other = await fetchSolanaData();
 
   return {
     props: {
       btc,
       layer1,
-      // defi,
+      defi,
       // other,
     },
     revalidate: 43200,

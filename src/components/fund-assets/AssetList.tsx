@@ -14,7 +14,7 @@ export const AssetList = ({
   defiPrice,
 }: Props) => {
   return (
-    <div className="border border-[rgba(252, 223, 166, 0.15)] p-5 w-full bg-[#141414] rounded-[10px]">
+    <div className="border-[2px] border-solid border-[#FCDFA6] border-opacity-[0.15] p-5 w-full bg-[#141414] rounded-[10px]">
       <h3 className="text-[#FFC403] text-[24px] py-6">Asset List</h3>
       <table className="w-full text-left text-[20px]">
         <thead>

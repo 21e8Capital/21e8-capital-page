@@ -89,7 +89,7 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
   };
 
   return (
-    <div className="border border-[rgba(252, 223, 166, 0.15)] p-5 w-full bg-[#141414] rounded-[10px]">
+    <div className="border-[2px] border-solid border-[#FCDFA6] border-opacity-[0.15] p-5 w-full bg-[#141414] rounded-[10px]">
       <h3 className="text-[#FFC403] text-[24px]">Fund Asset Distribution</h3>
       <div className="flex justify-center items-center flex-1">
         <PieChart width={500} height={357}>

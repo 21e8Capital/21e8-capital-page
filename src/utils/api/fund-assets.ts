@@ -1,4 +1,5 @@
 const axios = require("axios");
+import { formatDate } from "./defi-lama";
 
 const btc_address = `bc1qxue8ytyxmc6e9t7cdmu4na64sryckyzq739m0luun8a8uf68kv2q9lndkg`;
 const eth_address = `0x6FD1eAA27105AD4916C1bD1627F80240017B1824`;
@@ -21,24 +22,13 @@ export const formatCurrency = (value: any) => {
 };
 
 function getMonthFromTimestamp(timestamp: number) {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   const date = new Date(timestamp * 1000); // Convert to milliseconds
   const monthIndex = date.getMonth();
-  return months[monthIndex].slice(0, 3);
+
+  return {
+    month: date.toLocaleString("default", { month: "short" }),
+    index: monthIndex,
+  };
 }
 
 export async function fetchBitcoinData() {
@@ -58,9 +48,9 @@ export async function fetchBitcoinData() {
 
     const { funded_txo_sum, spent_txo_sum } = btcBalResponse.data.chain_stats;
 
-    const history = btcHistory.data.map((item: any) => ({
+    const history = btcHistory.data.reverse().map((item: any) => ({
       time: getMonthFromTimestamp(item.status.block_time),
-      value: item.vout[0].value / one8,
+      value: (item.vout[0].value / one8) * btcPrice,
     }));
 
     const btcBalance = (funded_txo_sum - spent_txo_sum) / one8;
@@ -85,9 +75,9 @@ export async function fetchEthereumData() {
     );
 
     const ethPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=aud"
+      "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
     );
-    const ethPrice = ethPriceResponse.data.ethereum.aud;
+    const ethPrice = ethPriceResponse.data.ethereum.usd;
 
     const ethBalResponse = await axios.get(
       `https://api.etherscan.io/api?module=account&action=balance&address=${eth_address}&tag=latest`
@@ -96,7 +86,7 @@ export async function fetchEthereumData() {
 
     const history = ethHistory.data.result.map((item: any) => ({
       time: getMonthFromTimestamp(item.timeStamp),
-      value: Number(item.value) / one18,
+      value: (Number(item.value) / one18) * ethPrice,
     }));
 
     const ethValue = ethBalance * ethPrice;
@@ -116,9 +106,9 @@ export async function fetchEthereumData() {
 export async function fetchThorchainData() {
   try {
     const thorPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=thorchain&vs_currencies=aud"
+      "https://api.coingecko.com/api/v3/simple/price?ids=thorchain&vs_currencies=usd"
     );
-    const thorPrice = thorPriceResponse.data.thorchain.aud;
+    const thorPrice = thorPriceResponse.data.thorchain.usd;
 
     const thorBalResponse = await axios.get(
       `https://thornode.ninerealms.com/cosmos/bank/v1beta1/balances/${thor_address}`
@@ -137,9 +127,9 @@ export async function fetchThorchainData() {
 export async function fetchSolanaData() {
   try {
     const solPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=aud"
+      "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd"
     );
-    const solPrice = solPriceResponse.data.solana.aud;
+    const solPrice = solPriceResponse.data.solana.usd;
 
     const config = {
       headers: {

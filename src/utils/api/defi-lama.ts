@@ -151,7 +151,7 @@ export const fetchPrices = async () => {
   }
 };
 
-const formatDate = (unixTimestamp: number) => {
+export const formatDate = (unixTimestamp: number) => {
   const date = new Date(unixTimestamp * 1000);
   const formattedDate = `${
     date.getMonth() + 1

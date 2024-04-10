@@ -27,7 +27,7 @@ const AreaLineChartSingle = ({ data, chartView }: AreaLineChartProps) => {
     const { x, y, payload } = props;
     const dateParts = payload.value.split("-");
     const year = dateParts[2];
-
+    
     return (
       <g transform={`translate(${x},${y})`}>
         <text

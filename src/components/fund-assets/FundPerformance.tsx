@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useTheme } from "next-themes";
+
 import {
   AreaChart,
   Area,
@@ -10,13 +12,114 @@ import {
 } from "recharts";
 
 import ShareButton from "@/components/common/ShareButton";
+import { formatToE } from "@/utils/format";
 
 interface Props {
-  btcHistory?: any[];
-  ethHistory?: any[];
+  btcHistory: {
+    time: {
+      month: string;
+      index: number;
+    };
+    value: number;
+  }[];
+  layer1History: {
+    time: {
+      month: string;
+      index: number;
+    };
+    value: number;
+  }[];
 }
 
-export const FundPerformance = ({ btcHistory, ethHistory }: Props) => {
+let initializedData = [
+  {
+    name: "Jan",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "Feb",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "Mar",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "Apr",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "May",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "Jun",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "Jul",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "Aug",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "Sep",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "Oct",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "Nov",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+  {
+    name: "Dec",
+    btc: 0,
+    layer1: 0,
+    defi: 0,
+    other: 0,
+  },
+];
+
+export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
+  const { resolvedTheme } = useTheme();
   const [legendView, setLegendView] = useState({
     bitconDataKey: true,
     layer1DataKey: true,
@@ -24,54 +127,17 @@ export const FundPerformance = ({ btcHistory, ethHistory }: Props) => {
     otherDataKey: true,
   });
 
-  let data = [
-    {
-      name: "Jan",
-      btc: 0,
-      layer1: 0,
-      defi: 0,
-      other: 0,
-    },
-    {
-      name: "Feb",
-      btc: 0,
-      layer1: 0,
-      defi: 0,
-      other: 0,
-    },
-    {
-      name: "Mar",
-      btc: 0,
-      layer1: 0,
-      defi: 0,
-      other: 0,
-    },
-    {
-      name: "Apr",
-      btc: 0,
-      layer1: 0,
-      defi: 0,
-      other: 0,
-    },
-    {
-      name: "May",
-      btc: 0,
-      layer1: 0,
-      defi: 0,
-      other: 0,
-    },
-    {
-      name: "Jun",
-      btc: 0,
-      layer1: 0,
-      defi: 0,
-      other: 0,
-    },
-  ];
+  const index =
+    layer1History[layer1History?.length - 1].time.index >
+    btcHistory[btcHistory?.length - 1].time.index
+      ? layer1History[layer1History?.length - 1].time.index
+      : btcHistory[btcHistory.length - 1].time.index;
+
+  let data = initializedData.slice(0, index + 2);
 
   data = data.map((item) => {
-    const matchingSecondItems = ethHistory?.filter(
-      (secondItem) => secondItem.time === item.name
+    const matchingSecondItems = layer1History?.filter(
+      (secondItem) => secondItem.time.month === item.name
     );
     if (matchingSecondItems && matchingSecondItems?.length > 0) {
       // If there are matching items, sum up the values
@@ -93,7 +159,7 @@ export const FundPerformance = ({ btcHistory, ethHistory }: Props) => {
 
   data = data.map((item) => {
     const matchingSecondItems = btcHistory?.filter(
-      (secondItem) => secondItem.time === item.name
+      (secondItem) => secondItem.time.month === item.name
     );
     if (matchingSecondItems && matchingSecondItems?.length > 0) {
       // If there are matching items, sum up the values
@@ -113,13 +179,34 @@ export const FundPerformance = ({ btcHistory, ethHistory }: Props) => {
     }
   });
 
+  const CustomizedAxisTick = (props: any) => {
+    const { x, y, payload } = props;
+    const year = payload.value;
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={3}
+          dy={16}
+          textAnchor="end"
+          fill={resolvedTheme === "light" ? "#000" : "#fff"}
+          transform="rotate(-35)"
+          strokeDasharray="10 10"
+        >
+          {year}
+        </text>
+      </g>
+    );
+  };
+
   const share = {
     url: `${window.location.href}#etf-tracker`,
     title: "21e8.Capital - Bitcoin Etf Tracker",
   };
 
   return (
-    <section className="mt-[88px] mb-[172px] p-5 md:py-10 md:px-[30px] w-full border border-[rgba(252, 223, 166, 0.15)] rounded-[10px] bg-[#141414]">
+    <section className="mt-[88px] mb-[172px] p-5 md:py-10 md:px-[30px] w-full border-[2px] border-solid border-[#FCDFA6] border-opacity-[0.15] rounded-[10px] bg-[#141414]">
       <h2 className="text-[20px]">Fund Performance</h2>
       <div className="py-4 flex items-center justify-between relative">
         <ul className="flex gap-2 md:gap-x-5 max-md:flex-wrap">
@@ -214,19 +301,18 @@ export const FundPerformance = ({ btcHistory, ethHistory }: Props) => {
           margin={{
             top: 10,
             right: 0,
-            left: 0,
-            bottom: 0,
+            left: 20,
+            bottom: 20,
           }}
         >
           <CartesianGrid vertical={false} strokeOpacity={0.3} />
-          <XAxis dataKey="name" stroke="#fff" />
+          <XAxis dataKey="name" stroke="#fff" tick={CustomizedAxisTick} />
           <YAxis />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           {legendView.bitconDataKey && (
             <Area
               type="monotone"
               dataKey="btc"
-              stackId="1"
               stroke="#FFC403"
               fill="#FFC403"
             />
@@ -235,7 +321,6 @@ export const FundPerformance = ({ btcHistory, ethHistory }: Props) => {
             <Area
               type="monotone"
               dataKey="layer1"
-              stackId="1"
               stroke="#17CACC"
               fill="#17CACC"
             />
@@ -244,7 +329,6 @@ export const FundPerformance = ({ btcHistory, ethHistory }: Props) => {
             <Area
               type="monotone"
               dataKey="defi"
-              stackId="1"
               stroke="#40E782"
               fill="#40E782"
             />
@@ -253,7 +337,6 @@ export const FundPerformance = ({ btcHistory, ethHistory }: Props) => {
             <Area
               type="monotone"
               dataKey="other"
-              stackId="1"
               stroke="#EE6565"
               fill="#EE6565"
             />
@@ -264,13 +347,31 @@ export const FundPerformance = ({ btcHistory, ethHistory }: Props) => {
   );
 };
 
-[
-  { time: "Feb", value: 50000000000000000 },
-  { time: "Feb", value: 0 },
-  { time: "Feb", value: 0 },
-  { time: "Mar", value: 0 },
-  { time: "Apr", value: 1000000000000000000 },
-  { time: "Apr", value: 99000000000000000000 },
-  { time: "Apr", value: 50000000000000000000 },
-  { time: "Apr", value: 44771400000000000000 },
-];
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <>
+        {payload.map((item: any, idx: number) => (
+          <div key={idx} className="custom-tooltip">
+            <p className="label">{`${item.name} : ${formatToE(
+              item.value.toFixed(2)
+            )} USD`}</p>
+            <div
+              className="vertical-line"
+              style={{
+                height: "100%",
+                width: 1,
+                position: "absolute",
+                left: item.payload.cx,
+                top: 0,
+                borderStyle: "dashed",
+              }}
+            />
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  return null;
+};

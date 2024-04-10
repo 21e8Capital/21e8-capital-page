@@ -24,7 +24,7 @@ const config: Config = {
       borderColor: {
         primary: {
           DEFAULT: "#FFC400",
-          light: "#FFD472",
+          light: "rgba(rgba(252, 223, 166, 0.15))",
           lighter: "#FFECB7",
         },
       },
