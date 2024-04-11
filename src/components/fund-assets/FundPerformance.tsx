@@ -9,11 +9,10 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
-  Bar,
 } from "recharts";
 
-import ShareButton from "@/components/common/ShareButton";
 import { formatToE } from "@/utils/format";
+import { Legend } from "./Legend";
 
 interface Props {
   btcHistory: {
@@ -128,6 +127,8 @@ export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
     otherDataKey: true,
   });
 
+  const handleLegend = (legend: any) => setLegendView(legend);
+
   const numOfMonths =
     layer1History[layer1History?.length - 1].time.index >
     btcHistory[btcHistory?.length - 1].time.index
@@ -201,103 +202,20 @@ export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
     );
   };
 
-  const share = {
-    url: `${window.location.href}#etf-tracker`,
-    title: "21e8.Capital - Bitcoin Etf Tracker",
-  };
-
   return (
     <section
       className={`max-w-[1440px] mx-auto mt-[88px] p-5 md:py-10 md:px-[30px] shadow-lg w-full border-[2px] border-solid border-[#FCDFA6] border-opacity-[0.15] rounded-[10px] ${
         resolvedTheme === "light" ? "bg-[#fff]" : "bg-[#141414]"
       }`}
     >
-      <h4 className={`text-[24px] ${resolvedTheme === "light" ? "text-black" : "text-white"}`}>Fund Performance</h4>
-      <div className="py-4 flex items-center justify-between relative">
-        <ul className="flex gap-2 md:gap-x-5 max-md:flex-wrap">
-          <li
-            onClick={() =>
-              setLegendView({
-                ...legendView,
-                bitconDataKey: !legendView["bitconDataKey"],
-              })
-            }
-            className={`px-3.5 w-[100px] cursor-pointer text-left font-bold py-[7px] bg-[#FFC403] text-black rounded-full text-sm ${
-              legendView.bitconDataKey
-                ? "bg-[#FFC403]"
-                : "bg-[#FFC403] opacity-55"
-            }`}
-          >
-            Bitcoin
-          </li>
-          <li
-            onClick={() =>
-              setLegendView({
-                ...legendView,
-                layer1DataKey: !legendView["layer1DataKey"],
-              })
-            }
-            className={`px-3.5 w-[100px] cursor-pointer text-left font-bold py-[7px] bg-[#FFC403] text-black rounded-full text-sm ${
-              legendView.layer1DataKey
-                ? "bg-[#FFC403]"
-                : "bg-[#FFC403] opacity-55"
-            }`}
-          >
-            Layer1
-          </li>
-          <li
-            onClick={() =>
-              setLegendView({
-                ...legendView,
-                deFiDataKey: !legendView["deFiDataKey"],
-              })
-            }
-            className={`px-3.5 w-[100px] cursor-pointer text-left font-bold py-[7px] bg-[#FFC403] text-black rounded-full text-sm ${
-              legendView.deFiDataKey
-                ? "bg-[#FFC403]"
-                : "bg-[#FFC403] opacity-55"
-            }`}
-          >
-            DeFi
-          </li>
-          <li
-            onClick={() =>
-              setLegendView({
-                ...legendView,
-                otherDataKey: !legendView["otherDataKey"],
-              })
-            }
-            className={`px-3.5 w-[100px] cursor-pointer text-left font-bold py-[7px] bg-[#FFC403] text-black rounded-full text-sm ${
-              legendView.otherDataKey
-                ? "bg-[#FFC403]"
-                : "bg-[#FFC403] opacity-55"
-            }`}
-          >
-            Other
-          </li>
-        </ul>
-        <div className="absolute right-8">
-          <ShareButton url={share.url} title={share.title} />
-        </div>
-      </div>
-      <ul className="flex max-md:flex-wrap text-sm mb-6 gap-4 md:gap-x-[22px]">
-        <li className="flex items-center gap-x-0.5">
-          <span className="w-3 h-3 bg-[#FFC403] rounded-full"></span>
-          Bitcoin
-        </li>
-        <li className="flex items-center gap-x-0.5">
-          <span className="w-3 h-3 bg-[#17CACC] rounded-full"></span>
-          Layer1
-        </li>
-        <li className="flex items-center gap-x-0.5">
-          <span className="w-3 h-3 bg-[#40E782] rounded-full"></span>
-          DeFi
-        </li>
-        <li className="flex items-center gap-x-0.5">
-          <span className="w-3 h-3 bg-[#EE6565] rounded-full"></span>
-          Other
-        </li>
-      </ul>
+      <h4
+        className={`text-[24px] ${
+          resolvedTheme === "light" ? "text-black" : "text-white"
+        }`}
+      >
+        Fund Performance
+      </h4>
+      <Legend legendView={legendView} handleLegend={handleLegend} />
       <ResponsiveContainer width="100%" height={500} id="fund-assets">
         <AreaChart
           width={500}
@@ -359,7 +277,7 @@ const CustomTooltip = ({ active, payload }: any) => {
         {payload.map((item: any, idx: number) => (
           <div key={idx} className="custom-tooltip">
             <p className="label">{`${item.name} : ${formatToE(
-              item.value
+              item.value.toFixed(2)
             )} USD`}</p>
             <div
               className="vertical-line"
