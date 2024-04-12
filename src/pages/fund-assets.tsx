@@ -50,16 +50,7 @@ interface Props {
   };
 }
 
-const FundAssets = ({
-  btc,
-  layer1,
-  defi,
-  other = {
-    balance: 90488.82,
-    price: 11.63,
-    value: 1052384.9766000002,
-  },
-}: Props) => {
+const FundAssets = ({ btc, layer1, defi, other }: Props) => {
   const [imagesToDownload, setImagesToDownload] = useState<
     { [key: string]: string }[]
   >([]);
@@ -122,14 +113,14 @@ export const getStaticProps: GetStaticProps = async () => {
   const btc = await fetchBitcoinData();
   const layer1 = await fetchEthereumData();
   const defi = await fetchThorchainData();
-  // const other = await fetchSolanaData();
+  const other = await fetchSolanaData();
 
   return {
     props: {
       btc,
       layer1,
       defi,
-      // other,
+      other,
     },
     revalidate: 43200,
   };

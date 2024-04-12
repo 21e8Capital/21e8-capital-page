@@ -38,7 +38,6 @@ const StockToFlow = ({ data }: any) => {
   };
 
   const CustomTooltip = ({ active, payload, label }: any) => {
-    console.log(payload[0]?.dataKey);
     if (active && payload && payload.length) {
       return (
         <div className="custom-tooltip">
