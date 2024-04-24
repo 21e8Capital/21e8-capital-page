@@ -13,6 +13,7 @@ import {
 
 import { formatToE } from "@/utils/format";
 import { Legend } from "./Legend";
+import { findBiggest } from "@/utils/api/fund-assets";
 
 interface Props {
   btcHistory: {
@@ -23,6 +24,13 @@ interface Props {
     value: number;
   }[];
   layer1History: {
+    time: {
+      month: string;
+      index: number;
+    };
+    value: number;
+  }[];
+  otherHistory: {
     time: {
       month: string;
       index: number;
@@ -118,7 +126,11 @@ let initializedData = [
   },
 ];
 
-export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
+export const FundPerformance = ({
+  btcHistory,
+  layer1History,
+  otherHistory,
+}: Props) => {
   const { resolvedTheme } = useTheme();
   const [legendView, setLegendView] = useState({
     bitconDataKey: true,
@@ -129,11 +141,11 @@ export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
 
   const handleLegend = (legend: any) => setLegendView(legend);
 
-  const numOfMonths =
-    layer1History[layer1History?.length - 1].time.index >
-    btcHistory[btcHistory?.length - 1].time.index
-      ? layer1History[layer1History?.length - 1].time.index
-      : btcHistory[btcHistory.length - 1].time.index;
+  const numOfMonths = findBiggest([
+    btcHistory[btcHistory?.length - 1].time.index,
+    layer1History[layer1History?.length - 1].time.index,
+    otherHistory[otherHistory?.length - 1].time.index,
+  ]);
 
   let data = initializedData.slice(0, numOfMonths + 1);
 
@@ -159,6 +171,27 @@ export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
     }
   });
 
+  data = data.map((item) => {
+    const matchingSecondItems = otherHistory?.filter(
+      (secondItem) => secondItem.time.month === item.name
+    );
+    if (matchingSecondItems && matchingSecondItems?.length > 0) {
+      // If there are matching items, sum up the values
+      const sum = matchingSecondItems?.reduce(
+        (total, current) => total + current.value,
+        0
+      );
+
+      // Update the btc property
+      return {
+        ...item,
+        other: sum,
+      };
+    } else {
+      // If no matching items, return the original item
+      return item;
+    }
+  });
   data = data.map((item) => {
     const matchingSecondItems = btcHistory?.filter(
       (secondItem) => secondItem.time.month === item.name
@@ -201,6 +234,8 @@ export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
       </g>
     );
   };
+
+  console.log(data)
 
   return (
     <section
@@ -248,7 +283,7 @@ export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
               fill="#17CACC"
             />
           )}
-          {/* {legendView.deFiDataKey && (
+          {legendView.deFiDataKey && (
             <Area
               type="monotone"
               dataKey="defi"
@@ -263,7 +298,7 @@ export const FundPerformance = ({ btcHistory, layer1History }: Props) => {
               stroke="#EE6565"
               fill="#EE6565"
             />
-          )} */}
+          )}
         </AreaChart>
       </ResponsiveContainer>
     </section>

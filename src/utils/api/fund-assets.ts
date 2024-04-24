@@ -1,12 +1,11 @@
 const axios = require("axios");
-import { formatDate } from "./defi-lama";
 
 const btc_address = `bc1qxue8ytyxmc6e9t7cdmu4na64sryckyzq739m0luun8a8uf68kv2q9lndkg`;
 const eth_address = `0x6FD1eAA27105AD4916C1bD1627F80240017B1824`;
 const thor_address = `thor1eewa0w9p3tdvdfan8lfcc0w2f7ucflxfx3hg75`;
 const sol_address = `FcsXxKpFCvp9QaLQP7J6unKHtEVqLFHZVFddA63RneK4`;
 
-const bdSecret = process.env["blockdaemonKey"];
+const bdSecret = process.env.BLOCK_DAEMON_KEY
 
 const one8 = 100000000;
 const one9 = 1000000000;
@@ -20,6 +19,13 @@ export const formatCurrency = (value: any) => {
     maximumFractionDigits: 0,
   });
 };
+
+export  function findBiggest(numbers: number[]) {
+  // Use reduce to find the biggest number
+  return numbers.reduce((biggest, current) => {
+    return current > biggest ? current : biggest;
+  }, numbers[0]); // Start with the first number as the initial biggest
+}
 
 function getMonthFromTimestamp(timestamp: number) {
   const date = new Date(timestamp * 1000); // Convert to milliseconds
@@ -82,6 +88,7 @@ export async function fetchEthereumData() {
     const ethBalResponse = await axios.get(
       `https://api.etherscan.io/api?module=account&action=balance&address=${eth_address}&tag=latest&apikey=${process.env.ETHERSCAN_API_KEY}`
     );
+
     const ethBalance = ethBalResponse.data.result / one18;
 
     const history = ethHistory.data.result.map((item: any) => ({
@@ -141,11 +148,22 @@ export async function fetchSolanaData() {
       `https://svc.blockdaemon.com/universal/v1/solana/mainnet/account/${sol_address}`,
       config
     );
-    const solBalance = solBalResponse.data[0].confirmed_balance / one9;
+
+    const solBalResponseHistory = await axios.get(
+      `https://svc.blockdaemon.com/universal/v1/solana/mainnet/account/${sol_address}/txs`,
+      config
+    );
+
+    const solBalance = solBalResponse.data[0]?.confirmed_balance / one9;
 
     const solValue = solBalance * solPrice;
 
-    return { balance: solBalance, value: solValue, price: solPrice };
+    const history = solBalResponseHistory.data.data.reverse().map((item: any) => ({
+      time: getMonthFromTimestamp(item.date),
+      value: (item.events[1].amount / one9) * solPrice,
+    }));
+
+    return { balance: solBalance, value: solValue, price: solPrice, history };
   } catch (error) {
     console.error("Error fetching Solana data");
     throw error;
