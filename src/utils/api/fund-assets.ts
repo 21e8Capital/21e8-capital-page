@@ -5,7 +5,7 @@ const eth_address = `0x6FD1eAA27105AD4916C1bD1627F80240017B1824`;
 const thor_address = `thor1eewa0w9p3tdvdfan8lfcc0w2f7ucflxfx3hg75`;
 const sol_address = `FcsXxKpFCvp9QaLQP7J6unKHtEVqLFHZVFddA63RneK4`;
 
-const bdSecret = process.env.BLOCK_DAEMON_KEY
+const bdSecret = process.env.BLOCK_DAEMON_KEY;
 
 const one8 = 100000000;
 const one9 = 1000000000;
@@ -20,7 +20,7 @@ export const formatCurrency = (value: any) => {
   });
 };
 
-export  function findBiggest(numbers: number[]) {
+export function findBiggest(numbers: number[]) {
   // Use reduce to find the biggest number
   return numbers.reduce((biggest, current) => {
     return current > biggest ? current : biggest;
@@ -44,9 +44,9 @@ export async function fetchBitcoinData() {
     );
 
     const btcPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud"
     );
-    const btcPrice = btcPriceResponse.data.bitcoin.usd;
+    const btcPrice = btcPriceResponse.data.bitcoin.aud;
 
     const btcBalResponse = await axios.get(
       `https://mempool.space/api/address/${btc_address}`
@@ -56,8 +56,14 @@ export async function fetchBitcoinData() {
 
     const history = btcHistory.data.reverse().map((item: any) => ({
       time: getMonthFromTimestamp(item.status.block_time),
-      value: (item.vout[0].value / one8) * btcPrice,
+      value: item.vout.reduce(
+        (accumulator: any, currentValue: any) =>
+          accumulator + (currentValue.value / one8) * btcPrice,
+        0
+      ),
     }));
+
+    // (item.vout[0].value / one8) * btcPrice,
 
     const btcBalance = (funded_txo_sum - spent_txo_sum) / one8;
     const btcValue = btcBalance * btcPrice;
@@ -81,9 +87,9 @@ export async function fetchEthereumData() {
     );
 
     const ethPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
+      "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=aud"
     );
-    const ethPrice = ethPriceResponse.data.ethereum.usd;
+    const ethPrice = ethPriceResponse.data.ethereum.aud;
 
     const ethBalResponse = await axios.get(
       `https://api.etherscan.io/api?module=account&action=balance&address=${eth_address}&tag=latest&apikey=${process.env.ETHERSCAN_API_KEY}`
@@ -113,9 +119,9 @@ export async function fetchEthereumData() {
 export async function fetchThorchainData() {
   try {
     const thorPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=thorchain&vs_currencies=usd"
+      "https://api.coingecko.com/api/v3/simple/price?ids=thorchain&vs_currencies=aud"
     );
-    const thorPrice = thorPriceResponse.data.thorchain.usd;
+    const thorPrice = thorPriceResponse.data.thorchain.aud;
 
     const thorBalResponse = await axios.get(
       `https://thornode.ninerealms.com/cosmos/bank/v1beta1/balances/${thor_address}`
@@ -134,9 +140,9 @@ export async function fetchThorchainData() {
 export async function fetchSolanaData() {
   try {
     const solPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd"
+      "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=aud"
     );
-    const solPrice = solPriceResponse.data.solana.usd;
+    const solPrice = solPriceResponse.data.solana.aud;
 
     const config = {
       headers: {
@@ -158,11 +164,17 @@ export async function fetchSolanaData() {
 
     const solValue = solBalance * solPrice;
 
-    const history = solBalResponseHistory.data.data.reverse().map((item: any) => ({
-      time: getMonthFromTimestamp(item.date),
-      value: (item.events[1].amount / one9) * solPrice,
-    }));
+    const history = solBalResponseHistory.data.data
+      .reverse()
+      .map((item: any) => ({
+        time: getMonthFromTimestamp(item.date),
+        value: item.events.reduce(
+          (acc: any, curr: any) => acc + (curr.amount / one9) * solPrice,
+          0
+        ),
+      }));
 
+    // (item.events[1].amount / one9) * solPrice,
     return { balance: solBalance, value: solValue, price: solPrice, history };
   } catch (error) {
     console.error("Error fetching Solana data");

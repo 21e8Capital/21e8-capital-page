@@ -55,21 +55,6 @@ export const Legend = ({ legendView, handleLegend }: any) => {
           >
             DeFi
           </li>
-          <li
-            onClick={() =>
-              handleLegend({
-                ...legendView,
-                otherDataKey: !legendView["otherDataKey"],
-              })
-            }
-            className={`px-3.5 w-[100px] cursor-pointer text-left font-bold py-[7px] bg-[#FFC403] text-black rounded-full text-sm ${
-              legendView.otherDataKey
-                ? "bg-[#FFC403]"
-                : "bg-[#FFC403] opacity-55"
-            }`}
-          >
-            Other
-          </li>
         </ul>
         <div className="absolute right-8">
           <ShareButton url={share.url} title={share.title} />

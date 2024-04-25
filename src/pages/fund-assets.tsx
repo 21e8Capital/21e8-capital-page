@@ -95,9 +95,8 @@ const FundAssets = ({ btc, layer1, defi, other }: Props) => {
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-[40px] xl:gap-x-[69px] w-full pt-10 lg:pt-[160px] max-lg:gap-y-10 max-w-[1440px] mx-auto">
         <AssetList
           btcPrice={formatCurrency(btc?.value)}
-          layer1Price={formatCurrency(layer1?.value)}
+          layer1Price={formatCurrency(layer1?.value + other?.value)}
           defiPrice={formatCurrency(defi?.value)}
-          otherPrice={formatCurrency(other?.value)}
         />
         <FundAssetDistribution
           btc={btc?.value}

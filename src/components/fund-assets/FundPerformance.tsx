@@ -45,84 +45,72 @@ let initializedData = [
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "Feb",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "Mar",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "Apr",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "May",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "Jun",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "Jul",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "Aug",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "Sep",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "Oct",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "Nov",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
   {
     name: "Dec",
     btc: 0,
     layer1: 0,
     defi: 0,
-    other: 0,
   },
 ];
 
@@ -136,7 +124,6 @@ export const FundPerformance = ({
     bitconDataKey: true,
     layer1DataKey: true,
     deFiDataKey: true,
-    otherDataKey: true,
   });
 
   const handleLegend = (legend: any) => setLegendView(legend);
@@ -185,13 +172,14 @@ export const FundPerformance = ({
       // Update the btc property
       return {
         ...item,
-        other: sum,
+        layer1: item.layer1 + sum,
       };
     } else {
       // If no matching items, return the original item
       return item;
     }
   });
+
   data = data.map((item) => {
     const matchingSecondItems = btcHistory?.filter(
       (secondItem) => secondItem.time.month === item.name
@@ -234,8 +222,6 @@ export const FundPerformance = ({
       </g>
     );
   };
-
-  console.log(data)
 
   return (
     <section
@@ -291,14 +277,6 @@ export const FundPerformance = ({
               fill="#40E782"
             />
           )}
-          {legendView.otherDataKey && (
-            <Area
-              type="monotone"
-              dataKey="other"
-              stroke="#EE6565"
-              fill="#EE6565"
-            />
-          )}
         </AreaChart>
       </ResponsiveContainer>
     </section>
@@ -313,7 +291,7 @@ const CustomTooltip = ({ active, payload }: any) => {
           <div key={idx} className="custom-tooltip">
             <p className="label">{`${item.name} : ${formatToE(
               item.value.toFixed(2)
-            )} USD`}</p>
+            )} AUD`}</p>
             <div
               className="vertical-line"
               style={{

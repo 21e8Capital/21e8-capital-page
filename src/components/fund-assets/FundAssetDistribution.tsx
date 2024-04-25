@@ -22,16 +22,12 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
         value: btc,
       },
       {
-        name: "Other",
-        value: other,
-      },
-      {
         name: "DeFi",
         value: defi,
       },
       {
         name: "Layer1",
-        value: layer1,
+        value: layer1 + other,
       },
     ],
     []
@@ -46,7 +42,7 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
     percent,
     index,
   }: any) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.6;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -63,6 +59,7 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
       </text>
     );
   };
+  
   const renderCustomizedOuterLabel = ({
     cx,
     cy,
@@ -98,7 +95,7 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
     >
       <h3 className="text-[#FFC403] text-[24px]">Fund Asset Distribution</h3>
       <div className="flex justify-center items-center flex-1">
-        <PieChart width={500} height={357}>
+        <PieChart width={500} height={300}>
           <Pie
             data={data}
             dataKey="value"
@@ -107,7 +104,7 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
             cy="50%"
             fill="#8884d8"
             labelLine={false}
-            outerRadius={120}
+            outerRadius={90}
             label={renderCustomizedOuterLabel}
           />
           <Pie
@@ -118,7 +115,7 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
             cy="50%"
             fill="#8884d8"
             labelLine={false}
-            outerRadius={120}
+            outerRadius={100}
             label={renderCustomizedLabel}
           >
             {data.map((entry, index) => (
