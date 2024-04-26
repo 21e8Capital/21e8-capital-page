@@ -34,13 +34,15 @@ const etfTrackerConfig = {
   lineLabel: "Total Net BTS flows to ETFs",
 };
 
-const PriceData = ({
-  etfData,
-  marketStats,
-  performance,
-  stockToFlow,
-  googleTrends,
-}: PriceDataProps) => {
+// {
+//   etfData,
+//   marketStats,
+//   performance,
+//   stockToFlow,
+//   googleTrends,
+// }: PriceDataProps
+
+const PriceData = () => {
   const [imagesToDownload, setImagesToDownload] = useState<
     { [key: string]: string }[]
   >([]);
@@ -103,7 +105,7 @@ const PriceData = ({
 
   return (
     <div className="bitcoin-page">
-      <PriceTable
+      {/* <PriceTable
         title="Bitcoin Price Data"
         performance={performance}
         marketStats={marketStats}
@@ -149,28 +151,28 @@ const PriceData = ({
             "interest-over-time" as keyof typeof imagesToDownload
           ]
         }
-      />
+      /> */}
     </div>
   );
 };
 
 export default PriceData;
 
-export const getStaticProps: GetStaticProps = async () => {
-  const etfData = await scrapeEtfFlows();
-  const stockToFlow = await fetchStockToFlow();
-  const performance = await getPerformanceStats("btc");
-  const marketStats = await formattedMarketStats("btc");
-  const googleTrends = await fetchGoogleTrends("bitcoin");
+// export const getStaticProps: GetStaticProps = async () => {
+//   const etfData = await scrapeEtfFlows();
+//   const stockToFlow = await fetchStockToFlow();
+//   const performance = await getPerformanceStats("btc");
+//   const marketStats = await formattedMarketStats("btc");
+//   const googleTrends = await fetchGoogleTrends("bitcoin");
 
-  return {
-    props: {
-      stockToFlow: stockToFlow ?? [],
-      marketStats: marketStats ?? [],
-      googleTrends: googleTrends ?? [],
-      etfData: etfData?.dailyFlows ?? [],
-      performance: performance?.data ?? [],
-    },
-    revalidate: 43200,
-  };
-};
+//   return {
+//     props: {
+//       stockToFlow: stockToFlow ?? [],
+//       marketStats: marketStats ?? [],
+//       googleTrends: googleTrends ?? [],
+//       etfData: etfData?.dailyFlows ?? [],
+//       performance: performance?.data ?? [],
+//     },
+//     revalidate: 43200,
+//   };
+// };
