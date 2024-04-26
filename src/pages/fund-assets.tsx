@@ -63,32 +63,34 @@ const FundAssets = ({ btc, layer1, defi, other }: Props) => {
     { [key: string]: string }[]
   >([]);
 
-  useEffect(() => {
-    const handleImageSaving = async () => {
-      const imageIds = ["fund-assets"];
+  // useEffect(() => {
+  //   const handleImageSaving = async () => {
+  //     const imageIds = ["fund-assets"];
 
-      const images = await captureScreenshots(imageIds, "/api/saveImages");
+  //     const images = await captureScreenshots(imageIds, "/api/saveImages");
 
-      setImagesToDownload(
-        // @ts-ignore
-        images.reduce(
-          (acc, { fileName, image }) => ({
-            ...acc,
-            [fileName]: image,
-          }),
-          {}
-        )
-      );
-    };
+  //     console.log(images)
 
-    const imageSavingTimeout = setTimeout(() => {
-      handleImageSaving();
-    }, 2000);
+  //     setImagesToDownload(
+  //       // @ts-ignore
+  //       images.reduce(
+  //         (acc, { fileName, image }) => ({
+  //           ...acc,
+  //           [fileName]: image,
+  //         }),
+  //         {}
+  //       )
+  //     );
+  //   };
 
-    return () => {
-      clearTimeout(imageSavingTimeout);
-    };
-  }, []);
+  //   const imageSavingTimeout = setTimeout(() => {
+  //     handleImageSaving();
+  //   }, 2000);
+
+  //   return () => {
+  //     clearTimeout(imageSavingTimeout);
+  //   };
+  // }, []);
 
   return (
     <div className="fund-assets-page">
