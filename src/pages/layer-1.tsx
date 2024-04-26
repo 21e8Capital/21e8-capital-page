@@ -25,7 +25,7 @@ const statsChartConfig: Layer1Charts = {
   ],
 };
 
-const Layer1 = ({ stats, prices }: any) => {
+const Layer1 = ({ stats, prices, topChains }: any) => {
   const [imagesToDownload, setImagesToDownload] = useState<
     { [key: string]: string }[]
   >([]);
@@ -89,7 +89,7 @@ const Layer1 = ({ stats, prices }: any) => {
           imagesToDownload["layer-1-prices" as keyof typeof imagesToDownload]
         }
       />
-      {/* <Layer1Table data={topChains} title="Top 10 Chains" columns={layer1Top} /> */}
+      <Layer1Table data={topChains} title="Top 10 Chains" columns={layer1Top} />
     </div>
   );
 };
@@ -99,13 +99,13 @@ export default Layer1;
 export const getStaticProps: GetStaticProps = async () => {
   const stats = await fetchStats();
   const prices = await fetchPrices();
-  // const topChains = await scrapeLayer1Chains();
+  const topChains = await scrapeLayer1Chains();
 
   return {
     props: {
       stats,
       prices,
-      // topChains,
+      topChains,
     },
     revalidate: 43200,
   };
