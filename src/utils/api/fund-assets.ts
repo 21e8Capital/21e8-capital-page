@@ -1,3 +1,5 @@
+import { cryptoCompareApiMining } from "../axios";
+
 const axios = require("axios");
 
 const btc_address = `bc1qxue8ytyxmc6e9t7cdmu4na64sryckyzq739m0luun8a8uf68kv2q9lndkg`;
@@ -37,16 +39,11 @@ function getMonthFromTimestamp(timestamp: number) {
   };
 }
 
-export async function fetchBitcoinData() {
+export async function fetchBitcoinData(price: number) {
   try {
     const btcHistory = await axios.get(
       `https://mempool.space/api/address/${btc_address}/txs`
     );
-
-    const btcPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud"
-    );
-    const btcPrice = btcPriceResponse.data.bitcoin.aud;
 
     const btcBalResponse = await axios.get(
       `https://mempool.space/api/address/${btc_address}`
@@ -56,22 +53,16 @@ export async function fetchBitcoinData() {
 
     const history = btcHistory.data.reverse().map((item: any) => ({
       time: getMonthFromTimestamp(item.status.block_time),
-      value: item.vout.reduce(
-        (accumulator: any, currentValue: any) =>
-          accumulator + (currentValue.value / one8) * btcPrice,
-        0
-      ),
+      value: calcBtcHistory(item, price),
     }));
 
-    // (item.vout[0].value / one8) * btcPrice,
-
     const btcBalance = (funded_txo_sum - spent_txo_sum) / one8;
-    const btcValue = btcBalance * btcPrice;
+    const btcValue = btcBalance * price;
 
     return {
       balance: btcBalance,
       value: btcValue,
-      price: btcPrice,
+      price: price,
       history,
     };
   } catch (error) {
@@ -80,16 +71,11 @@ export async function fetchBitcoinData() {
   }
 }
 
-export async function fetchEthereumData() {
+export async function fetchEthereumData(price: number) {
   try {
     const ethHistory = await axios.get(
       `https://api.etherscan.io/api?module=account&action=txlist&address=${eth_address}&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.ETHERSCAN_API_KEY}`
     );
-
-    const ethPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=aud"
-    );
-    const ethPrice = ethPriceResponse.data.ethereum.aud;
 
     const ethBalResponse = await axios.get(
       `https://api.etherscan.io/api?module=account&action=balance&address=${eth_address}&tag=latest&apikey=${process.env.ETHERSCAN_API_KEY}`
@@ -99,15 +85,15 @@ export async function fetchEthereumData() {
 
     const history = ethHistory.data.result.map((item: any) => ({
       time: getMonthFromTimestamp(item.timeStamp),
-      value: (Number(item.value) / one18) * ethPrice,
+      value: (Number(item.value) / one18) * price,
     }));
 
-    const ethValue = ethBalance * ethPrice;
+    const ethValue = ethBalance * price;
 
     return {
       balance: ethBalance,
       value: ethValue,
-      price: ethPrice,
+      price: price,
       history,
     };
   } catch (error) {
@@ -116,34 +102,24 @@ export async function fetchEthereumData() {
   }
 }
 
-export async function fetchThorchainData() {
+export async function fetchThorchainData(price: number) {
   try {
-    const thorPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=thorchain&vs_currencies=aud"
-    );
-    const thorPrice = thorPriceResponse.data.thorchain.aud;
-
     const thorBalResponse = await axios.get(
       `https://thornode.ninerealms.com/cosmos/bank/v1beta1/balances/${thor_address}`
     );
     const thorBalance = thorBalResponse.data.balances[0].amount / one8;
 
-    const thorValue = thorBalance * thorPrice;
+    const thorValue = thorBalance * price;
 
-    return { balance: thorBalance, value: thorValue, price: thorPrice };
+    return { balance: thorBalance, value: thorValue, price: price };
   } catch (error) {
     console.error("Error fetching THORChain data");
     throw error;
   }
 }
 
-export async function fetchSolanaData() {
+export async function fetchSolanaData(price: number) {
   try {
-    const solPriceResponse = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=aud"
-    );
-    const solPrice = solPriceResponse.data.solana.aud;
-
     const config = {
       headers: {
         Authorization: `Bearer ${bdSecret}`,
@@ -162,22 +138,39 @@ export async function fetchSolanaData() {
 
     const solBalance = solBalResponse.data[0]?.confirmed_balance / one9;
 
-    const solValue = solBalance * solPrice;
+    const solValue = solBalance * price;
 
     const history = solBalResponseHistory.data.data
       .reverse()
       .map((item: any) => ({
         time: getMonthFromTimestamp(item.date),
-        value: item.events.reduce(
-          (acc: any, curr: any) => acc + (curr.amount / one9) * solPrice,
-          0
-        ),
+        value: calcTransaction(item, price),
       }));
 
     // (item.events[1].amount / one9) * solPrice,
-    return { balance: solBalance, value: solValue, price: solPrice, history };
+    return { balance: solBalance, value: solValue, price: price, history };
   } catch (error) {
     console.error("Error fetching Solana data");
     throw error;
   }
+}
+
+function calcTransaction(item: any, price: number) {
+  const transaction = item.events
+    .filter((item: any) => item.type === "transfer")
+    .reduce((acc: number, curr: any) => acc + curr.amount, 0);
+  return (transaction / one9) * price;
+}
+
+function calcBtcHistory(item: any, price: number) {
+  const vin = item.vin.reduce(
+    (acc: number, curr: any) => acc + curr.prevout.value,
+    0
+  );
+  // const vout = item.vout.reduce(
+  //   (acc: number, curr: any) => acc + curr.value,
+  //   0
+  // );
+  const result = vin / one8;
+  return result * price;
 }
