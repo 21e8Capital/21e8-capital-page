@@ -95,7 +95,7 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
     >
       <h3 className="text-[#FFC403] text-[24px]">Fund Asset Distribution</h3>
       <div className="flex justify-center items-center flex-1">
-        <PieChart width={500} height={300}>
+        <PieChart width={500} height={380}>
           <Pie
             data={data}
             dataKey="value"
@@ -104,7 +104,7 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
             cy="50%"
             fill="#8884d8"
             labelLine={false}
-            outerRadius={90}
+            outerRadius={120}
             label={renderCustomizedOuterLabel}
           />
           <Pie
@@ -115,7 +115,7 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
             cy="50%"
             fill="#8884d8"
             labelLine={false}
-            outerRadius={100}
+            outerRadius={130}
             label={renderCustomizedLabel}
           >
             {data.map((entry, index) => (

@@ -1,5 +1,5 @@
 import { GetStaticProps } from "next";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { AssetList } from "@/components/fund-assets/AssetList";
 import { FundAssetDistribution } from "@/components/fund-assets/FundAssetDistribution";
@@ -10,7 +10,6 @@ import {
   fetchSolanaData,
   fetchThorchainData,
 } from "@/utils/api";
-import captureScreenshots from "@/utils/captureDom";
 import { FundPerformance } from "@/components/fund-assets/FundPerformance";
 import { cryptoCompareApiMining } from "../utils/axios";
 
@@ -100,6 +99,9 @@ const FundAssets = ({ btc, layer1, defi, other }: Props) => {
           btcPrice={formatCurrency(btc?.value)}
           layer1Price={formatCurrency(layer1?.value + other?.value)}
           defiPrice={formatCurrency(defi?.value)}
+          totalBalance={formatCurrency(
+            layer1?.value + other?.value + defi.value + btc?.value
+          )}
         />
         <FundAssetDistribution
           btc={btc?.value}
@@ -121,11 +123,13 @@ export default FundAssets;
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = (await cryptoCompareApiMining.get(
-    "/data/pricemulti?fsyms=BTC,SOL,RUNE,ETH&tsyms=AUD"
+    "/data/pricemulti?fsyms=BTC,SOL,RUNE,ETH,FLIP&tsyms=AUD"
   )) as any;
+
+  console.log(data)
   const btc = await fetchBitcoinData(data.data.BTC.AUD);
   const layer1 = await fetchEthereumData(data.data.ETH.AUD);
-  const defi = await fetchThorchainData(data.data.RUNE.AUD);
+  const defi = await fetchThorchainData(data.data.FLIP.AUD);
   const other = await fetchSolanaData(data.data.SOL.AUD);
 
   return {

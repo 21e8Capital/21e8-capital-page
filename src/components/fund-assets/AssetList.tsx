@@ -4,9 +4,15 @@ interface Props {
   btcPrice: string;
   layer1Price?: number;
   defiPrice?: number;
+  totalBalance: number;
 }
 
-export const AssetList = ({ btcPrice, layer1Price, defiPrice }: Props) => {
+export const AssetList = ({
+  btcPrice,
+  layer1Price,
+  defiPrice,
+  totalBalance,
+}: Props) => {
   const { resolvedTheme } = useTheme();
 
   return (
@@ -18,6 +24,10 @@ export const AssetList = ({ btcPrice, layer1Price, defiPrice }: Props) => {
       <h3 className="text-[#FFC403] text-[24px] py-6">Asset List</h3>
       <table className="w-full text-left text-[20px]">
         <thead>
+          <tr className="border-b border-[#565656]">
+            <th className="py-6 font-[400]">Total balance</th>
+            <th className="text-right font-[400]">{totalBalance}</th>
+          </tr>
           <tr className="border-b border-[#565656]">
             <th className="py-6 font-[400]">Bitcoin (BTC)</th>
             <th className="text-right font-[400]">{btcPrice}</th>

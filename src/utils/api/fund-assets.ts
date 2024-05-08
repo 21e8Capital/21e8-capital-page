@@ -104,10 +104,7 @@ export async function fetchEthereumData(price: number) {
 
 export async function fetchThorchainData(price: number) {
   try {
-    const thorBalResponse = await axios.get(
-      `https://thornode.ninerealms.com/cosmos/bank/v1beta1/balances/${thor_address}`
-    );
-    const thorBalance = thorBalResponse.data.balances[0].amount / one8;
+    const thorBalance = 238095;
 
     const thorValue = thorBalance * price;
 
@@ -167,10 +164,7 @@ function calcBtcHistory(item: any, price: number) {
     (acc: number, curr: any) => acc + curr.prevout.value,
     0
   );
-  // const vout = item.vout.reduce(
-  //   (acc: number, curr: any) => acc + curr.value,
-  //   0
-  // );
+
   const result = vin / one8;
   return result * price;
 }
