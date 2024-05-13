@@ -5,7 +5,6 @@ interface Props {
   layer1Price?: number;
   defiPrice?: number;
   totalBalance: number;
-  otherPrice:number
 }
 
 export const AssetList = ({
@@ -13,7 +12,6 @@ export const AssetList = ({
   layer1Price,
   defiPrice,
   totalBalance,
-  otherPrice
 }: Props) => {
   const { resolvedTheme } = useTheme();
 
@@ -41,10 +39,6 @@ export const AssetList = ({
           <tr>
             <th className="py-6 font-[400]">Layer 1</th>
             <th className="text-right font-[400]">{layer1Price}</th>
-          </tr>
-          <tr>
-            <th className="py-6 font-[400]">Other</th>
-            <th className="text-right font-[400]">{otherPrice}</th>
           </tr>
         </thead>
       </table>

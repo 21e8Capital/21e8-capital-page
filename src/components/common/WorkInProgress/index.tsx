@@ -1,9 +1,8 @@
-// import Lottie from "lottie-react";
+import Lottie from "lottie-react";
 import Hero from "../Hero";
 import styles from "./styles.module.scss";
 import blockAnimation from "@/animations/blocks.json";
-import dynamic from 'next/dynamic';
-const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
+
 const WorkInProgress = () => {
   return (
     <div className={styles.wip}>
