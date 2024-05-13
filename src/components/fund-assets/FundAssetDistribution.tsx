@@ -29,6 +29,10 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
         name: "Layer1",
         value: layer1 + other,
       },
+      {
+        name: "Other",
+        value: other,
+      }
     ],
     []
   );
@@ -59,7 +63,7 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
       </text>
     );
   };
-  
+
   const renderCustomizedOuterLabel = ({
     cx,
     cy,
@@ -89,9 +93,8 @@ export const FundAssetDistribution = ({ btc, other, layer1, defi }: Props) => {
 
   return (
     <div
-      className={`border-[2px] border-solid border-[#FCDFA6] border-opacity-[0.15] p-5 w-full shadow-lg rounded-[10px] ${
-        resolvedTheme === "light" ? "bg-[#fff]" : "bg-[#141414]"
-      } `}
+      className={`border-[2px] border-solid border-[#FCDFA6] border-opacity-[0.15] p-5 w-full shadow-lg rounded-[10px] ${resolvedTheme === "light" ? "bg-[#fff]" : "bg-[#141414]"
+        } `}
     >
       <h3 className="text-[#FFC403] text-[24px]">Fund Asset Distribution</h3>
       <div className="flex justify-center items-center flex-1">
