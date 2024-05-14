@@ -102,6 +102,22 @@ export async function fetchEthereumData(price: number) {
   }
 }
 
+export async function fetchDefiData(priceRune: number, priceFlip: number) {
+  try {
+    const thorData = await fetchThorchainData(priceRune);
+    const flipData = await fetchChainFlipData(priceFlip);
+    const totalValue = thorData.value + flipData.value;
+    return {
+      balance: thorData.balance + flipData.balance,
+      value: totalValue,
+      price: priceRune,
+    };
+  } catch (error) {
+    console.error("Error fetching Defi data");
+    throw error;
+  }
+}
+
 export async function fetchThorchainData(price: number) {
   try {
     const thorBalance = 238095;
@@ -111,6 +127,35 @@ export async function fetchThorchainData(price: number) {
     return { balance: thorBalance, value: thorValue, price: price };
   } catch (error) {
     console.error("Error fetching THORChain data");
+    throw error;
+  }
+}
+
+export async function fetchChainFlipData(price: number) {
+  try {
+    const flipBalance = 238095;
+
+    const flipValue = flipBalance * price;
+
+    return { balance: flipBalance, value: flipValue, price: price };
+  } catch (error) {
+    console.error("Error fetching ChainFlip data");
+    throw error;
+  }
+}
+
+export async function fetchOtherData(priceSol: number) {
+  try {
+    const solData = await fetchSolanaData(priceSol);
+    const usdcData = await fetchUSDCData();
+    const totalValue = solData.value + usdcData.value;
+    return {
+      balance: solData.balance + usdcData.balance,
+      value: totalValue,
+      price: priceSol,
+    };
+  } catch (error) {
+    console.error("Error fetching Other data");
     throw error;
   }
 }
@@ -148,6 +193,19 @@ export async function fetchSolanaData(price: number) {
     return { balance: solBalance, value: solValue, price: price, history };
   } catch (error) {
     console.error("Error fetching Solana data");
+    throw error;
+  }
+}
+
+export async function fetchUSDCData() {
+  try {
+    const usdcBalance = 100000;
+
+    const usdcValue = usdcBalance;
+
+    return { balance: usdcBalance, value: usdcValue, price: 1 };
+  } catch (error) {
+    console.error("Error fetching ChainFlip data");
     throw error;
   }
 }
