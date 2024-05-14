@@ -45,72 +45,84 @@ let initializedData = [
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "Feb",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "Mar",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "Apr",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "May",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "Jun",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "Jul",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "Aug",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "Sep",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "Oct",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "Nov",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
   {
     name: "Dec",
     btc: 0,
     layer1: 0,
     defi: 0,
+    total: 0,
   },
 ];
 
@@ -124,6 +136,7 @@ export const FundPerformance = ({
     bitconDataKey: true,
     layer1DataKey: true,
     deFiDataKey: true,
+    totalDataKey: true
   });
 
   const handleLegend = (legend: any) => setLegendView(legend);
@@ -131,7 +144,7 @@ export const FundPerformance = ({
   const numOfMonths = findBiggest([
     btcHistory[btcHistory?.length - 1].time.index,
     layer1History[layer1History?.length - 1].time.index,
-    otherHistory[otherHistory?.length - 1].time.index,
+
   ]);
 
   let data = initializedData.slice(0, numOfMonths + 1);
@@ -202,6 +215,13 @@ export const FundPerformance = ({
     }
   });
 
+  data = data.map((item) => {
+    return {
+      ...item,
+      total: item.btc + item.layer1 + item.defi
+    }
+  })
+
   const CustomizedAxisTick = (props: any) => {
     const { x, y, payload } = props;
     const year = payload.value;
@@ -225,14 +245,12 @@ export const FundPerformance = ({
 
   return (
     <section
-      className={`max-w-[1440px] mx-auto mt-[88px] p-5 md:py-10 md:px-[30px] shadow-lg w-full border-[2px] border-solid border-[#FCDFA6] border-opacity-[0.15] rounded-[10px] ${
-        resolvedTheme === "light" ? "bg-[#fff]" : "bg-[#141414]"
-      }`}
+      className={`max-w-[1440px] mx-auto mt-[88px] p-5 md:py-10 md:px-[30px] shadow-lg w-full border-[2px] border-solid border-[#FCDFA6] border-opacity-[0.15] rounded-[10px] ${resolvedTheme === "light" ? "bg-[#fff]" : "bg-[#141414]"
+        }`}
     >
       <h4
-        className={`text-[24px] ${
-          resolvedTheme === "light" ? "text-black" : "text-white"
-        }`}
+        className={`text-[24px] ${resolvedTheme === "light" ? "text-black" : "text-white"
+          }`}
       >
         Fund Performance
       </h4>
@@ -275,6 +293,14 @@ export const FundPerformance = ({
               dataKey="defi"
               stroke="#40E782"
               fill="#40E782"
+            />
+          )}
+          {legendView.totalDataKey && (
+            <Area
+              type="monotone"
+              dataKey="total"
+              stroke="#8bf08b"
+              fill="#8bf08b"
             />
           )}
         </AreaChart>
