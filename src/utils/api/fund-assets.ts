@@ -71,6 +71,24 @@ export async function fetchBitcoinData(price: number) {
   }
 }
 
+export async function fetchL1Data(priceEth: number, priceSol: number) {
+  try {
+    const ethData = await fetchEthereumData(priceEth);
+    const solData = await fetchSolanaData(priceSol);
+    const history = [...solData.history, ...ethData.history];
+    const totalValue = ethData.value + solData.value;
+    return {
+      balance: ethData.balance + solData.balance,
+      value: totalValue,
+      price: priceSol,
+      history
+    };
+  } catch (error) {
+    console.error("Error fetching Other data");
+    throw error;
+  }
+}
+
 export async function fetchEthereumData(price: number) {
   try {
     const ethHistory = await axios.get(
@@ -110,7 +128,7 @@ export async function fetchDefiData(priceRune: number, priceFlip: number) {
     return {
       balance: thorData.balance + flipData.balance,
       value: totalValue,
-      price: priceRune,
+      price: NaN,
     };
   } catch (error) {
     console.error("Error fetching Defi data");
@@ -120,7 +138,10 @@ export async function fetchDefiData(priceRune: number, priceFlip: number) {
 
 export async function fetchThorchainData(price: number) {
   try {
-    const thorBalance = 238095;
+    const url = "https://midgard.ninerealms.com/v2/balance/"
+    const thorBalResponse = await axios.get(`${url}${thor_address}`)
+
+    const thorBalance = thorBalResponse.data?.coins[0].amount / one9;
 
     const thorValue = thorBalance * price;
 
@@ -144,15 +165,13 @@ export async function fetchChainFlipData(price: number) {
   }
 }
 
-export async function fetchOtherData(priceSol: number) {
+export async function fetchOtherData() {
   try {
-    const solData = await fetchSolanaData(priceSol);
     const usdcData = await fetchUSDCData();
-    const totalValue = solData.value + usdcData.value;
     return {
-      balance: solData.balance + usdcData.balance,
-      value: totalValue,
-      price: priceSol,
+      balance: usdcData.balance,
+      value: usdcData.value,
+      price: usdcData.price,
     };
   } catch (error) {
     console.error("Error fetching Other data");

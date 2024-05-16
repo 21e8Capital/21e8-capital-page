@@ -12,7 +12,7 @@ import {
 } from "@/utils/api";
 import { FundPerformance } from "@/components/fund-assets/FundPerformance";
 import { cryptoCompareApiMining } from "../utils/axios";
-import { fetchChainFlipData, fetchDefiData, fetchOtherData } from "@/utils/api/fund-assets";
+import { fetchChainFlipData, fetchDefiData, fetchL1Data, fetchOtherData } from "@/utils/api/fund-assets";
 
 interface Props {
   btc: {
@@ -130,9 +130,9 @@ export const getStaticProps: GetStaticProps = async () => {
 
   console.log(data)
   const btc = await fetchBitcoinData(data.data.BTC.AUD);
-  const layer1 = await fetchEthereumData(data.data.ETH.AUD);
+  const layer1 = await fetchL1Data(data.data.ETH.AUD,data.data.SOL.AUD);
   const defi = await fetchDefiData(data.data.RUNE.AUD, data.data.FLIP.AUD);
-  const other = await fetchOtherData(data.data.SOL.AUD);
+  const other = await fetchOtherData();
 
   return {
     props: {
