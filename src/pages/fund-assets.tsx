@@ -125,14 +125,14 @@ export default FundAssets;
 
 export const getStaticProps: GetStaticProps = async () => {
   const data = (await cryptoCompareApiMining.get(
-    "/data/pricemulti?fsyms=BTC,SOL,RUNE,ETH,FLIP&tsyms=AUD"
+    "/data/pricemulti?fsyms=BTC,SOL,RUNE,ETH,FLIP,USDC&tsyms=AUD"
   )) as any;
 
-  console.log(data)
+  // console.log(data)
   const btc = await fetchBitcoinData(data.data.BTC.AUD);
-  const layer1 = await fetchL1Data(data.data.ETH.AUD,data.data.SOL.AUD);
+  const layer1 = await fetchL1Data(data.data.ETH.AUD, data.data.SOL.AUD);
   const defi = await fetchDefiData(data.data.RUNE.AUD, data.data.FLIP.AUD);
-  const other = await fetchOtherData();
+  const other = await fetchOtherData(data.data.USDC.AUD);
 
   return {
     props: {

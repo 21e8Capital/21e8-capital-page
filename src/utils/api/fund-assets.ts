@@ -141,10 +141,13 @@ export async function fetchThorchainData(price: number) {
     const url = "https://midgard.ninerealms.com/v2/balance/"
     const thorBalResponse = await axios.get(`${url}${thor_address}`)
 
-    const thorBalance = thorBalResponse.data?.coins[0].amount / one9;
+    const thorBalance = thorBalResponse.data?.coins[0].amount / one8;
+    console.log(thorBalance);
 
     const thorValue = thorBalance * price;
+    console.log("price: ", price);
 
+    console.log(thorValue);
     return { balance: thorBalance, value: thorValue, price: price };
   } catch (error) {
     console.error("Error fetching THORChain data");
@@ -165,13 +168,13 @@ export async function fetchChainFlipData(price: number) {
   }
 }
 
-export async function fetchOtherData() {
+export async function fetchOtherData(price: number) {
   try {
-    const usdcData = await fetchUSDCData();
+    const usdcData = await fetchUSDCData(price);
     return {
       balance: usdcData.balance,
       value: usdcData.value,
-      price: usdcData.price,
+      price: price,
     };
   } catch (error) {
     console.error("Error fetching Other data");
@@ -216,13 +219,13 @@ export async function fetchSolanaData(price: number) {
   }
 }
 
-export async function fetchUSDCData() {
+export async function fetchUSDCData(price: number) {
   try {
     const usdcBalance = 100000;
 
-    const usdcValue = usdcBalance;
+    const usdcValue = usdcBalance * price;
 
-    return { balance: usdcBalance, value: usdcValue, price: 1 };
+    return { balance: usdcBalance, value: usdcValue, price: price };
   } catch (error) {
     console.error("Error fetching ChainFlip data");
     throw error;
