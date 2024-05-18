@@ -44,85 +44,61 @@ let initializedData = [
     name: "Jan",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "Feb",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "Mar",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "Apr",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "May",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "Jun",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "Jul",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "Aug",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "Sep",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "Oct",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "Nov",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
   {
     name: "Dec",
     btc: 0,
     layer1: 0,
-    defi: 0,
-    total: 0,
   },
 ];
 
@@ -135,8 +111,6 @@ export const FundPerformance = ({
   const [legendView, setLegendView] = useState({
     bitconDataKey: true,
     layer1DataKey: true,
-    deFiDataKey: true,
-    totalDataKey: true
   });
 
   const handleLegend = (legend: any) => setLegendView(legend);
@@ -144,7 +118,6 @@ export const FundPerformance = ({
   const numOfMonths = findBiggest([
     btcHistory[btcHistory?.length - 1].time.index,
     layer1History[layer1History?.length - 1].time.index,
-
   ]);
 
   let data = initializedData.slice(0, numOfMonths + 1);
@@ -215,13 +188,6 @@ export const FundPerformance = ({
     }
   });
 
-  data = data.map((item) => {
-    return {
-      ...item,
-      total: item.btc + item.layer1 + item.defi
-    }
-  })
-
   const CustomizedAxisTick = (props: any) => {
     const { x, y, payload } = props;
     const year = payload.value;
@@ -274,6 +240,7 @@ export const FundPerformance = ({
           {legendView.bitconDataKey && (
             <Area
               type="monotone"
+              stackId={1}
               dataKey="btc"
               stroke="#FFC403"
               fill="#FFC403"
@@ -283,24 +250,9 @@ export const FundPerformance = ({
             <Area
               type="monotone"
               dataKey="layer1"
+              stackId={1}
               stroke="#17CACC"
               fill="#17CACC"
-            />
-          )}
-          {legendView.deFiDataKey && (
-            <Area
-              type="monotone"
-              dataKey="defi"
-              stroke="#40E782"
-              fill="#40E782"
-            />
-          )}
-          {legendView.totalDataKey && (
-            <Area
-              type="monotone"
-              dataKey="total"
-              stroke="#8bf08b"
-              fill="#8bf08b"
             />
           )}
         </AreaChart>
