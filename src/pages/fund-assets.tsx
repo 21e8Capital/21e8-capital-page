@@ -43,6 +43,13 @@ interface Props {
     balance: number;
     value: number;
     price: number;
+    history: {
+      time: {
+        month: string;
+        index: number;
+      };
+      value: number;
+    }[];
   };
   other: {
     balance: number;
@@ -55,6 +62,12 @@ interface Props {
       };
       value: number;
     }[];
+  };
+  total: {
+    balance: number;
+    value: number;
+    price: number;
+
   };
 }
 
@@ -114,6 +127,7 @@ const FundAssets = ({ btc, layer1, defi, other }: Props) => {
       </section>
       <FundPerformance
         btcHistory={btc?.history}
+        deFiHistory={defi?.history}
         layer1History={layer1?.history}
         otherHistory={other?.history}
       />
