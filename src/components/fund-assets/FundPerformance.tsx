@@ -154,7 +154,7 @@ export const FundPerformance = ({
     layer1History[layer1History?.length - 1].time.index,
   ]);
 
-  let data = initializedData.slice(0, numOfMonths + 1);
+  let data = initializedData.slice(0, numOfMonths);
   // Layer1
   data = data.map((item) => {
     const matchingSecondItems = layer1History?.filter(

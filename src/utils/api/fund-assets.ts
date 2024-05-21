@@ -3,7 +3,10 @@ import { apiConfig } from "../axios/config";
 import { format, startOfMonth, startOfYear, differenceInDays } from 'date-fns';
 const axios = require("axios");
 
-
+const btc_address = `bc1qxue8ytyxmc6e9t7cdmu4na64sryckyzq739m0luun8a8uf68kv2q9lndkg`;
+const eth_address = `0x6FD1eAA27105AD4916C1bD1627F80240017B1824`;
+const thor_address = `thor1eewa0w9p3tdvdfan8lfcc0w2f7ucflxfx3hg75`;
+const sol_address = `FcsXxKpFCvp9QaLQP7J6unKHtEVqLFHZVFddA63RneK4`;
 
 const bdSecret = process.env.BLOCK_DAEMON_KEY;
 const BASE_URL = 'https://min-api.cryptocompare.com/data/v2/histoday';
@@ -93,10 +96,12 @@ function getMonthFromTimestamp(timestamp: number) {
 export async function fetchBitcoinData(price: number) {
   try {
     const historicalData = await fetchDailyHistoricalData('BTC');
-    const monthlyAverages = calculateMonthlyAverages(historicalData);
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
     let history: any = []
     const btcBalance = 74.41;
-    Object.keys(monthlyAverages).forEach((key, index) => {
+    keys.forEach((key, index) => {
       history.push({ time: { month: key, index: index + 1 }, value: btcBalance * monthlyAverages[key] },)
     })
     return {
@@ -112,8 +117,8 @@ export async function fetchBitcoinData(price: number) {
 
 export async function fetchL1Data(ethPrice: number, solPrice: number) {
   try {
-    const ethData = await fetchEthereumData();
-    const solData = await fetchSolanaData();
+    const ethData = await fetchEthereumData(ethPrice);
+    const solData = await fetchSolanaData(solPrice);
     const history = [...ethData.history, ...solData.history]
     return {
       balance: ethData.balance + solData.balance,
@@ -126,13 +131,15 @@ export async function fetchL1Data(ethPrice: number, solPrice: number) {
   }
 }
 
-export async function fetchEthereumData() {
+export async function fetchEthereumData(price: number) {
   try {
     const historicalData = await fetchDailyHistoricalData('ETH');
-    const monthlyAverages = calculateMonthlyAverages(historicalData);
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
     let history: any = []
     const ethBalance = 496.15
-    Object.keys(monthlyAverages).forEach((key, index) => {
+    keys.forEach((key, index) => {
       history.push({ time: { month: key, index: index + 1 }, value: ethBalance * monthlyAverages[key] },)
     })
     return {
@@ -147,8 +154,8 @@ export async function fetchEthereumData() {
 
 export async function fetchDefiData(runePrice: number, flipPrice: number) {
   try {
-    const thorData = await fetchThorchainData();
-    const flipData = await fetchChainFlipData();
+    const thorData = await fetchThorchainData(runePrice);
+    const flipData = await fetchChainFlipData(flipPrice);
     const history = [...thorData.history, ...flipData.history]
     return {
       balance: thorData.balance + flipData.balance,
@@ -161,13 +168,15 @@ export async function fetchDefiData(runePrice: number, flipPrice: number) {
   }
 }
 
-export async function fetchThorchainData() {
+export async function fetchThorchainData(price: number) {
   try {
     const historicalData = await fetchDailyHistoricalData('RUNE');
-    const monthlyAverages = calculateMonthlyAverages(historicalData);
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
     let history: any = []
     const runeBalance = 489566.67
-    Object.keys(monthlyAverages).forEach((key, index) => {
+    keys.forEach((key, index) => {
       history.push({ time: { month: key, index: index + 1 }, value: runeBalance * monthlyAverages[key] },)
     })
     return { balance: runeBalance, history };
@@ -177,13 +186,15 @@ export async function fetchThorchainData() {
   }
 }
 
-export async function fetchChainFlipData() {
+export async function fetchChainFlipData(price: number) {
   try {
     const flipBalance = 238095;
     const historicalData = await fetchDailyHistoricalData('FLIP');
-    const monthlyAverages = calculateMonthlyAverages(historicalData);
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
     let history: any = []
-    Object.keys(monthlyAverages).forEach((key, index) => {
+    keys.forEach((key, index) => {
       history.push({ time: { month: key, index: index + 1 }, value: flipBalance * monthlyAverages[key] },)
     })
     return { balance: flipBalance, history };
@@ -195,7 +206,7 @@ export async function fetchChainFlipData() {
 
 export async function fetchOtherData(usdcPrice: number) {
   try {
-    const usdcData = await fetchUSDCData();
+    const usdcData = await fetchUSDCData(usdcPrice);
     return {
       balance: usdcData.balance,
       value: usdcPrice * usdcData.balance,
@@ -207,13 +218,15 @@ export async function fetchOtherData(usdcPrice: number) {
   }
 }
 
-export async function fetchSolanaData() {
+export async function fetchSolanaData(price: number) {
   try {
     const historicalData = await fetchDailyHistoricalData('SOL');
-    const monthlyAverages = calculateMonthlyAverages(historicalData);
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
     let history: any = []
     const solBalance = 4110;
-    Object.keys(monthlyAverages).forEach((key, index) => {
+    keys.forEach((key, index) => {
       history.push({ time: { month: key, index: index + 1 }, value: solBalance * monthlyAverages[key] },)
     })
 
@@ -224,13 +237,15 @@ export async function fetchSolanaData() {
   }
 }
 
-export async function fetchUSDCData() {
+export async function fetchUSDCData(price: number) {
   try {
     const usdcBalance = 100000;
     const historicalData = await fetchDailyHistoricalData('USDC');
-    const monthlyAverages = calculateMonthlyAverages(historicalData);
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
     let history: any = []
-    Object.keys(monthlyAverages).forEach((key, index) => {
+    keys.forEach((key, index) => {
       history.push({ time: { month: key, index: index + 1 }, value: usdcBalance * monthlyAverages[key] },)
     })
     return { balance: usdcBalance, history };
