@@ -6,13 +6,10 @@ import { FundAssetDistribution } from "@/components/fund-assets/FundAssetDistrib
 import {
   fetchBitcoinData,
   formatCurrency,
-  fetchEthereumData,
-  fetchSolanaData,
-  fetchThorchainData,
 } from "@/utils/api";
 import { FundPerformance } from "@/components/fund-assets/FundPerformance";
 import { cryptoCompareApiMining } from "../utils/axios";
-import { fetchChainFlipData, fetchDefiData, fetchL1Data, fetchOtherData } from "@/utils/api/fund-assets";
+import {  fetchDefiData, fetchL1Data, fetchOtherData } from "@/utils/api/fund-assets";
 
 interface Props {
   btc: {

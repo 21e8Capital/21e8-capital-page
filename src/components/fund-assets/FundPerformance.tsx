@@ -14,7 +14,7 @@ import {
 
 import { formatToE } from "@/utils/format";
 import { Legend } from "./Legend";
-import { fetchBitcoinData, findBiggest } from "@/utils/api/fund-assets";
+import {  findBiggest } from "@/utils/api/fund-assets";
 
 interface Props {
   btcHistory: {

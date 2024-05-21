@@ -1,14 +1,7 @@
-import { cryptoCompareApiMining } from "../axios";
 import { apiConfig } from "../axios/config";
 import { format, startOfMonth, startOfYear, differenceInDays } from 'date-fns';
 const axios = require("axios");
 
-const btc_address = `bc1qxue8ytyxmc6e9t7cdmu4na64sryckyzq739m0luun8a8uf68kv2q9lndkg`;
-const eth_address = `0x6FD1eAA27105AD4916C1bD1627F80240017B1824`;
-const thor_address = `thor1eewa0w9p3tdvdfan8lfcc0w2f7ucflxfx3hg75`;
-const sol_address = `FcsXxKpFCvp9QaLQP7J6unKHtEVqLFHZVFddA63RneK4`;
-
-const bdSecret = process.env.BLOCK_DAEMON_KEY;
 const BASE_URL = 'https://min-api.cryptocompare.com/data/v2/histoday';
 
 interface HistoricalData {
