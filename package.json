@@ -17,6 +17,7 @@
     "bitcoin-core": "^4.1.0",
     "chrome-aws-lambda": "^10.1.0",
     "clsx": "^2.0.0",
+    "date-fns": "^3.6.0",
     "dom-to-image": "^2.6.0",
     "html2canvas": "^1.4.1",
     "lottie-react": "^2.4.0",

@@ -6,13 +6,10 @@ import { FundAssetDistribution } from "@/components/fund-assets/FundAssetDistrib
 import {
   fetchBitcoinData,
   formatCurrency,
-  fetchEthereumData,
-  fetchSolanaData,
-  fetchThorchainData,
 } from "@/utils/api";
 import { FundPerformance } from "@/components/fund-assets/FundPerformance";
 import { cryptoCompareApiMining } from "../utils/axios";
-import { fetchChainFlipData, fetchDefiData, fetchL1Data, fetchOtherData } from "@/utils/api/fund-assets";
+import {  fetchDefiData, fetchL1Data, fetchOtherData } from "@/utils/api/fund-assets";
 
 interface Props {
   btc: {
@@ -43,6 +40,13 @@ interface Props {
     balance: number;
     value: number;
     price: number;
+    history: {
+      time: {
+        month: string;
+        index: number;
+      };
+      value: number;
+    }[];
   };
   other: {
     balance: number;
@@ -55,6 +59,12 @@ interface Props {
       };
       value: number;
     }[];
+  };
+  total: {
+    balance: number;
+    value: number;
+    price: number;
+
   };
 }
 
@@ -114,6 +124,7 @@ const FundAssets = ({ btc, layer1, defi, other }: Props) => {
       </section>
       <FundPerformance
         btcHistory={btc?.history}
+        deFiHistory={defi?.history}
         layer1History={layer1?.history}
         otherHistory={other?.history}
       />

@@ -2,18 +2,19 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 
 import {
-  AreaChart,
+  BarChart,
   Area,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
+  Bar,
 } from "recharts";
 
 import { formatToE } from "@/utils/format";
 import { Legend } from "./Legend";
-import { findBiggest } from "@/utils/api/fund-assets";
+import {  findBiggest } from "@/utils/api/fund-assets";
 
 interface Props {
   btcHistory: {
@@ -24,6 +25,13 @@ interface Props {
     value: number;
   }[];
   layer1History: {
+    time: {
+      month: string;
+      index: number;
+    };
+    value: number;
+  }[];
+  deFiHistory: {
     time: {
       month: string;
       index: number;
@@ -45,110 +53,109 @@ let initializedData = [
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "Feb",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "Mar",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "Apr",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "May",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "Jun",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "Jul",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "Aug",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "Sep",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "Oct",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "Nov",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
   {
     name: "Dec",
     btc: 0,
     layer1: 0,
     defi: 0,
-    total: 0,
+    others: 0
   },
 ];
 
 export const FundPerformance = ({
   btcHistory,
   layer1History,
-  otherHistory,
+  deFiHistory,
+  otherHistory
 }: Props) => {
   const { resolvedTheme } = useTheme();
   const [legendView, setLegendView] = useState({
     bitconDataKey: true,
     layer1DataKey: true,
     deFiDataKey: true,
-    totalDataKey: true
+    othersDataKey: true,
   });
-
   const handleLegend = (legend: any) => setLegendView(legend);
 
   const numOfMonths = findBiggest([
     btcHistory[btcHistory?.length - 1].time.index,
     layer1History[layer1History?.length - 1].time.index,
-
   ]);
 
-  let data = initializedData.slice(0, numOfMonths + 1);
-
+  let data = initializedData.slice(0, numOfMonths);
+  // Layer1
   data = data.map((item) => {
     const matchingSecondItems = layer1History?.filter(
       (secondItem) => secondItem.time.month === item.name
@@ -170,7 +177,29 @@ export const FundPerformance = ({
       return item;
     }
   });
+  // DeFi
+  data = data.map((item) => {
+    const matchingSecondItems = deFiHistory?.filter(
+      (secondItem) => secondItem.time.month === item.name
+    );
+    if (matchingSecondItems && matchingSecondItems?.length > 0) {
+      // If there are matching items, sum up the values
+      const sum = matchingSecondItems?.reduce(
+        (total, current) => total + current.value,
+        0
+      );
 
+      // Update the layer1 property
+      return {
+        ...item,
+        defi: sum,
+      };
+    } else {
+      // If no matching items, return the original item
+      return item;
+    }
+  });
+  // Others
   data = data.map((item) => {
     const matchingSecondItems = otherHistory?.filter(
       (secondItem) => secondItem.time.month === item.name
@@ -181,18 +210,16 @@ export const FundPerformance = ({
         (total, current) => total + current.value,
         0
       );
-
-      // Update the btc property
       return {
         ...item,
-        layer1: item.layer1 + sum,
+        others: item.others + sum,
       };
     } else {
       // If no matching items, return the original item
       return item;
     }
   });
-
+  // BTC
   data = data.map((item) => {
     const matchingSecondItems = btcHistory?.filter(
       (secondItem) => secondItem.time.month === item.name
@@ -214,14 +241,6 @@ export const FundPerformance = ({
       return item;
     }
   });
-
-  data = data.map((item) => {
-    return {
-      ...item,
-      total: item.btc + item.layer1 + item.defi
-    }
-  })
-
   const CustomizedAxisTick = (props: any) => {
     const { x, y, payload } = props;
     const year = payload.value;
@@ -256,7 +275,7 @@ export const FundPerformance = ({
       </h4>
       <Legend legendView={legendView} handleLegend={handleLegend} />
       <ResponsiveContainer width="100%" height={500} id="fund-assets">
-        <AreaChart
+        <BarChart
           width={500}
           height={400}
           data={data}
@@ -272,38 +291,42 @@ export const FundPerformance = ({
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
           {legendView.bitconDataKey && (
-            <Area
+            <Bar
               type="monotone"
+              stackId={1}
               dataKey="btc"
               stroke="#FFC403"
               fill="#FFC403"
             />
           )}
           {legendView.layer1DataKey && (
-            <Area
+            <Bar
               type="monotone"
               dataKey="layer1"
+              stackId={1}
               stroke="#17CACC"
               fill="#17CACC"
             />
           )}
           {legendView.deFiDataKey && (
-            <Area
+            <Bar
               type="monotone"
               dataKey="defi"
+              stackId={1}
               stroke="#40E782"
               fill="#40E782"
             />
           )}
-          {legendView.totalDataKey && (
-            <Area
+          {legendView.othersDataKey && (
+            <Bar
               type="monotone"
-              dataKey="total"
-              stroke="#8bf08b"
-              fill="#8bf08b"
+              dataKey="others"
+              stackId={1}
+              stroke="#EE6565"
+              fill="#EE6565"
             />
           )}
-        </AreaChart>
+        </BarChart>
       </ResponsiveContainer>
     </section>
   );

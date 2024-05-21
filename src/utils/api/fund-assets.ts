@@ -1,17 +1,64 @@
-import { cryptoCompareApiMining } from "../axios";
-
+import { apiConfig } from "../axios/config";
+import { format, startOfMonth, startOfYear, differenceInDays } from 'date-fns';
 const axios = require("axios");
 
-const btc_address = `bc1qxue8ytyxmc6e9t7cdmu4na64sryckyzq739m0luun8a8uf68kv2q9lndkg`;
-const eth_address = `0x6FD1eAA27105AD4916C1bD1627F80240017B1824`;
-const thor_address = `thor1eewa0w9p3tdvdfan8lfcc0w2f7ucflxfx3hg75`;
-const sol_address = `FcsXxKpFCvp9QaLQP7J6unKHtEVqLFHZVFddA63RneK4`;
+const BASE_URL = 'https://min-api.cryptocompare.com/data/v2/histoday';
 
-const bdSecret = process.env.BLOCK_DAEMON_KEY;
+interface HistoricalData {
+  time: number;
+  close: number;
+}
 
 const one8 = 100000000;
 const one9 = 1000000000;
 const one18 = 1000000000000000000;
+
+const fetchDailyHistoricalData = async (token: string): Promise<HistoricalData[]> => {
+  const today = new Date();
+  const startOfYearDate = startOfYear(today);
+  const daysSinceStartOfYear = differenceInDays(today, startOfYearDate);
+  try {
+    const response = await axios.get(BASE_URL, {
+      params: {
+        fsym: token,
+        tsym: 'AUD',
+        limit: daysSinceStartOfYear,
+        api_key: apiConfig.cryptoCompare.key,
+      },
+    });
+    if (response.data && response.data.Data && response.data.Data.Data) {
+      return response.data.Data.Data as HistoricalData[];
+    } else {
+      throw new Error('Invalid response structure');
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return [];
+  }
+};
+
+const calculateMonthlyAverages = (data: HistoricalData[]): { [key: string]: number } => {
+  const monthlySums: { [key: string]: { sum: number, count: number } } = {};
+  const monthlyAverages: { [key: string]: number } = {};
+  data.forEach((entry) => {
+    const date = new Date(entry.time * 1000);
+    const monthStart = startOfMonth(date);
+    const monthKey = format(monthStart, 'MMM');
+
+    if (!monthlySums[monthKey]) {
+      monthlySums[monthKey] = { sum: 0, count: 0 };
+    }
+    monthlySums[monthKey].sum += entry.close;
+    monthlySums[monthKey].count += 1;
+  });
+
+  Object.keys(monthlySums).forEach((monthKey) => {
+    const { sum, count } = monthlySums[monthKey];
+    monthlyAverages[monthKey] = Number((sum / count).toFixed(2));
+  });
+
+  return monthlyAverages;
+};
 
 export const formatCurrency = (value: any) => {
   return value?.toLocaleString("en-US", {
@@ -41,29 +88,19 @@ function getMonthFromTimestamp(timestamp: number) {
 
 export async function fetchBitcoinData(price: number) {
   try {
-    const btcHistory = await axios.get(
-      `https://mempool.space/api/address/${btc_address}/txs`
-    );
-
-    const btcBalResponse = await axios.get(
-      `https://mempool.space/api/address/${btc_address}`
-    );
-
-    const { funded_txo_sum, spent_txo_sum } = btcBalResponse.data.chain_stats;
-
-    const history = btcHistory.data.reverse().map((item: any) => ({
-      time: getMonthFromTimestamp(item.status.block_time),
-      value: calcBtcHistory(item, price),
-    }));
-
-    const btcBalance = (funded_txo_sum - spent_txo_sum) / one8;
-    const btcValue = btcBalance * price;
-
+    const historicalData = await fetchDailyHistoricalData('BTC');
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
+    let history: any = []
+    const btcBalance = 74.41;
+    keys.forEach((key, index) => {
+      history.push({ time: { month: key, index: index + 1 }, value: btcBalance * monthlyAverages[key] },)
+    })
     return {
       balance: btcBalance,
-      value: btcValue,
-      price: price,
-      history,
+      value: btcBalance * price,
+      history
     };
   } catch (error) {
     console.error("Error fetching Bitcoin data");
@@ -71,16 +108,14 @@ export async function fetchBitcoinData(price: number) {
   }
 }
 
-export async function fetchL1Data(priceEth: number, priceSol: number) {
+export async function fetchL1Data(ethPrice: number, solPrice: number) {
   try {
-    const ethData = await fetchEthereumData(priceEth);
-    const solData = await fetchSolanaData(priceSol);
-    const history = [...solData.history, ...ethData.history];
-    const totalValue = ethData.value + solData.value;
+    const ethData = await fetchEthereumData(ethPrice);
+    const solData = await fetchSolanaData(solPrice);
+    const history = [...ethData.history, ...solData.history]
     return {
       balance: ethData.balance + solData.balance,
-      value: totalValue,
-      price: priceSol,
+      value: ethPrice * ethData.balance + solPrice * solData.balance,
       history
     };
   } catch (error) {
@@ -91,28 +126,18 @@ export async function fetchL1Data(priceEth: number, priceSol: number) {
 
 export async function fetchEthereumData(price: number) {
   try {
-    const ethHistory = await axios.get(
-      `https://api.etherscan.io/api?module=account&action=txlist&address=${eth_address}&startblock=0&endblock=99999999&sort=asc&apikey=${process.env.ETHERSCAN_API_KEY}`
-    );
-
-    const ethBalResponse = await axios.get(
-      `https://api.etherscan.io/api?module=account&action=balance&address=${eth_address}&tag=latest&apikey=${process.env.ETHERSCAN_API_KEY}`
-    );
-
-    const ethBalance = ethBalResponse.data.result / one18;
-
-    const history = ethHistory.data.result.map((item: any) => ({
-      time: getMonthFromTimestamp(item.timeStamp),
-      value: (Number(item.value) / one18) * price,
-    }));
-
-    const ethValue = ethBalance * price;
-
+    const historicalData = await fetchDailyHistoricalData('ETH');
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
+    let history: any = []
+    const ethBalance = 496.15
+    keys.forEach((key, index) => {
+      history.push({ time: { month: key, index: index + 1 }, value: ethBalance * monthlyAverages[key] },)
+    })
     return {
       balance: ethBalance,
-      value: ethValue,
-      price: price,
-      history,
+      history
     };
   } catch (error) {
     console.error("Error fetching Ethereum data");
@@ -120,15 +145,15 @@ export async function fetchEthereumData(price: number) {
   }
 }
 
-export async function fetchDefiData(priceRune: number, priceFlip: number) {
+export async function fetchDefiData(runePrice: number, flipPrice: number) {
   try {
-    const thorData = await fetchThorchainData(priceRune);
-    const flipData = await fetchChainFlipData(priceFlip);
-    const totalValue = thorData.value + flipData.value;
+    const thorData = await fetchThorchainData(runePrice);
+    const flipData = await fetchChainFlipData(flipPrice);
+    const history = [...thorData.history, ...flipData.history]
     return {
       balance: thorData.balance + flipData.balance,
-      value: totalValue,
-      price: NaN,
+      value: runePrice * thorData.balance + flipPrice * flipData.balance,
+      history
     };
   } catch (error) {
     console.error("Error fetching Defi data");
@@ -138,17 +163,16 @@ export async function fetchDefiData(priceRune: number, priceFlip: number) {
 
 export async function fetchThorchainData(price: number) {
   try {
-    const url = "https://midgard.ninerealms.com/v2/balance/"
-    const thorBalResponse = await axios.get(`${url}${thor_address}`)
-
-    const thorBalance = thorBalResponse.data?.coins[0].amount / one8;
-    console.log(thorBalance);
-
-    const thorValue = thorBalance * price;
-    console.log("price: ", price);
-
-    console.log(thorValue);
-    return { balance: thorBalance, value: thorValue, price: price };
+    const historicalData = await fetchDailyHistoricalData('RUNE');
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
+    let history: any = []
+    const runeBalance = 489566.67
+    keys.forEach((key, index) => {
+      history.push({ time: { month: key, index: index + 1 }, value: runeBalance * monthlyAverages[key] },)
+    })
+    return { balance: runeBalance, history };
   } catch (error) {
     console.error("Error fetching THORChain data");
     throw error;
@@ -158,23 +182,28 @@ export async function fetchThorchainData(price: number) {
 export async function fetchChainFlipData(price: number) {
   try {
     const flipBalance = 238095;
-
-    const flipValue = flipBalance * price;
-
-    return { balance: flipBalance, value: flipValue, price: price };
+    const historicalData = await fetchDailyHistoricalData('FLIP');
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
+    let history: any = []
+    keys.forEach((key, index) => {
+      history.push({ time: { month: key, index: index + 1 }, value: flipBalance * monthlyAverages[key] },)
+    })
+    return { balance: flipBalance, history };
   } catch (error) {
     console.error("Error fetching ChainFlip data");
     throw error;
   }
 }
 
-export async function fetchOtherData(price: number) {
+export async function fetchOtherData(usdcPrice: number) {
   try {
-    const usdcData = await fetchUSDCData(price);
+    const usdcData = await fetchUSDCData(usdcPrice);
     return {
       balance: usdcData.balance,
-      value: usdcData.value,
-      price: price,
+      value: usdcPrice * usdcData.balance,
+      history: usdcData.history
     };
   } catch (error) {
     console.error("Error fetching Other data");
@@ -184,35 +213,17 @@ export async function fetchOtherData(price: number) {
 
 export async function fetchSolanaData(price: number) {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${bdSecret}`,
-      },
-    };
+    const historicalData = await fetchDailyHistoricalData('SOL');
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
+    let history: any = []
+    const solBalance = 4110;
+    keys.forEach((key, index) => {
+      history.push({ time: { month: key, index: index + 1 }, value: solBalance * monthlyAverages[key] },)
+    })
 
-    const solBalResponse = await axios.get(
-      `https://svc.blockdaemon.com/universal/v1/solana/mainnet/account/${sol_address}`,
-      config
-    );
-
-    const solBalResponseHistory = await axios.get(
-      `https://svc.blockdaemon.com/universal/v1/solana/mainnet/account/${sol_address}/txs`,
-      config
-    );
-
-    const solBalance = solBalResponse.data[0]?.confirmed_balance / one9;
-
-    const solValue = solBalance * price;
-
-    const history = solBalResponseHistory.data.data
-      .reverse()
-      .map((item: any) => ({
-        time: getMonthFromTimestamp(item.date),
-        value: calcTransaction(item, price),
-      }));
-
-    // (item.events[1].amount / one9) * solPrice,
-    return { balance: solBalance, value: solValue, price: price, history };
+    return { balance: solBalance, history };
   } catch (error) {
     console.error("Error fetching Solana data");
     throw error;
@@ -222,10 +233,15 @@ export async function fetchSolanaData(price: number) {
 export async function fetchUSDCData(price: number) {
   try {
     const usdcBalance = 100000;
-
-    const usdcValue = usdcBalance * price;
-
-    return { balance: usdcBalance, value: usdcValue, price: price };
+    const historicalData = await fetchDailyHistoricalData('USDC');
+    let monthlyAverages = calculateMonthlyAverages(historicalData);
+    const keys = Object.keys(monthlyAverages);
+    monthlyAverages[keys[keys.length - 1]] = price;
+    let history: any = []
+    keys.forEach((key, index) => {
+      history.push({ time: { month: key, index: index + 1 }, value: usdcBalance * monthlyAverages[key] },)
+    })
+    return { balance: usdcBalance, history };
   } catch (error) {
     console.error("Error fetching ChainFlip data");
     throw error;
