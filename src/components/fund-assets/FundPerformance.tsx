@@ -14,7 +14,9 @@ import {
 
 import { formatToE } from "@/utils/format";
 import { Legend } from "./Legend";
-import {  findBiggest } from "@/utils/api/fund-assets";
+import { findBiggest } from "@/utils/api/fund-assets";
+import { color } from "html2canvas/dist/types/css/types/color";
+import { position } from "html2canvas/dist/types/css/property-descriptors/position";
 
 interface Props {
   btcHistory: {
@@ -46,94 +48,96 @@ interface Props {
     value: number;
   }[];
 }
-
+type myPosition = {
+  data: any,
+  show: Boolean
+}
 let initializedData = [
   {
     name: "Jan",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "Feb",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "Mar",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "Apr",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "May",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "Jun",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "Jul",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "Aug",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "Sep",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "Oct",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "Nov",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
   {
     name: "Dec",
-    btc: 0,
-    layer1: 0,
-    defi: 0,
-    others: 0
+    BTC: 0,
+    Layer1: 0,
+    DeFi: 0,
+    Others: 0
   },
 ];
-
 export const FundPerformance = ({
   btcHistory,
   layer1History,
@@ -147,8 +151,9 @@ export const FundPerformance = ({
     deFiDataKey: true,
     othersDataKey: true,
   });
+  const [position, setPosition] = useState<myPosition>();
   const handleLegend = (legend: any) => setLegendView(legend);
-
+  const isSmallScreen = window.innerWidth < 600;
   const numOfMonths = findBiggest([
     btcHistory[btcHistory?.length - 1].time.index,
     layer1History[layer1History?.length - 1].time.index,
@@ -170,7 +175,7 @@ export const FundPerformance = ({
       // Update the layer1 property
       return {
         ...item,
-        layer1: sum,
+        Layer1: sum,
       };
     } else {
       // If no matching items, return the original item
@@ -192,7 +197,7 @@ export const FundPerformance = ({
       // Update the layer1 property
       return {
         ...item,
-        defi: sum,
+        DeFi: sum,
       };
     } else {
       // If no matching items, return the original item
@@ -212,7 +217,7 @@ export const FundPerformance = ({
       );
       return {
         ...item,
-        others: item.others + sum,
+        Others: sum,
       };
     } else {
       // If no matching items, return the original item
@@ -234,7 +239,7 @@ export const FundPerformance = ({
       // Update the btc property
       return {
         ...item,
-        btc: sum,
+        BTC: sum,
       };
     } else {
       // If no matching items, return the original item
@@ -274,7 +279,7 @@ export const FundPerformance = ({
         Fund Performance
       </h4>
       <Legend legendView={legendView} handleLegend={handleLegend} />
-      <ResponsiveContainer width="100%" height={500} id="fund-assets">
+      <ResponsiveContainer width="100%" height={500} id="fund-assets" >
         <BarChart
           width={500}
           height={400}
@@ -286,49 +291,58 @@ export const FundPerformance = ({
             bottom: 20,
           }}
         >
+
           <CartesianGrid vertical={false} strokeOpacity={0.3} />
           <XAxis dataKey="name" stroke="#fff" tick={CustomizedAxisTick} />
           <YAxis />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip position={{
+            // Static position
+            x: isSmallScreen ? 80 : position?.data.x ?? 0,
+            y: 0,
+          }} content={<CustomTooltip />} wrapperStyle={{ backgroundColor: resolvedTheme === "light" ? "#ebebeb" : "#3b3b3b", padding: '10px', borderRadius: '10px' }} cursor={false} />
           {legendView.bitconDataKey && (
             <Bar
-              type="monotone"
               stackId={1}
-              dataKey="btc"
+              dataKey="BTC"
               stroke="#FFC403"
               fill="#FFC403"
+              onMouseMove={data => setPosition({ data: data, show: true })}
+              onMouseOut={data => setPosition({ data: data, show: false })}
             />
           )}
           {legendView.layer1DataKey && (
             <Bar
-              type="monotone"
-              dataKey="layer1"
+              dataKey="Layer1"
               stackId={1}
               stroke="#17CACC"
               fill="#17CACC"
+              onMouseMove={data => setPosition({ data: data, show: true })}
+              onMouseOut={data => setPosition({ data: data, show: false })}
             />
           )}
           {legendView.deFiDataKey && (
             <Bar
-              type="monotone"
-              dataKey="defi"
+              dataKey="DeFi"
               stackId={1}
               stroke="#40E782"
               fill="#40E782"
+              onMouseMove={data => setPosition({ data: data, show: true })}
+              onMouseOut={data => setPosition({ data: data, show: false })}
             />
           )}
           {legendView.othersDataKey && (
             <Bar
-              type="monotone"
-              dataKey="others"
+              dataKey="Others"
               stackId={1}
               stroke="#EE6565"
               fill="#EE6565"
+              onMouseMove={data => setPosition({ data: data, show: true })}
+              onMouseOut={data => setPosition({ data: data, show: false })}
             />
           )}
         </BarChart>
       </ResponsiveContainer>
-    </section>
+    </section >
   );
 };
 
@@ -337,7 +351,7 @@ const CustomTooltip = ({ active, payload }: any) => {
     return (
       <>
         {payload.map((item: any, idx: number) => (
-          <div key={idx} className="custom-tooltip">
+          <div key={idx} className="custom-tooltip" >
             <p className="label">{`${item.name} : ${formatToE(
               item.value.toFixed(2)
             )} AUD`}</p>

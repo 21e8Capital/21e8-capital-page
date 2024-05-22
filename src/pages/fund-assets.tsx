@@ -9,7 +9,7 @@ import {
 } from "@/utils/api";
 import { FundPerformance } from "@/components/fund-assets/FundPerformance";
 import { cryptoCompareApiMining } from "../utils/axios";
-import {  fetchDefiData, fetchL1Data, fetchOtherData } from "@/utils/api/fund-assets";
+import { fetchDefiData, fetchL1Data, fetchOtherData } from "@/utils/api/fund-assets";
 
 interface Props {
   btc: {
@@ -108,7 +108,7 @@ const FundAssets = ({ btc, layer1, defi, other }: Props) => {
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-[40px] xl:gap-x-[69px] w-full pt-10 lg:pt-[160px] max-lg:gap-y-10 max-w-[1440px] mx-auto">
         <AssetList
           btcPrice={formatCurrency(btc?.value)}
-          layer1Price={formatCurrency(layer1?.value + other?.value)}
+          layer1Price={formatCurrency(layer1?.value)}
           defiPrice={formatCurrency(defi?.value)}
           totalBalance={formatCurrency(
             layer1?.value + other?.value + defi.value + btc?.value
