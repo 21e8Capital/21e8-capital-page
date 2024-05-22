@@ -114,7 +114,6 @@ export async function fetchL1Data(ethPrice: number, solPrice: number) {
     const solData = await fetchSolanaData(solPrice);
     const history = [...ethData.history, ...solData.history]
     return {
-      balance: ethData.balance + solData.balance,
       value: ethPrice * ethData.balance + solPrice * solData.balance,
       history
     };
