@@ -17,10 +17,10 @@ const links = [
     name: "defi",
     href: "defi",
   },
-  {
-    name: "fund assets",
-    href: "fund-assets",
-  },
+  // {
+  //   name: "fund assets",
+  //   href: "fund-assets",
+  // },
 ];
 
 const Navbar = () => {
